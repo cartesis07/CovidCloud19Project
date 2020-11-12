@@ -13,5 +13,12 @@
 }
 
 .Pie{
-    width: 1000px
+    width: 1000px;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.Bar{
+    width: 1000px;
+    height: 800px;
 }

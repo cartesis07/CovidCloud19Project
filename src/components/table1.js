@@ -3,7 +3,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Table } from 'reactstrap';
 
-import "./table1.css"
+import "./table.css"
 
 import { Pie } from "react-chartjs-2";
 
@@ -18,7 +18,7 @@ export class Table1 extends React.Component {
     constructor(){
         super();
         this.state = {NewConfirmed: "",
-                    TotalConfirmed: 0,
+                    TotalConfirmed: "",
                     NewDeaths: "",
                     TotalDeaths: "",
                     NewRecovered: "",

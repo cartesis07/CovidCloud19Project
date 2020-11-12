@@ -34,25 +34,21 @@ const MyNavBar = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink href="/components/">Components</NavLink>
-            </NavItem>
-            <NavItem>
               <NavLink href="https://github.com/cartesis07/CovidCloud19Project" target="_blank">GitHub Repository</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
-                Options
+                Libraries
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>
-                  Option 1
+                <DropdownItem href="https://reactstrap.github.io/" target="_blank">
+                  reactstrap
                 </DropdownItem>
-                <DropdownItem>
-                  Option 2
+                <DropdownItem href="https://www.chartjs.org/" target="_blank">
+                  chart.js
                 </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>
-                  Reset
+                <DropdownItem href="https://react-firebase-js.com/" targer="_blank">
+                  firebase
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
