@@ -3,6 +3,8 @@ import './App.css';
 import MyNavBar from "./components/mynavbar"
 import { AlertInfo } from "./components/alertinfo"
 
+import { Table1 } from "./components/table1"
+
 //chart library to use : https://nivo.rocks/#/
 
 function App() {
@@ -11,6 +13,9 @@ function App() {
       <MyNavBar/>
       <header className="App-header">
       </header>
+      <body className="Content">
+        <Table1/>
+      </body>
       <footer className="App-footer">
       <AlertInfo/>
       </footer>

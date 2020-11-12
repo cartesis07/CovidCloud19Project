@@ -5,7 +5,6 @@ import { auth } from '../services/firebase';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { Button } from 'reactstrap';
-import { Spinner } from 'reactstrap';
 
 import './login.css';
 
