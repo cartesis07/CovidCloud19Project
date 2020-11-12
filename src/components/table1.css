@@ -6,6 +6,12 @@
 }
 
 .block1{
-    width: 100%;
-    margin-right: 10px;
+    width: 50%;
+    justify-content: center;
+    margin-bottom: 5px;
+    margin-left: 25%;
+}
+
+.Pie{
+    width: 1000px
 }

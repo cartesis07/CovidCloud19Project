@@ -1,28 +1,31 @@
 import React from 'react';
 
 import 'bootstrap/dist/css/bootstrap.css';
-
 import { Table } from 'reactstrap';
-import {VictoryPie, VictoryLegend} from 'victory'
 
 import "./table1.css"
+
+import { Pie } from "react-chartjs-2";
 
 //summary of worldwide cases, recoveries and deaths.
 //not all values are found in the API call
 
-//we use victory charts
+// finally we use react-chartjs-2
+// and chart.js
 
 export class Table1 extends React.Component {
 
     constructor(){
         super();
         this.state = {NewConfirmed: "",
-                    TotalConfirmed: "",
+                    TotalConfirmed: 0,
                     NewDeaths: "",
                     TotalDeaths: "",
                     NewRecovered: "",
                     TotalRecovered: "",
-                    ActiveCases: ""}
+                    ActiveCases: "",
+                    }
+
     }
 
     componentDidMount(){
@@ -39,6 +42,10 @@ export class Table1 extends React.Component {
         })
         xhr.open('GET', 'https://api.covid19api.com/summary');
         xhr.send();
+
+        const test = {
+          
+          }
 
     }
     render(){
@@ -113,29 +120,34 @@ export class Table1 extends React.Component {
           </tbody>
             </Table> 
             </div>
-            <div className="table1">
-            <VictoryPie
-                data={[
-                { x: "", y: this.state.TotalDeaths,},
-                 { x: "", y: this.state.TotalConfirmed },
-                 { x: "", y: this.state.TotalRecovered },
-                ]}
-                colorScale={["#ff6b7c", "#6bb5ff", "#ffdc66"]}
-            /> 
-            </div>
-            <VictoryLegend x={50} y={0}
-            title="Cases distribution worldwide"
-            centerTitle
-            orientation="horizontal"
-            gutter={20}
-            style={{ border: { stroke: "white" }, title: {fontSize: 20, fill: "white" } }}
-            data={[
-                    { name: "Dead Cases", symbol: { fill: "#ff6b7c" }, labels: {fill: "white"} },
-                    { name: "Recovered Cases", symbol: { fill: "#6bb5ff" }, labels: {fill: "white"} },
-                    { name: "Active Cases", symbol: { fill: "#ffdc66" }, labels: {fill: "white"} }
-                ]}
-            />
-            </div>
-            );
+            <div className="Pie">
+            <Pie data={{
+            labels: ["Active Cases", "Recovered Cases", "Dead Cases"],
+            datasets: [
+              {
+                data: [this.state.ActiveCases, this.state.TotalRecovered, this.state.TotalDeaths],
+                backgroundColor: [
+                  "#FDB45C",
+                  "#46BFBD",
+                  "#F7464A",
+                ],
+                hoverBackgroundColor: [
+                  "#FFC870",
+                  "#5AD3D1",
+                  "#FF5A5E",
+                ],
+                borderColor: "#282c34",
+                borderWidth: "5",
+              }
+            ]
+          }} options={{responsive: true, title: {
+            display: true,
+            text: 'Worldwide Cases Distribution',
+            fontColor: "white",
+            fontSize: 25,
+        }}} />
+          </div>
+        </div>
+        );
     }
 }
