@@ -3,13 +3,14 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import { Table } from 'reactstrap';
+import {VictoryPie, VictoryLegend} from 'victory'
 
 import "./table1.css"
 
 //summary of worldwide cases, recoveries and deaths.
 //not all values are found in the API call
 
-//https://nivo.rocks/#/ charts
+//we use victory charts
 
 export class Table1 extends React.Component {
 
@@ -28,7 +29,6 @@ export class Table1 extends React.Component {
         const xhr = new XMLHttpRequest();
         xhr.addEventListener('load', () => {
             const xhr2 = JSON.parse(xhr.responseText);
-            console.log(xhr2.Global.NewConfirmed)
             this.setState({NewConfirmed: xhr2.Global.NewConfirmed})
             this.setState({TotalConfirmed: xhr2.Global.TotalConfirmed})
             this.setState({NewDeaths: xhr2.Global.NewDeaths})
@@ -39,16 +39,16 @@ export class Table1 extends React.Component {
         })
         xhr.open('GET', 'https://api.covid19api.com/summary');
         xhr.send();
+
     }
     render(){
         return(
-            <div className="table1">
+            <div>
                 <div className="block1">
                 <Table borderless hover>
                 <thead>
                     <tr class="table-warning">
-                        <th></th>
-                        <th>Worldwide cases</th>
+                        <th colspan="2" className="text-center">Worldwide cases</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,8 +71,7 @@ export class Table1 extends React.Component {
             <Table borderless hover>
                 <thead>
                     <tr class="table-primary">
-                        <th></th>
-                        <th>Worldwide recoveries</th>
+                        <th colspan="2" className="text-center">Worldwide recoveries</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,8 +94,7 @@ export class Table1 extends React.Component {
             <Table borderless hover>
                 <thead>
                     <tr class="table-danger">
-                        <th></th>
-                        <th>Worldwide deaths</th>
+                        <th colspan="2" className="text-center">Worldwide deaths</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -114,9 +112,30 @@ export class Table1 extends React.Component {
                     </tr>
           </tbody>
             </Table> 
-            </div>     
             </div>
-            
+            <div className="table1">
+            <VictoryPie
+                data={[
+                { x: "", y: this.state.TotalDeaths,},
+                 { x: "", y: this.state.TotalConfirmed },
+                 { x: "", y: this.state.TotalRecovered },
+                ]}
+                colorScale={["#ff6b7c", "#6bb5ff", "#ffdc66"]}
+            /> 
+            </div>
+            <VictoryLegend x={50} y={0}
+            title="Cases distribution worldwide"
+            centerTitle
+            orientation="horizontal"
+            gutter={20}
+            style={{ border: { stroke: "white" }, title: {fontSize: 20, fill: "white" } }}
+            data={[
+                    { name: "Dead Cases", symbol: { fill: "#ff6b7c" }, labels: {fill: "white"} },
+                    { name: "Recovered Cases", symbol: { fill: "#6bb5ff" }, labels: {fill: "white"} },
+                    { name: "Active Cases", symbol: { fill: "#ffdc66" }, labels: {fill: "white"} }
+                ]}
+            />
+            </div>
             );
     }
 }
