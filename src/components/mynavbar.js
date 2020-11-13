@@ -47,7 +47,7 @@ const MyNavBar = (props) => {
                 <DropdownItem href="https://www.chartjs.org/" target="_blank">
                   chart.js
                 </DropdownItem>
-                <DropdownItem href="https://react-firebase-js.com/" targer="_blank">
+                <DropdownItem href="https://react-firebase-js.com/" target="_blank">
                   firebase
                 </DropdownItem>
               </DropdownMenu>

@@ -25,7 +25,6 @@ export class Table1 extends React.Component {
                     TotalRecovered: "",
                     ActiveCases: "",
                     }
-
     }
 
     componentDidMount(){
@@ -42,11 +41,6 @@ export class Table1 extends React.Component {
         })
         xhr.open('GET', 'https://api.covid19api.com/summary');
         xhr.send();
-
-        const test = {
-          
-          }
-
     }
     render(){
         return(
@@ -125,7 +119,9 @@ export class Table1 extends React.Component {
             labels: ["Active Cases", "Recovered Cases", "Dead Cases"],
             datasets: [
               {
-                data: [this.state.ActiveCases, this.state.TotalRecovered, this.state.TotalDeaths],
+                data: [Math.round((this.state.ActiveCases/(this.state.ActiveCases+this.state.TotalRecovered+this.state.TotalDeaths) * 10000)) / 100, 
+                       Math.round((this.state.TotalRecovered/(this.state.ActiveCases+this.state.TotalRecovered+this.state.TotalDeaths) * 10000 ))/ 100, 
+                       Math.round((this.state.TotalDeaths/(this.state.ActiveCases+this.state.TotalRecovered+this.state.TotalDeaths)* 10000 ))/ 100],
                 backgroundColor: [
                   "#FDB45C",
                   "#46BFBD",
@@ -145,7 +141,11 @@ export class Table1 extends React.Component {
             text: 'Worldwide Cases Distribution',
             fontColor: "white",
             fontSize: 25,
-        }}} />
+        }, legend: {
+            labels: {
+               fontColor: 'white'
+            }
+         }}} />
           </div>
         </div>
         );

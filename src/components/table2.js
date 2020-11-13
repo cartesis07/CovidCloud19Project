@@ -24,24 +24,24 @@ export class Table2 extends React.Component {
       labels: ["1", "2", "3", "4", "5", "6"],
       datasets: [
         {
-          label: "Daily Deaths",
+          label: "Daily New Cases",
           data: [12, 19, 3, 5, 2, 3],
           backgroundColor: [
-            "rgba(255, 134,159,0.4)",
-            "rgba(255, 134,159,0.4)",
-            "rgba(255, 134,159,0.4)",
-            "rgba(255, 134,159,0.4)",
-            "rgba(255, 134,159,0.4)",
-            "rgba(255, 134,159,0.4)",
+              "rgba(255, 177, 101,0.4)",
+              "rgba(255, 177, 101,0.4)",
+              "rgba(255, 177, 101,0.4)",
+              "rgba(255, 177, 101,0.4)",
+              "rgba(255, 177, 101,0.4)",
+            "rgba(255, 177, 101,0.4)",
           ],
           borderWidth: 2,
           borderColor: [
-            "rgba(255, 134, 159, 1)",
-            "rgba(255, 134, 159, 1)",
-            "rgba(255, 134, 159, 1)",
-            "rgba(255, 134, 159, 1)",
-            "rgba(255, 134, 159, 1)",
-            "rgba(255, 134, 159, 1)",
+              "rgba(255, 177, 101, 1)",
+              "rgba(255, 177, 101, 1)",
+              "rgba(255, 177, 101, 1)",
+              "rgba(255, 177, 101, 1)",
+              "rgba(255, 177, 101, 1)",
+              "rgba(255, 177, 101, 1)",
           ]
         },
         {
@@ -66,30 +66,35 @@ export class Table2 extends React.Component {
             ]
           },
           {
-            label: "Daily New Cases",
+            label: "Daily Deaths",
             data: [12, 19, 3, 5, 2, 3],
             backgroundColor: [
-                "rgba(255, 177, 101,0.4)",
-                "rgba(255, 177, 101,0.4)",
-                "rgba(255, 177, 101,0.4)",
-                "rgba(255, 177, 101,0.4)",
-                "rgba(255, 177, 101,0.4)",
-              "rgba(255, 177, 101,0.4)",
+              "rgba(255, 134,159,0.4)",
+              "rgba(255, 134,159,0.4)",
+              "rgba(255, 134,159,0.4)",
+              "rgba(255, 134,159,0.4)",
+              "rgba(255, 134,159,0.4)",
+              "rgba(255, 134,159,0.4)",
             ],
             borderWidth: 2,
             borderColor: [
-                "rgba(255, 177, 101, 1)",
-                "rgba(255, 177, 101, 1)",
-                "rgba(255, 177, 101, 1)",
-                "rgba(255, 177, 101, 1)",
-                "rgba(255, 177, 101, 1)",
-                "rgba(255, 177, 101, 1)",
+              "rgba(255, 134, 159, 1)",
+              "rgba(255, 134, 159, 1)",
+              "rgba(255, 134, 159, 1)",
+              "rgba(255, 134, 159, 1)",
+              "rgba(255, 134, 159, 1)",
+              "rgba(255, 134, 159, 1)",
             ]
-          }
+          },
       ]
     }}
                 options={{
                         responsive: true,
+                        legend: {
+                          labels: {
+                             fontColor: 'white'
+                          }
+                        },
                         title: {
                             display: true,
                             text: 'Worldwide Daily Cases',
@@ -111,7 +116,7 @@ export class Table2 extends React.Component {
                             {
                               gridLines: {
                                 display: true,
-                                color: "rgba(0, 0, 0, 0.1)"
+                                color: "rgba(0, 0, 0, 0.1)",
                               },
                               ticks: {
                                 beginAtZero: true
