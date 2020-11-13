@@ -10,11 +10,28 @@ export class Table2 extends React.Component {
 
     constructor(){
         super();
-
     }
 
     componentDidMount(){
 
+      function minTwoDigits(n) {
+        return (n < 10 ? '0' : '') + n;
+      }
+
+      var datestring = "https://api.covid19api.com/world?from=";
+      const date = new Date();
+      const date2 = new Date();
+      date2.setDate(date.getDate() - 7);
+      datestring = datestring + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
+      datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
+      console.log(datestring);
+      const xhr = new XMLHttpRequest();
+      xhr.addEventListener('load', () => {
+          const xhr2 = JSON.parse(xhr.responseText);
+          console.log(xhr2);
+      })
+      xhr.open('GET', datestring);
+      xhr.send();
     }
 
     render(){
