@@ -10,6 +10,12 @@ export class Table2 extends React.Component {
 
     constructor(){
         super();
+        this.state = {
+        NewRecovered: [],
+        NewDeaths: [],
+        NewCases: [],
+        date: [],
+        }
     }
 
     componentDidMount(){
@@ -29,6 +35,26 @@ export class Table2 extends React.Component {
       xhr.addEventListener('load', () => {
           const xhr2 = JSON.parse(xhr.responseText);
           console.log(xhr2);
+          const x_date = new Date();
+          const x_date2 = new Date();
+          x_date2.setDate(x_date.getDate() - 7);
+          for (let i = 0; i < 7; i++){
+            var newstringdate = x_date2.getDate().toString() + "/" + x_date2.getMonth().toString()
+            this.setState(prev => ({
+              date: [...prev.date, newstringdate]
+            }))
+            x_date2.setDate(x_date2.getDate() + 1);
+            this.setState(prev => ({
+              NewRecovered: [...prev.NewRecovered, xhr2[i].NewRecovered]
+            }))
+            this.setState(prev => ({
+              NewDeaths: [...prev.NewDeaths, xhr2[i].NewDeaths]
+            }))
+            this.setState(prev => ({
+              NewCases: [...prev.NewCases, xhr2[i].NewConfirmed]
+            }))
+          }      
+          console.log(this.state.NewCases);    
       })
       xhr.open('GET', datestring);
       xhr.send();
@@ -38,21 +64,25 @@ export class Table2 extends React.Component {
         return(
             <div className="Bar">
                 <Bar  data={{
-      labels: ["1", "2", "3", "4", "5", "6"],
+      labels: this.state.date,
       datasets: [
         {
           label: "Daily New Cases",
-          data: [12, 19, 3, 5, 2, 3],
+          data: this.state.NewCases,
           backgroundColor: [
               "rgba(255, 177, 101,0.4)",
               "rgba(255, 177, 101,0.4)",
               "rgba(255, 177, 101,0.4)",
               "rgba(255, 177, 101,0.4)",
               "rgba(255, 177, 101,0.4)",
-            "rgba(255, 177, 101,0.4)",
+              "rgba(255, 177, 101,0.4)",
+              "rgba(255, 177, 101,0.4)",
+              "rgba(255, 177, 101,0.4)",
           ],
           borderWidth: 2,
           borderColor: [
+              "rgba(255, 177, 101, 1)",
+              "rgba(255, 177, 101, 1)",
               "rgba(255, 177, 101, 1)",
               "rgba(255, 177, 101, 1)",
               "rgba(255, 177, 101, 1)",
@@ -63,8 +93,10 @@ export class Table2 extends React.Component {
         },
         {
             label: "Daily Recovered",
-            data: [12, 19, 3, 5, 2, 3],
+            data: this.state.NewRecovered,
             backgroundColor: [
+              "rgba(98,  182, 239,0.4)",
+              "rgba(98,  182, 239,0.4)",
               "rgba(98,  182, 239,0.4)",
               "rgba(98,  182, 239,0.4)",
               "rgba(98,  182, 239,0.4)",
@@ -74,6 +106,8 @@ export class Table2 extends React.Component {
             ],
             borderWidth: 2,
             borderColor: [
+                "rgba(98,  182, 239, 1)",
+                "rgba(98,  182, 239, 1)",
                 "rgba(98,  182, 239, 1)",
                 "rgba(98,  182, 239, 1)",
                 "rgba(98,  182, 239, 1)",
@@ -84,8 +118,10 @@ export class Table2 extends React.Component {
           },
           {
             label: "Daily Deaths",
-            data: [12, 19, 3, 5, 2, 3],
+            data: this.state.NewDeaths,
             backgroundColor: [
+              "rgba(255, 134,159,0.4)",
+              "rgba(255, 134,159,0.4)",
               "rgba(255, 134,159,0.4)",
               "rgba(255, 134,159,0.4)",
               "rgba(255, 134,159,0.4)",
@@ -95,6 +131,8 @@ export class Table2 extends React.Component {
             ],
             borderWidth: 2,
             borderColor: [
+              "rgba(255, 134, 159, 1)",
+              "rgba(255, 134, 159, 1)",
               "rgba(255, 134, 159, 1)",
               "rgba(255, 134, 159, 1)",
               "rgba(255, 134, 159, 1)",
