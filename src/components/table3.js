@@ -18,9 +18,7 @@ export class Table3 extends React.Component {
             date: [],
         }
     }
-
     componentDidMount(){
-
         function minTwoDigits(n) {
             return (n < 10 ? '0' : '') + n;
           }
@@ -32,7 +30,6 @@ export class Table3 extends React.Component {
         const xhr = new XMLHttpRequest();
         xhr.addEventListener('load', () => {
             const xhr2 = JSON.parse(xhr.responseText);
-            console.log(xhr2);
             var length = Object.keys(xhr2).length;
             var totalc = 0;
             var totald = 0;

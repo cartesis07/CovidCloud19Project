@@ -25,7 +25,12 @@
 }
 
 .Line{
-    margin-bottom: 5%;
+    margin-bottom: 15%;
     width: 1000px;
     height: 400px;
+}
+
+.CountriesTable {
+    margin-bottom: 5%;
+    width: 1000px;
 }
