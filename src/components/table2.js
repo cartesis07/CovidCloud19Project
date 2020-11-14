@@ -31,11 +31,9 @@ export class Table2 extends React.Component {
       date2.setDate(date.getDate() - 8);
       datestring = datestring + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
       datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
-      console.log(datestring);
       const xhr = new XMLHttpRequest();
       xhr.addEventListener('load', () => {
           const xhr2 = JSON.parse(xhr.responseText);
-          console.log(xhr2);
           const x_date = new Date();
           const x_date2 = new Date();
           const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",

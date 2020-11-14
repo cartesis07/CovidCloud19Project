@@ -21,4 +21,11 @@
 .Bar{
     width: 1000px;
     height: 800px;
+    margin-bottom: 5%;
+}
+
+.Line{
+    margin-bottom: 5%;
+    width: 1000px;
+    height: 400px;
 }
