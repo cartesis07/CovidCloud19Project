@@ -27,7 +27,8 @@ export class Table2 extends React.Component {
       var datestring = "https://api.covid19api.com/world?from=";
       const date = new Date();
       const date2 = new Date();
-      date2.setDate(date.getDate() - 7);
+      date.setDate(date.getDate() - 1);
+      date2.setDate(date.getDate() - 8);
       datestring = datestring + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
       datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
       console.log(datestring);
@@ -37,9 +38,11 @@ export class Table2 extends React.Component {
           console.log(xhr2);
           const x_date = new Date();
           const x_date2 = new Date();
+          const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
           x_date2.setDate(x_date.getDate() - 7);
           for (let i = 0; i < 7; i++){
-            var newstringdate = x_date2.getDate().toString() + "/" + x_date2.getMonth().toString()
+            var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
             this.setState(prev => ({
               date: [...prev.date, newstringdate]
             }))
@@ -53,14 +56,19 @@ export class Table2 extends React.Component {
             this.setState(prev => ({
               NewCases: [...prev.NewCases, xhr2[i].NewConfirmed]
             }))
-          }      
-          console.log(this.state.NewCases);    
+          }   
+          var newstringdate = x_date2.getDate().toString() +  " " + monthNames[x_date2.getMonth()];
+          this.setState(prev => ({
+            date: [...prev.date, newstringdate]
+          }))
+          x_date2.setDate(x_date2.getDate() + 1);
       })
       xhr.open('GET', datestring);
       xhr.send();
     }
 
     render(){
+      
         return(
             <div className="Bar">
                 <Bar  data={{

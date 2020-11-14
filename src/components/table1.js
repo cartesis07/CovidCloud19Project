@@ -54,7 +54,7 @@ export class Table1 extends React.Component {
                 </thead>
                 <tbody>
                     <tr class="table-warning">
-                        <th scope="row">Total Cases</th>
+                        <th scope="row">Total Cases &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
                         <td>{this.state.TotalConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                     </tr>
                     <tr class="table-warning">
