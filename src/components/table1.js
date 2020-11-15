@@ -123,9 +123,9 @@ export class Table1 extends React.Component {
                        Math.round((this.state.TotalRecovered/(this.state.ActiveCases+this.state.TotalRecovered+this.state.TotalDeaths) * 10000 ))/ 100, 
                        Math.round((this.state.TotalDeaths/(this.state.ActiveCases+this.state.TotalRecovered+this.state.TotalDeaths)* 10000 ))/ 100],
                 backgroundColor: [
-                  "#FDB45C",
-                  "#46BFBD",
-                  "#F7464A",
+                "rgba(255, 177, 101,0.8)",
+                "rgba(98,  182, 239,0.8)",
+                "rgba(255, 134,159,0.8)",
                 ],
                 hoverBackgroundColor: [
                   "#FFC870",

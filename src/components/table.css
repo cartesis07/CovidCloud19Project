@@ -31,6 +31,15 @@
 }
 
 .CountriesTable {
-    margin-bottom: 5%;
-    width: 1000px;
+    width: 1300px;
+}
+
+.title4{
+    text-align: center;
+    color: "white";
+}
+
+.stickyhead {
+    position: sticky;
+    top: 0;
 }
