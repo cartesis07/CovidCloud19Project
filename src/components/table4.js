@@ -18,7 +18,6 @@ export class Table4 extends React.Component {
         const xhr = new XMLHttpRequest();
         xhr.addEventListener('load', () => {
             const xhr2 = JSON.parse(xhr.responseText);
-            console.log(xhr2);
             var length = Object.keys(xhr2.Countries).length;
             for (let i = 0; i < length; i++){
                 var tmpjson = {country: xhr2.Countries[i].Country,
@@ -27,7 +26,8 @@ export class Table4 extends React.Component {
                                newrecoveries: xhr2.Countries[i].NewRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
                                totalrecoveries: xhr2.Countries[i].TotalRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                                newdeaths: xhr2.Countries[i].NewDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
-                               totaldeaths: xhr2.Countries[i].TotalDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                               totaldeaths: xhr2.Countries[i].TotalDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                               countrycode: xhr2.Countries[i].CountryCode}
                 this.setState(prev => ({
                     countries: [...prev.countries, tmpjson]
                 }))
@@ -40,10 +40,11 @@ export class Table4 extends React.Component {
 
     renderTableData(){
         return this.state.countries.map((Country, index) => {
-            const { country, newcases, totalcases, newrecoveries, totalrecoveries, newdeaths, totaldeaths } = Country //destructuring
+            var string = "/countries/"
+            const { country, newcases, totalcases, newrecoveries, totalrecoveries, newdeaths, totaldeaths, countrycode } = Country //destructuring
             return (
                <tr key={country}>
-                  <td class="table-secondary"><a outline class="btn btn-outline-dark" href={country}>{country}</a></td>
+                  <td class="table-secondary"><a outline class="btn btn-outline-dark" href={"countries/" + countrycode}>{country}</a></td>
                   <td class="table-warning">{newcases}</td>
                   <td class="table-warning">{totalcases}</td>
                   <td class="table-primary">{newrecoveries}</td>

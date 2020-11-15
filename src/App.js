@@ -5,9 +5,9 @@ import MyNavBar from "./components/mynavbar"
 import { AlertInfo } from "./components/alertinfo"
 
 import { Home } from "./components/home"
+import { Countries } from "./components/countries"
 
 import { BrowserRouter, Route } from 'react-router-dom'
-
 
 import { ScrollTopButton } from "./components/scrolltopbutton"
 
@@ -31,7 +31,7 @@ class App extends React.Component {
         <body className="Content">
         <BrowserRouter>
           <Route exact path="/" component={Home}/>
-          <Route path="/about"/>
+          <Route path="/countries" component={Countries}/>
         </BrowserRouter>
         </body>
         <footer className="App-footer">

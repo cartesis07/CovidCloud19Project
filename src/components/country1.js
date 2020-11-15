@@ -1,60 +1,71 @@
 import React from 'react';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Table } from 'reactstrap';
+import { Table, Alert } from 'reactstrap';
+import { Pie } from "react-chartjs-2";
 
 import "./table.css"
 
-import { Pie } from "react-chartjs-2";
-
-//summary of worldwide cases, recoveries and deaths.
-//not all values are found in the API call
-
-// finally we use react-chartjs-2
-// and chart.js
-
-export class Table1 extends React.Component {
+export class Country1 extends React.Component {
 
     constructor(){
         super();
         this.state = {NewConfirmed: "",
-                    TotalConfirmed: "",
-                    NewDeaths: "",
-                    TotalDeaths: "",
-                    NewRecovered: "",
-                    TotalRecovered: "",
-                    ActiveCases: "",
-                    }
+                      TotalConfirmed: "",
+                      NewDeaths: "",
+                      TotalDeaths: "",
+                      NewRecovered: "",
+                      TotalRecovered: "",
+                      ActiveCases: "",
+                      countryref: "",
+                      name:"",
+        }
     }
 
     componentDidMount(){
+
         const xhr = new XMLHttpRequest();
         xhr.addEventListener('load', () => {
+
+            let countryref = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
+
             const xhr2 = JSON.parse(xhr.responseText);
-            this.setState({NewConfirmed: xhr2.Global.NewConfirmed})
-            this.setState({TotalConfirmed: xhr2.Global.TotalConfirmed})
-            this.setState({NewDeaths: xhr2.Global.NewDeaths})
-            this.setState({NewRecovered: xhr2.Global.NewRecovered})
-            this.setState({TotalRecovered: xhr2.Global.TotalRecovered})
-            this.setState({TotalDeaths: xhr2.Global.TotalDeaths})
+
+            var getObjectByValue = function (array, key, value) {
+                return array.filter(function (object) {
+                    return object[key] === value;
+                });
+            };
+
+            let country  = getObjectByValue(xhr2.Countries, "CountryCode", countryref )
+            this.setState({name: country[0].Country})
+            this.setState({NewConfirmed: country[0].NewConfirmed})
+            this.setState({TotalConfirmed: country[0].TotalConfirmed})
+            this.setState({NewDeaths: country[0].NewDeaths})
+            this.setState({NewRecovered: country[0].NewRecovered})
+            this.setState({TotalRecovered: country[0].TotalRecovered})
+            this.setState({TotalDeaths: country[0].TotalDeaths})
             this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
         })
         xhr.open('GET', 'https://api.covid19api.com/summary');
         xhr.send();
     }
-    render(){
+
+
+
+    render() {
         return(
             <div>
                 <div className="block1">
                 <Table borderless hover>
                 <thead>
                     <tr class="table-warning">
-                        <th colspan="2" className="text-center">Worldwide cases</th>
+                        <th colspan="2" className="text-center">{this.state.name} cases</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="table-warning">
-                        <th scope="row">Total Cases</th>
+                        <th scope="row">Total Cases &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
                         <td>{this.state.TotalConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                     </tr>
                     <tr class="table-warning">
@@ -65,14 +76,14 @@ export class Table1 extends React.Component {
                         <th scope="row">Active Cases</th>
                         <td>{this.state.ActiveCases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                     </tr>
-          </tbody>
+                </tbody>
             </Table>
             </div>
             <div className="block1">
             <Table borderless hover>
                 <thead>
                     <tr class="table-primary">
-                        <th colspan="2" className="text-center">Worldwide recoveries</th>
+                        <th colspan="2" className="text-center">{this.state.name} recoveries</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,7 +106,7 @@ export class Table1 extends React.Component {
             <Table borderless hover>
                 <thead>
                     <tr class="table-danger">
-                        <th colspan="2" className="text-center">Worldwide deaths</th>
+                        <th colspan="2" className="text-center">{this.state.name} deaths</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,7 +149,7 @@ export class Table1 extends React.Component {
             ]
           }} options={{responsive: true, title: {
             display: true,
-            text: 'Worldwide Cases Distribution',
+            text: this.state.name + ' Cases Distribution',
             fontColor: "white",
             fontSize: 25,
         }, legend: {
@@ -147,7 +158,7 @@ export class Table1 extends React.Component {
             }
          }}} />
           </div>
-        </div>
+            </div>
         );
     }
 }

@@ -50,6 +50,9 @@ const MyNavBar = (props) => {
                 <DropdownItem href="https://react-firebase-js.com/" target="_blank">
                   firebase
                 </DropdownItem>
+                <DropdownItem href="https://reactrouter.com/" target="_blank">
+                  react-router
+                </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
