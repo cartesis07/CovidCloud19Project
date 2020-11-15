@@ -43,7 +43,7 @@ export class Table4 extends React.Component {
             const { country, newcases, totalcases, newrecoveries, totalrecoveries, newdeaths, totaldeaths } = Country //destructuring
             return (
                <tr key={country}>
-                  <td class="table-secondary">{country}</td>
+                  <td class="table-secondary"><a outline class="btn btn-outline-dark" href={country}>{country}</a></td>
                   <td class="table-warning">{newcases}</td>
                   <td class="table-warning">{totalcases}</td>
                   <td class="table-primary">{newrecoveries}</td>

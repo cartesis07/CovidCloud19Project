@@ -4,10 +4,10 @@ import React from 'react';
 import MyNavBar from "./components/mynavbar"
 import { AlertInfo } from "./components/alertinfo"
 
-import { Table1 } from "./components/table1"
-import { Table2 } from "./components/table2"
-import { Table3 } from "./components/table3"
-import { Table4 } from "./components/table4"
+import { Home } from "./components/home"
+
+import { BrowserRouter, Route } from 'react-router-dom'
+
 
 import { ScrollTopButton } from "./components/scrolltopbutton"
 
@@ -22,16 +22,17 @@ class App extends React.Component {
   }
 
   render(){
+
     return (
       <div className="App">
         <MyNavBar/>
         <header className="App-header">
         </header>
         <body className="Content">
-          <Table1/>
-          <Table2/>
-          <Table3/>
-          <Table4/>
+        <BrowserRouter>
+          <Route exact path="/" component={Home}/>
+          <Route path="/about"/>
+        </BrowserRouter>
         </body>
         <footer className="App-footer">
         <ScrollTopButton/>
