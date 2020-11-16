@@ -43,7 +43,6 @@ export class Country2 extends React.Component {
           datestring3 = datestring3 + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
           datestring3 = datestring3 + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
           
-          console.log(datestring1)
           const xhr1 = new XMLHttpRequest();
           const xhr2 = new XMLHttpRequest();
           const xhr3 = new XMLHttpRequest();
@@ -83,7 +82,6 @@ export class Country2 extends React.Component {
         })
         xhr3.addEventListener('load', () => {
             const xhrjson3 = JSON.parse(xhr3.responseText);
-            console.log(xhrjson3);
             for (let i = 0; i < 7; i++){
               this.setState(prev => ({
                 NewDeaths: [...prev.NewDeaths, xhrjson3[i].Cases]

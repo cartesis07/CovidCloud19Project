@@ -34,9 +34,6 @@ const MyNavBar = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink href="/news">News</NavLink>
-            </NavItem>
-            <NavItem>
               <NavLink href="https://github.com/cartesis07/CovidCloud19Project" target="_blank">GitHub Repository</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
