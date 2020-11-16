@@ -11,6 +11,7 @@ export class Table2 extends React.Component {
     constructor(){
         super();
         this.state = {
+        TotalConfirmed: [],
         NewRecovered: [],
         NewDeaths: [],
         NewCases: [],
@@ -27,8 +28,8 @@ export class Table2 extends React.Component {
       var datestring = "https://api.covid19api.com/world?from=";
       const date = new Date();
       const date2 = new Date();
-      date.setDate(date.getDate() - 1);
-      date2.setDate(date.getDate() - 8);
+      date.setDate(date.getDate());
+      date2.setDate(date.getDate() - 7);
       datestring = datestring + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
       datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
       const xhr = new XMLHttpRequest();
@@ -39,6 +40,19 @@ export class Table2 extends React.Component {
           const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
           x_date2.setDate(x_date.getDate() - 7);
+          for (let i=0; i < 7; i++){
+            this.setState(prev => ({
+              TotalConfirmed: [...prev.TotalConfirmed, xhr2[i].TotalConfirmed]
+            }))
+          }
+
+          var copy = this.state.TotalConfirmed.slice()
+          var sorted_array = copy.sort(function(a, b){return a - b})
+          var order = []
+          for (let i=0; i < 7; i++){
+            order.push(this.state.TotalConfirmed.indexOf(sorted_array[i]))
+          }
+
           for (let i = 0; i < 7; i++){
             var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
             this.setState(prev => ({
@@ -46,13 +60,13 @@ export class Table2 extends React.Component {
             }))
             x_date2.setDate(x_date2.getDate() + 1);
             this.setState(prev => ({
-              NewRecovered: [...prev.NewRecovered, xhr2[i].NewRecovered]
+              NewRecovered: [...prev.NewRecovered, xhr2[order[i]].NewRecovered]
             }))
             this.setState(prev => ({
-              NewDeaths: [...prev.NewDeaths, xhr2[i].NewDeaths]
+              NewDeaths: [...prev.NewDeaths, xhr2[order[i]].NewDeaths]
             }))
             this.setState(prev => ({
-              NewCases: [...prev.NewCases, xhr2[i].NewConfirmed]
+              NewCases: [...prev.NewCases, xhr2[order[i]].NewConfirmed]
             }))
           }   
           var newstringdate = x_date2.getDate().toString() +  " " + monthNames[x_date2.getMonth()];
