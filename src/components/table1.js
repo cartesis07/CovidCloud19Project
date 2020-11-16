@@ -65,11 +65,7 @@ export class Table1 extends React.Component {
                         <th scope="row">Active Cases</th>
                         <td>{this.state.ActiveCases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                     </tr>
-          </tbody>
-            </Table>
-            </div>
-            <div className="block1">
-            <Table borderless hover>
+                </tbody>
                 <thead>
                     <tr class="table-primary">
                         <th colspan="2" className="text-center">Worldwide recoveries</th>
@@ -89,10 +85,6 @@ export class Table1 extends React.Component {
                         <td>{Math.round(this.state.TotalRecovered/this.state.TotalConfirmed * 10000) / 100} %</td>
                     </tr>
           </tbody>
-            </Table>
-            </div>
-            <div className="block1">
-            <Table borderless hover>
                 <thead>
                     <tr class="table-danger">
                         <th colspan="2" className="text-center">Worldwide deaths</th>
