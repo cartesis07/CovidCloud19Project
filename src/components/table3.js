@@ -31,21 +31,15 @@ export class Table3 extends React.Component {
         xhr.addEventListener('load', () => {
             const xhr2 = JSON.parse(xhr.responseText);
             var length = Object.keys(xhr2).length;
-            var totalc = 0;
-            var totald = 0;
-            var totalr = 0;
             for (let i = 0; i < length; i++){
-                totalc = totalc + xhr2[i].NewConfirmed;
-                totald = totald + xhr2[i].NewDeaths;
-                totalr = totalr + xhr2[i].NewRecovered;
                 this.setState(prev => ({
-                    TotalConfirmed: [...prev.TotalConfirmed, totalc]
+                    TotalConfirmed: [...prev.TotalConfirmed, xhr2[i].TotalConfirmed]
                   }))
                 this.setState(prev => ({
-                    TotalRecovered: [...prev.TotalRecovered, totalr]
+                    TotalRecovered: [...prev.TotalRecovered, xhr2[i].TotalRecovered]
                   }))
                 this.setState(prev => ({
-                    TotalDeaths: [...prev.TotalDeaths, totald]
+                    TotalDeaths: [...prev.TotalDeaths, xhr2[i].TotalDeaths]
                   }))
                 this.setState(prev => ({
                     date: [...prev.date, i]
@@ -55,7 +49,6 @@ export class Table3 extends React.Component {
         xhr.open('GET', datestring);
         xhr.send();
     }
-
 
     render(){
         return(
@@ -82,7 +75,7 @@ export class Table3 extends React.Component {
             pointHoverBorderWidth: 4,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: this.state.TotalDeaths
+            data: this.state.TotalDeaths.sort(function(a, b){return a - b})
           },
           {
             label: "Total Recovered",
@@ -103,7 +96,7 @@ export class Table3 extends React.Component {
             pointHoverBorderWidth: 4,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: this.state.TotalRecovered
+            data: this.state.TotalRecovered.sort(function(a, b){return a - b})
           },
         {
           label: "Total Cases",
@@ -124,7 +117,7 @@ export class Table3 extends React.Component {
           pointHoverBorderWidth: 4,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: this.state.TotalConfirmed,
+          data: this.state.TotalConfirmed.sort(function(a, b){return a - b}),
         },
       ]
     }} options={{ responsive: true,
