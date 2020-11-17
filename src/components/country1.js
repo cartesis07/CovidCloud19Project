@@ -27,9 +27,6 @@ export class Country1 extends React.Component {
 
         const xhr = new XMLHttpRequest();
 
-        xhr.open('GET', 'https://api.covid19api.com/summary');
-        xhr.send();
-
         xhr.addEventListener('load', () => {
 
             let countryref = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
@@ -53,6 +50,9 @@ export class Country1 extends React.Component {
             this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
             this.setState({loaded: true})
         })
+
+        xhr.open('GET', 'https://api.covid19api.com/summary');
+        xhr.send();
     }
 
 
