@@ -9,6 +9,10 @@ import "./table.css"
 
 import ReactCountryFlag from "react-country-flag"
 
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
+
 export class Table4 extends React.Component {
 
     constructor(){
@@ -16,7 +20,7 @@ export class Table4 extends React.Component {
         this.state={
             countries: [],
             loaded: false,
-            sort: false
+            selected: 2,
         }
     }
 
@@ -47,30 +51,29 @@ export class Table4 extends React.Component {
     onSort(event, sortKey){
         if (sortKey === "country"){
             const data = this.state.countries;
-            if (this.state.sort){
-                data.sort(function(a,b){if(a.country.toLowerCase() < b.country.toLowerCase()) return -1;
-                    if(a.country.toLowerCase() > b.country.toLowerCase()) return 1;
-                    return 0;});
-                this.setState({sort: !this.state.sort})
-            }
-            else{
-                data.sort(function(a,b){if(a.country.toLowerCase() < b.country.toLowerCase()) return 1;
-                    if(a.country.toLowerCase() > b.country.toLowerCase()) return -1;
-                    return 0;});
-                this.setState({sort: !this.state.sort})
-            }
+            data.sort(function(a,b){if(a.country.toLowerCase() < b.country.toLowerCase()) return -1;
+            if(a.country.toLowerCase() > b.country.toLowerCase()) return 1;
+            return 0;});
             this.setState({countries: data})
         }
         else{
             const data = this.state.countries;
-            if(this.state.sort){
-                data.sort(function(a, b){return a[sortKey] - b[sortKey]})
-                this.setState({sort: !this.state.sort})
-            }
-            else{
-                data.sort(function(a, b){return - a[sortKey] + b[sortKey]})
-                this.setState({sort: !this.state.sort})
-            }
+            data.sort(function(a, b){return - a[sortKey] + b[sortKey]})
+            this.setState({countries: data})
+        }
+      }
+
+      onReverseSort(event, sortKey){
+        if (sortKey === "country"){
+            const data = this.state.countries;
+            data.sort(function(a,b){if(a.country.toLowerCase() < b.country.toLowerCase()) return 1;
+            if(a.country.toLowerCase() > b.country.toLowerCase()) return -1;
+            return 0;});
+            this.setState({countries: data})
+        }
+        else{
+            const data = this.state.countries;
+            data.sort(function(a, b){return a[sortKey] - b[sortKey]})
             this.setState({countries: data})
         }
       }
@@ -93,6 +96,16 @@ export class Table4 extends React.Component {
          })
     }
 
+    change(e,i,sortKey,reverse){
+        this.setState({selected: i})
+        if(reverse){
+            this.onSort(e,sortKey)
+        }
+        else{
+            this.onReverseSort(e,sortKey)
+        }
+    }
+
     render(){
         return(
             <div className = "CountriesTable">
@@ -101,16 +114,51 @@ export class Table4 extends React.Component {
                 <thead>
                     <tr className="table-secondary">
                         <th colspan="7" class="text-center">Cases, Recoveries and Deaths by Country</th>
-                    </tr>
+                    </tr> 
                 </thead>
                 <tbody className="table-secondary">
-                    <th onClick={e => this.onSort(e, 'country')} className = "stickyhead">Country<br/></th>
-                    <th onClick={e => this.onSort(e, 'newcases')} className = "stickyhead">New Cases</th>
-                    <th onClick={e => this.onSort(e, 'totalcases')} className = "stickyhead">Total Cases</th>
-                    <th onClick={e => this.onSort(e, 'newrecoveries')} className = "stickyhead">New Recoveries</th>
-                    <th onClick={e => this.onSort(e, 'totalrecoveries')} className = "stickyhead">Total Recoveries</th>
-                    <th onClick={e => this.onSort(e, 'newdeaths')} className = "stickyhead">New Deaths</th>
-                    <th onClick={e => this.onSort(e, 'totaldeaths')} className = "stickyhead">Total Deaths</th>
+                    <th className = "stickyhead">Country<br/>
+                    {!(this.state.selected === 1) ? <ArrowDropUpIcon onClick={(e) => this.change(e,1,"country",false)}/> : null}
+                    {this.state.selected === 1 ? <ArrowDropDownCircleIcon className="flip"/> : null}
+                    {!(this.state.selected === 2) ?<ArrowDropDownIcon onClick={(e) => this.change(e,2,"country",true)}/> : null}
+                    {this.state.selected === 2 ? <ArrowDropDownCircleIcon/> : null}
+                    </th>
+                    <th className = "stickyhead">New Cases<br/>
+                    {!(this.state.selected === 3) ? <ArrowDropUpIcon onClick={(e) => this.change(e,3,"newcases",false)}/> : null}
+                    {this.state.selected === 3 ? <ArrowDropDownCircleIcon className="flip"/> : null}
+                    {!(this.state.selected === 4) ?<ArrowDropDownIcon onClick={(e) => this.change(e,4,"newcases",true)}/> : null}
+                    {this.state.selected === 4 ? <ArrowDropDownCircleIcon/> : null}
+                    </th>
+                    <th className = "stickyhead">Total Cases<br/>
+                    {!(this.state.selected === 5) ? <ArrowDropUpIcon onClick={(e) => this.change(e,5,"totalcases",false)}/> : null}
+                    {this.state.selected === 5 ? <ArrowDropDownCircleIcon className="flip"/> : null}
+                    {!(this.state.selected === 6) ?<ArrowDropDownIcon onClick={(e) => this.change(e,6,"totalcases",true)}/> : null}
+                    {this.state.selected === 6 ? <ArrowDropDownCircleIcon/> : null}
+                    </th>
+                    <th className = "stickyhead">New Recoveries<br/>
+                    {!(this.state.selected === 7) ? <ArrowDropUpIcon onClick={(e) => this.change(e,7,"newrecoveries",false)}/> : null}
+                    {this.state.selected === 7 ? <ArrowDropDownCircleIcon className="flip"/> : null}
+                    {!(this.state.selected === 8) ?<ArrowDropDownIcon onClick={(e) => this.change(e,8,"newrecoveries",true)}/> : null}
+                    {this.state.selected === 8 ? <ArrowDropDownCircleIcon/> : null}
+                    </th>
+                    <th className = "stickyhead">Total Recoveries<br/>
+                    {!(this.state.selected === 9) ? <ArrowDropUpIcon onClick={(e) => this.change(e,9,"totalrecoveries",false)}/> : null}
+                    {this.state.selected === 9 ? <ArrowDropDownCircleIcon className="flip"/> : null}
+                    {!(this.state.selected === 10) ?<ArrowDropDownIcon onClick={(e) => this.change(e,10,"totalrecoveries",true)}/> : null}
+                    {this.state.selected === 10 ? <ArrowDropDownCircleIcon/> : null}
+                    </th>
+                    <th className = "stickyhead">New Deaths<br/>
+                    {!(this.state.selected === 11) ? <ArrowDropUpIcon onClick={(e) => this.change(e,11,"newdeaths",false)}/> : null}
+                    {this.state.selected === 11 ? <ArrowDropDownCircleIcon className="flip"/> : null}
+                    {!(this.state.selected === 12) ?<ArrowDropDownIcon onClick={(e) => this.change(e,12,"newdeaths",true)}/> : null}
+                    {this.state.selected === 12 ? <ArrowDropDownCircleIcon/> : null}
+                    </th>
+                    <th className = "stickyhead">Total Deaths<br/>
+                    {!(this.state.selected === 13) ? <ArrowDropUpIcon onClick={(e) => this.change(e,13,"totaldeaths",false)}/> : null}
+                    {this.state.selected === 13 ? <ArrowDropDownCircleIcon className="flip"/> : null}
+                    {!(this.state.selected === 14) ?<ArrowDropDownIcon onClick={(e) => this.change(e,14,"totaldeaths",true)}/> : null}
+                    {this.state.selected === 14 ? <ArrowDropDownCircleIcon/> : null}
+                    </th>
                 </tbody>
                 <tbody>
                     {this.renderTableData()}
