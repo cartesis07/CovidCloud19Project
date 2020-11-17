@@ -18,28 +18,25 @@ export class Table4 extends React.Component {
     }
 
     componentDidMount(){
-
-        const xhr = new XMLHttpRequest();
-        xhr.addEventListener('load', () => {
-            const xhr2 = JSON.parse(xhr.responseText);
-            var length = Object.keys(xhr2.Countries).length;
+        fetch('https://api.covid19api.com/summary')
+        .then(response => response.json())
+        .then(data => {
+            var length = Object.keys(data.Countries).length;
             for (let i = 0; i < length; i++){
-                var tmpjson = {country: xhr2.Countries[i].Country,
-                               newcases: xhr2.Countries[i].NewConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
-                               totalcases: xhr2.Countries[i].TotalConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
-                               newrecoveries: xhr2.Countries[i].NewRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
-                               totalrecoveries: xhr2.Countries[i].TotalRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-                               newdeaths: xhr2.Countries[i].NewDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
-                               totaldeaths: xhr2.Countries[i].TotalDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-                               countrycode: xhr2.Countries[i].CountryCode}
+                var tmpjson = {country: data.Countries[i].Country,
+                               newcases: data.Countries[i].NewConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
+                               totalcases: data.Countries[i].TotalConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
+                               newrecoveries: data.Countries[i].NewRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
+                               totalrecoveries: data.Countries[i].TotalRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                               newdeaths: data.Countries[i].NewDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
+                               totaldeaths: data.Countries[i].TotalDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                               countrycode: data.Countries[i].CountryCode}
                 this.setState(prev => ({
                     countries: [...prev.countries, tmpjson]
                 }))
             }
             this.setState({loaded: true})
         });
-        xhr.open('GET', "https://api.covid19api.com/summary");
-        xhr.send();
     }
 
     renderTableData(){

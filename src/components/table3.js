@@ -26,43 +26,42 @@ export class Table3 extends React.Component {
             return (n < 10 ? '0' : '') + n;
           }
 
+          
+
         var datestring = "https://api.covid19api.com/world?from=2020-04-13T00:00:00Z&to=";
         const date = new Date();
         date.setDate(date.getDate() - 1);
         datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
-        const xhr = new XMLHttpRequest();
-        xhr.addEventListener('load', () => {
-            const xhr2 = JSON.parse(xhr.responseText);
-            var length = Object.keys(xhr2).length;
-            const x_date = new Date();
-            const x_date2 = new Date();
-            x_date2.setDate(x_date.getDate() - length);
-            for (let i = 0; i < length; i++){
+        fetch(datestring)
+        .then(response => response.json())
+        .then(data => {
+          var length = Object.keys(data).length;
+          const x_date = new Date();
+          const x_date2 = new Date();
+          x_date2.setDate(x_date.getDate() - length);
+          for (let i = 0; i < length; i++){
 
-                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+              const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-                var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
-                this.setState(prev => ({
-                  date: [...prev.date, newstringdate]
+              var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
+              this.setState(prev => ({
+                date: [...prev.date, newstringdate]
+              }))
+              x_date2.setDate(x_date2.getDate() + 1);
+
+              this.setState(prev => ({
+                  TotalConfirmed: [...prev.TotalConfirmed, data[i].TotalConfirmed]
                 }))
-                x_date2.setDate(x_date2.getDate() + 1);
-
-                this.setState(prev => ({
-                    TotalConfirmed: [...prev.TotalConfirmed, xhr2[i].TotalConfirmed]
-                  }))
-                this.setState(prev => ({
-                    TotalRecovered: [...prev.TotalRecovered, xhr2[i].TotalRecovered]
-                  }))
-                this.setState(prev => ({
-                    TotalDeaths: [...prev.TotalDeaths, xhr2[i].TotalDeaths]
-                  }))
-            }
-
-            this.setState({loaded: true})
+              this.setState(prev => ({
+                  TotalRecovered: [...prev.TotalRecovered, data[i].TotalRecovered]
+                }))
+              this.setState(prev => ({
+                  TotalDeaths: [...prev.TotalDeaths, data[i].TotalDeaths]
+                }))
+          }
+          this.setState({loaded: true})
         });
-        xhr.open('GET', datestring);
-        xhr.send();
     }
 
     render(){

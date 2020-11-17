@@ -35,17 +35,19 @@ export class Table2 extends React.Component {
       date2.setDate(date.getDate() - 7);
       datestring = datestring + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
       datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
-      const xhr = new XMLHttpRequest();
-      xhr.addEventListener('load', () => {
-          const xhr2 = JSON.parse(xhr.responseText);
-          const x_date = new Date();
+      fetch(datestring)
+      .then(response => response.json())
+      .then(data => {
+        const x_date = new Date();
           const x_date2 = new Date();
           const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
           x_date2.setDate(x_date.getDate() - 7);
+
           for (let i=0; i < 7; i++){
             this.setState(prev => ({
-              TotalConfirmed: [...prev.TotalConfirmed, xhr2[i].TotalConfirmed]
+              TotalConfirmed: [...prev.TotalConfirmed, data[i].TotalConfirmed]
             }))
           }
 
@@ -63,13 +65,13 @@ export class Table2 extends React.Component {
             }))
             x_date2.setDate(x_date2.getDate() + 1);
             this.setState(prev => ({
-              NewRecovered: [...prev.NewRecovered, xhr2[order[i]].NewRecovered]
+              NewRecovered: [...prev.NewRecovered, data[order[i]].NewRecovered]
             }))
             this.setState(prev => ({
-              NewDeaths: [...prev.NewDeaths, xhr2[order[i]].NewDeaths]
+              NewDeaths: [...prev.NewDeaths, data[order[i]].NewDeaths]
             }))
             this.setState(prev => ({
-              NewCases: [...prev.NewCases, xhr2[order[i]].NewConfirmed]
+              NewCases: [...prev.NewCases, data[order[i]].NewConfirmed]
             }))
           }
           this.setState({loaded: true})   
@@ -79,9 +81,7 @@ export class Table2 extends React.Component {
           }))
           x_date2.setDate(x_date2.getDate() + 1);
           }
-          )
-      xhr.open('GET', datestring);
-      xhr.send();
+      );
     }
 
     render(){

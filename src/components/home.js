@@ -17,6 +17,9 @@ export class Home extends React.Component {
         return(
             <div className="Content">
                 <Table1/>
+                <Table2/>
+                <Table3/>
+                <Table4/>
             </div>
         );
     }
