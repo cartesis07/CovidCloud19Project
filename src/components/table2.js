@@ -81,7 +81,9 @@ export class Table2 extends React.Component {
           }))
           x_date2.setDate(x_date2.getDate() + 1);
           }
-      );
+      ).catch(function() {
+        console.log("error");
+    });
     }
 
     render(){

@@ -21,6 +21,73 @@ export class Country2 extends React.Component {
             }
     }
 
+    async fetchCall1(datestring1){
+        var response = await fetch(datestring1)
+        if (response.ok){
+          const data = await response.json()
+          this.setState({name: data[0].Country + " Daily Cases"})
+
+            const x_date = new Date();
+            const x_date2 = new Date();
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            x_date2.setDate(x_date.getDate() - 7);
+            for (let i = 0; i < 9; i++){
+              var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
+              this.setState(prev => ({
+                date: [...prev.date, newstringdate]
+              }))
+              x_date2.setDate(x_date2.getDate() + 1);
+
+              if (i !== 0){
+                this.setState(prev => ({
+                  NewCases: [...prev.NewCases, data[i].Cases - data[i-1].Cases]
+                }))
+              }
+            }
+            this.setState({loaded: this.state.loaded + 1})
+        }
+        else {
+          console.log("error")
+        }
+    }
+
+    async fetchCall2(datestring2){
+      var response = await fetch(datestring2)
+      if (response.ok){
+        const data = await response.json()
+        for (let i = 0; i < 9; i++){
+          if(i !== 0){
+            this.setState(prev => ({
+              NewRecovered: [...prev.NewRecovered, data[i].Cases - data[i-1].Cases]
+            }))
+          }
+        }
+        this.setState({loaded: this.state.loaded + 1})  
+      }
+      else {
+        console.log("error")
+      }
+  }
+
+      async fetchCall3(datestring3){
+      var response = await fetch(datestring3)
+      if (response.ok){
+        const data = await response.json()
+        for (let i = 0; i < 9; i++){
+          if (i !== 0){
+            this.setState(prev => ({
+              NewDeaths: [...prev.NewDeaths, data[i].Cases - data[i-1].Cases]
+            }))
+          }
+        }
+        this.setState({loaded: this.state.loaded + 1})  
+      }
+      else {
+        console.log("error")
+      }
+  }
+
     componentDidMount(){
 
         let countryref = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
@@ -46,61 +113,12 @@ export class Country2 extends React.Component {
           datestring3 = datestring3 + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
           datestring3 = datestring3 + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
           
-          fetch(datestring1)
-          .then(response => response.json())
-          .then(data => {
-              
-            this.setState({name: data[0].Country + " Daily Cases"})
-
-            const x_date = new Date();
-            const x_date2 = new Date();
-            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            x_date2.setDate(x_date.getDate() - 7);
-            for (let i = 0; i < 9; i++){
-              var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
-              this.setState(prev => ({
-                date: [...prev.date, newstringdate]
-              }))
-              x_date2.setDate(x_date2.getDate() + 1);
-
-              if (i !== 0){
-                this.setState(prev => ({
-                  NewCases: [...prev.NewCases, data[i].Cases - data[i-1].Cases]
-                }))
-              }
-            }
-            this.setState({loaded: this.state.loaded + 1}) });
-  
-
-        fetch(datestring2)
-        .then(response => response.json())
-        .then(data => {
-          for (let i = 0; i < 9; i++){
-            if(i !== 0){
-              this.setState(prev => ({
-                NewRecovered: [...prev.NewRecovered, data[i].Cases - data[i-1].Cases]
-              }))
-            }
-          }
-          this.setState({loaded: this.state.loaded + 1})  
-        });
-
-        fetch(datestring3)
-        .then(response => response.json())
-        .then(data => {
-          for (let i = 0; i < 9; i++){
-            if (i !== 0){
-              this.setState(prev => ({
-                NewDeaths: [...prev.NewDeaths, data[i].Cases - data[i-1].Cases]
-              }))
-            }
-          }
-          this.setState({loaded: this.state.loaded + 1})   
-        });
+          this.fetchCall1(datestring1);
+          this.fetchCall2(datestring2);
+          this.fetchCall3(datestring3);
     }
 
-    render(){
+    render(){ 
         return(
             <div className="Bar">
                 {!(this.state.loaded==3) ? <Spinner className="Spinner" color="primary"/> : null}        

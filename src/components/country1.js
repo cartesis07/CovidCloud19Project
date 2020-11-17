@@ -23,22 +23,18 @@ export class Country1 extends React.Component {
         }
     }
 
-    componentDidMount(){
-
-        const xhr = new XMLHttpRequest();
-
-        xhr.addEventListener('loadend', () => {
+    async fetchCall(){
+        var response = await fetch("https://api.covid19api.com/summary")
+        if (response.ok){
+            const data = await response.json()
             let countryref = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
-
-            const xhr2 = JSON.parse(xhr.responseText);
 
             var getObjectByValue = function (array, key, value) {
                 return array.filter(function (object) {
                     return object[key] === value;
                 });
             };
-
-            let country  = getObjectByValue(xhr2.Countries, "CountryCode", countryref )
+            let country  = getObjectByValue(data.Countries, "CountryCode", countryref )
             this.setState({name: country[0].Country})
             this.setState({NewConfirmed: country[0].NewConfirmed})
             this.setState({TotalConfirmed: country[0].TotalConfirmed})
@@ -48,13 +44,15 @@ export class Country1 extends React.Component {
             this.setState({TotalDeaths: country[0].TotalDeaths})
             this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
             this.setState({loaded: true})
-        })
-
-        xhr.open('GET', 'https://api.covid19api.com/summary');
-        xhr.send();
+        }
+        else{
+            console.log("error")
+        }
     }
 
-
+    componentDidMount(){
+        this.fetchCall();
+    }
 
     render() {
         return(

@@ -6,7 +6,7 @@ import "./table.css";
 
 import { Line } from "react-chartjs-2";
 
-import { Spinner } from 'reactstrap';
+import { Spinner, Progress } from 'reactstrap';
 
 export class Country3 extends React.Component {
     constructor(){
@@ -17,22 +17,17 @@ export class Country3 extends React.Component {
             TotalRecovered: [],
             date: [],
             name: "",
-            loaded: false,
+            loaded: 0,
         }
     }
 
-    componentDidMount(){
-        
-        let countryref = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
-
-        var datestring1 = "https://api.covid19api.com/dayone/country/" + countryref + "/status/confirmed";
-        var datestring2 = "https://api.covid19api.com/total/country/" + countryref + "/status/recovered";
-        var datestring3 = "https://api.covid19api.com/total/country/" + countryref + "/status/deaths";
-
-        fetch(datestring1)
-        .then(response => response.json())
-        .then(data => {
+    async fetchCall1(datestring) {
+        var response = await fetch(datestring)
+        if(response.ok){
+          const data = await response.json()
           var length1 = Object.keys(data).length;
+          console.log("fetch1")
+          console.log(data)
 
             const x_date = new Date();
             const x_date2 = new Date();
@@ -55,23 +50,37 @@ export class Country3 extends React.Component {
                 TotalConfirmed: [...prev.TotalConfirmed, data[i].Cases]
               }))
             }
-        });
+            this.setState({loaded: this.state.loaded + 1})
+      }
+      else{
+        console.log("error")
+      }
+    }
 
-        fetch(datestring2)
-        .then(response => response.json())
-        .then(data => {
+      async fetchCall2(datestring) {
+        var response = await fetch(datestring)
+        if(response.ok){
+          const data = await response.json()
           var length2 = Object.keys(data).length;
+
+          console.log("fetch2")
+          console.log(data)
 
           for (let i = 0; i < length2; i++){
             this.setState(prev => ({
               TotalRecovered: [...prev.TotalRecovered, data[i].Cases]
             }))
-          }   
-        });
-
-        fetch(datestring3)
-        .then(response => response.json())
-        .then(data => {
+          }
+          this.setState({loaded: this.state.loaded + 1}) 
+      }
+      else{
+        console.log("error")
+      }
+    }
+      async fetchCall3(datestring) {
+        var response = await fetch(datestring)
+        if(response.ok){
+          const data = await response.json()
           var length3 = Object.keys(data).length;
 
           for (let i = 0; i < length3; i++){
@@ -79,15 +88,30 @@ export class Country3 extends React.Component {
               TotalDeaths: [...prev.TotalDeaths, data[i].Cases]
             }))
           }
-          this.setState({loaded: true})
-        });
+          this.setState({loaded: this.state.loaded + 1})
+      }
+      else{
+        console.log("error")
+      }
+    }
+
+    componentDidMount(){
+
+        let countryref = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
+
+        var datestring1 = "https://api.covid19api.com/dayone/country/" + countryref + "/status/confirmed";
+        var datestring2 = "https://api.covid19api.com/dayone/country/" + countryref + "/status/recovered";
+        var datestring3 = "https://api.covid19api.com/dayone/country/" + countryref + "/status/deaths";
+        this.fetchCall1(datestring1);
+        this.fetchCall2(datestring2);
+        this.fetchCall3(datestring3);
     }
 
     render(){
         return(
             <div className="Line">
-            {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
-            <Line data={{
+            {!(this.state.loaded==3) ? <Spinner className="Spinner" color="primary"/> : null}
+            {(this.state.loaded==3) ? <Line data={{
       labels: this.state.date,
       datasets: [
         {
@@ -168,7 +192,7 @@ export class Country3 extends React.Component {
                     }
                   }, 
                 }
-                 } />
+                 } /> : null}
             </div>
         );
     }

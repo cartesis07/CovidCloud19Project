@@ -36,6 +36,8 @@ export class Table4 extends React.Component {
                 }))
             }
             this.setState({loaded: true})
+        }).catch(function() {
+            console.log("error");
         });
     }
 

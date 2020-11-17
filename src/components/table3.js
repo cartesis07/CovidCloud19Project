@@ -61,7 +61,9 @@ export class Table3 extends React.Component {
                 }))
           }
           this.setState({loaded: true})
-        });
+        }).catch(function() {
+          console.log("error");
+      });
     }
 
     render(){

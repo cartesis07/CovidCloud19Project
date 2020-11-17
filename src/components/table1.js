@@ -38,7 +38,9 @@ export class Table1 extends React.Component {
         this.setState({TotalRecovered: data.Global.TotalRecovered})
         this.setState({TotalDeaths: data.Global.TotalDeaths})
         this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
-        this.setState({loaded: true})});
+        this.setState({loaded: true})}).catch(function() {
+            console.log("error");
+        });
     }
     
     render(){
