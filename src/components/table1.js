@@ -5,6 +5,8 @@ import { Table } from 'reactstrap';
 
 import "./table.css"
 
+import { Spinner } from 'reactstrap';
+
 import { Pie } from "react-chartjs-2";
 
 //summary of worldwide cases, recoveries and deaths.
@@ -24,6 +26,7 @@ export class Table1 extends React.Component {
                     NewRecovered: "",
                     TotalRecovered: "",
                     ActiveCases: "",
+                    loaded: false,
                     }
     }
 
@@ -38,6 +41,7 @@ export class Table1 extends React.Component {
             this.setState({TotalRecovered: xhr2.Global.TotalRecovered})
             this.setState({TotalDeaths: xhr2.Global.TotalDeaths})
             this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
+            this.setState({loaded: true})
         })
         xhr.open('GET', 'https://api.covid19api.com/summary');
         xhr.send();
@@ -46,7 +50,8 @@ export class Table1 extends React.Component {
         return(
             <div>
                 <div className="block1">
-                <Table borderless hover>
+                {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+                {this.state.loaded ? <Table borderless hover>
                 <thead>
                     <tr class="table-warning">
                         <th colspan="2" className="text-center">Worldwide cases</th>
@@ -104,10 +109,10 @@ export class Table1 extends React.Component {
                         <td>{Math.round(this.state.TotalDeaths/this.state.TotalConfirmed * 10000) / 100} %</td>
                     </tr>
           </tbody>
-            </Table> 
+            </Table> : null} 
             </div>
             <div className="Pie">
-            <Pie data={{
+            {this.state.loaded ? <Pie data={{
             labels: ["Active Cases", "Recovered Cases", "Dead Cases"],
             datasets: [
               {
@@ -137,7 +142,7 @@ export class Table1 extends React.Component {
             labels: {
                fontColor: 'white'
             }
-         }}} />
+         }}} /> : null} 
           </div>
         </div>
         );

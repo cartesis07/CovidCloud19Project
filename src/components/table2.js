@@ -6,6 +6,8 @@ import { Bar } from "react-chartjs-2";
 
 import "./table.css"
 
+import { Spinner } from 'reactstrap';
+
 export class Table2 extends React.Component {
 
     constructor(){
@@ -16,6 +18,7 @@ export class Table2 extends React.Component {
         NewDeaths: [],
         NewCases: [],
         date: [],
+        loaded: false
         }
     }
 
@@ -68,13 +71,15 @@ export class Table2 extends React.Component {
             this.setState(prev => ({
               NewCases: [...prev.NewCases, xhr2[order[i]].NewConfirmed]
             }))
-          }   
+          }
+          this.setState({loaded: true})   
           var newstringdate = x_date2.getDate().toString() +  " " + monthNames[x_date2.getMonth()];
           this.setState(prev => ({
             date: [...prev.date, newstringdate]
           }))
           x_date2.setDate(x_date2.getDate() + 1);
-      })
+          }
+          )
       xhr.open('GET', datestring);
       xhr.send();
     }
@@ -83,7 +88,8 @@ export class Table2 extends React.Component {
       
         return(
             <div className="Bar">
-                <Bar  data={{
+                {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+                {this.state.loaded ? <Bar  data={{
       labels: this.state.date,
       datasets: [
         {
@@ -199,7 +205,7 @@ export class Table2 extends React.Component {
                             }
                           ]
                         }, 
-                      }} />
+                      }} /> : null }
             </div>   
         );
     }

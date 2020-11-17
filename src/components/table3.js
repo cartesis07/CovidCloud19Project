@@ -6,6 +6,7 @@ import "./table.css";
 
 import { Line } from "react-chartjs-2";
 
+import { Spinner } from 'reactstrap';
 
 export class Table3 extends React.Component {
 
@@ -16,6 +17,7 @@ export class Table3 extends React.Component {
             TotalDeaths: [],
             TotalRecovered: [],
             date: [],
+            loaded: false,
         }
     }
     componentDidMount(){
@@ -55,6 +57,8 @@ export class Table3 extends React.Component {
                     TotalDeaths: [...prev.TotalDeaths, xhr2[i].TotalDeaths]
                   }))
             }
+
+            this.setState({loaded: true})
         });
         xhr.open('GET', datestring);
         xhr.send();
@@ -63,7 +67,8 @@ export class Table3 extends React.Component {
     render(){
         return(
             <div className="Line">
-                        <Line data={{
+            {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+            {this.state.loaded ?           <Line data={{
       labels: this.state.date,
       datasets: [
         {
@@ -158,7 +163,7 @@ export class Table3 extends React.Component {
                        fontColor: 'white'
                     }
                   }, }
-                 } />
+                 } /> : null}
             </div>
         );
     }

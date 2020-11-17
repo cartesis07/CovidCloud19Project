@@ -3,6 +3,8 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Table } from 'reactstrap';
 
+import { Spinner } from 'reactstrap';
+
 import "./table.css"
 
 export class Table4 extends React.Component {
@@ -10,7 +12,8 @@ export class Table4 extends React.Component {
     constructor(){
         super();
         this.state={
-            countries: []
+            countries: [],
+            loaded: false
         }
     }
 
@@ -32,7 +35,7 @@ export class Table4 extends React.Component {
                     countries: [...prev.countries, tmpjson]
                 }))
             }
-            console.log(this.state.countries);
+            this.setState({loaded: true})
         });
         xhr.open('GET', "https://api.covid19api.com/summary");
         xhr.send();
@@ -59,7 +62,8 @@ export class Table4 extends React.Component {
     render(){
         return(
             <div className = "CountriesTable">
-            <Table borderless hover>
+            {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+            {this.state.loaded ? <Table borderless hover>
                 <thead>
                     <tr className="table-secondary">
                         <th colspan="7" class="text-center">Cases, Recoveries and Deaths by Country</th>
@@ -77,7 +81,7 @@ export class Table4 extends React.Component {
                 <tbody>
                     {this.renderTableData()}
                 </tbody>
-            </Table>
+            </Table> : null}
             </div>
         );
     }

@@ -43,3 +43,8 @@
     position: sticky;
     top: 0;
 }
+
+.Spinner{
+    justify-content: right;
+    margin-left: 50%;
+}
