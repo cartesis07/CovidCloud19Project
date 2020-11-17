@@ -7,6 +7,8 @@ import { Spinner } from 'reactstrap';
 
 import "./table.css"
 
+import ReactCountryFlag from "react-country-flag"
+
 export class Table4 extends React.Component {
 
     constructor(){
@@ -47,7 +49,7 @@ export class Table4 extends React.Component {
             const { country, newcases, totalcases, newrecoveries, totalrecoveries, newdeaths, totaldeaths, countrycode } = Country //destructuring
             return (
                <tr key={country}>
-                  <td class="table-secondary"><a outline class="btn btn-outline-dark" href={"countries/" + countrycode}>{country}</a></td>
+                  <td class="table-secondary"><ReactCountryFlag countryCode={countrycode} />&nbsp;&nbsp;<a outline class="btn btn-outline-dark" href={"countries/" + countrycode}>{country}</a></td>
                   <td class="table-warning">{newcases}</td>
                   <td class="table-warning">{totalcases}</td>
                   <td class="table-primary">{newrecoveries}</td>

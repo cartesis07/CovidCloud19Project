@@ -9550,6 +9550,11 @@ react-chartjs-2@^2.11.1:
     lodash "^4.17.19"
     prop-types "^15.7.2"
 
+react-country-flag@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-country-flag/-/react-country-flag-2.3.0.tgz#dd78906551fdc231f9e02084e87f9a62f8ea6d7b"
+  integrity sha512-Lb2nhMoTOxNjlQoun3iPwqIgpluSyzr8jN45cN0mXYbeDi10/MhGJKZa1cvgyrnfCtOh/IHdhA0MkSuls78bBw==
+
 react-dev-utils@^11.0.0:
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.0.tgz#9fdb1b173f4ffc1f23fcf98465d93b16a860b73e"
