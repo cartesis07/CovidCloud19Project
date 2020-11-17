@@ -15,7 +15,8 @@ export class Table4 extends React.Component {
         super();
         this.state={
             countries: [],
-            loaded: false
+            loaded: false,
+            currentSort: "0"
         }
     }
 
@@ -26,12 +27,12 @@ export class Table4 extends React.Component {
             var length = Object.keys(data.Countries).length;
             for (let i = 0; i < length; i++){
                 var tmpjson = {country: data.Countries[i].Country,
-                               newcases: data.Countries[i].NewConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
-                               totalcases: data.Countries[i].TotalConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
-                               newrecoveries: data.Countries[i].NewRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
-                               totalrecoveries: data.Countries[i].TotalRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-                               newdeaths: data.Countries[i].NewDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
-                               totaldeaths: data.Countries[i].TotalDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                               newcases: data.Countries[i].NewConfirmed, 
+                               totalcases: data.Countries[i].TotalConfirmed, 
+                               newrecoveries: data.Countries[i].NewRecovered, 
+                               totalrecoveries: data.Countries[i].TotalRecovered,
+                               newdeaths: data.Countries[i].NewDeaths, 
+                               totaldeaths: data.Countries[i].TotalDeaths,
                                countrycode: data.Countries[i].CountryCode}
                 this.setState(prev => ({
                     countries: [...prev.countries, tmpjson]
@@ -43,13 +44,28 @@ export class Table4 extends React.Component {
         });
     }
 
+    onSort(event, sortKey){
+        if (sortKey === "country"){
+            const data = this.state.countries;
+            data.sort(function(a,b){if(a.country.toLowerCase() < b.country.toLowerCase()) return -1;
+            if(a.country.toLowerCase() > b.country.toLowerCase()) return 1;
+            return 0;});
+            this.setState({countries: data})
+        }
+        else{
+            const data = this.state.countries;
+            data.sort(function(a, b){return a[sortKey] - b[sortKey]})
+            this.setState({countries: data})
+        }
+      }
+
     renderTableData(){
         return this.state.countries.map((Country, index) => {
             var string = "/countries/"
             const { country, newcases, totalcases, newrecoveries, totalrecoveries, newdeaths, totaldeaths, countrycode } = Country //destructuring
             return (
                <tr key={country}>
-                  <td class="table-secondary"><ReactCountryFlag countryCode={countrycode} />&nbsp;&nbsp;<a outline class="btn btn-outline-dark" href={"countries/" + countrycode}>{country}</a></td>
+                  <td class="table-secondary"><ReactCountryFlag countryCode={countrycode} />&nbsp;&nbsp;&nbsp;<a outline class="btn btn-outline-dark" href={"countries/" + countrycode}>{country}</a></td>
                   <td class="table-warning">{newcases}</td>
                   <td class="table-warning">{totalcases}</td>
                   <td class="table-primary">{newrecoveries}</td>
@@ -65,20 +81,20 @@ export class Table4 extends React.Component {
         return(
             <div className = "CountriesTable">
             {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
-            {this.state.loaded ? <Table borderless hover>
+            {this.state.loaded ? <Table borderless hover> 
                 <thead>
                     <tr className="table-secondary">
                         <th colspan="7" class="text-center">Cases, Recoveries and Deaths by Country</th>
                     </tr>
                 </thead>
                 <tbody className="table-secondary">
-                    <th className = "stickyhead">Country</th>
-                    <th className = "stickyhead">New Cases</th>
-                    <th className = "stickyhead">Total Cases</th>
-                    <th className = "stickyhead">New Recoveries</th>
-                    <th className = "stickyhead">Total Recoveries</th>
-                    <th className = "stickyhead">New Deaths</th>
-                    <th className = "stickyhead">Total Deaths</th>
+                    <th onClick={e => this.onSort(e, 'country')} className = "stickyhead">Country</th>
+                    <th onClick={e => this.onSort(e, 'newcases')} className = "stickyhead">New Cases</th>
+                    <th onClick={e => this.onSort(e, 'totalcases')} className = "stickyhead">Total Cases</th>
+                    <th onClick={e => this.onSort(e, 'newrecoveries')} className = "stickyhead">New Recoveries</th>
+                    <th onClick={e => this.onSort(e, 'totalrecoveries')} className = "stickyhead">Total Recoveries</th>
+                    <th onClick={e => this.onSort(e, 'newdeaths')} className = "stickyhead">New Deaths</th>
+                    <th onClick={e => this.onSort(e, 'totaldeaths')} className = "stickyhead">Total Deaths</th>
                 </tbody>
                 <tbody>
                     {this.renderTableData()}

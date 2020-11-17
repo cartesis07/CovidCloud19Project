@@ -34,7 +34,6 @@ export class Countries extends React.Component {
                     fontSize: '5em',
                     lineHeight: '1em',
                 }}
-                aria-label="United States"
                  />
                 <Country1/>
                 <Country2/>

@@ -53,6 +53,9 @@ const MyNavBar = (props) => {
                 <DropdownItem href="https://reactrouter.com/" target="_blank">
                   react-router
                 </DropdownItem>
+                <DropdownItem href="https://www.npmjs.com/package/react-country-flag" target="_blank">
+                  country-flag
+                </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
