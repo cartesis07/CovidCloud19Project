@@ -17,7 +17,7 @@ export class Country2 extends React.Component {
             NewCases: [],
             date: [],
             name: "",
-            loaded: false,
+            loaded: 0,
             }
     }
 
@@ -79,8 +79,8 @@ export class Country2 extends React.Component {
                     NewCases: [...prev.NewCases, xhrjson1[i].Cases - xhrjson1[i-1].Cases]
                   }))
                 }
-
-              }   
+              }
+              this.setState({loaded: this.state.loaded + 1})      
           })
         xhr2.addEventListener('load', () => {
             const xhrjson2 = JSON.parse(xhr2.responseText);
@@ -90,7 +90,8 @@ export class Country2 extends React.Component {
                   NewRecovered: [...prev.NewRecovered, xhrjson2[i].Cases - xhrjson2[i-1].Cases]
                 }))
               }
-            }   
+            }
+            this.setState({loaded: this.state.loaded + 1})      
         })
         xhr3.addEventListener('load', () => {
             const xhrjson3 = JSON.parse(xhr3.responseText);
@@ -101,15 +102,15 @@ export class Country2 extends React.Component {
                 }))
               }
             }
-            this.setState({loaded: true})   
+            this.setState({loaded: this.state.loaded + 1})   
         })
     }
 
     render(){
         return(
             <div className="Bar">
-                {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
-                {this.state.loaded ? <Bar  data={{
+                {!this.state.loaded==3 ? <Spinner className="Spinner" color="primary"/> : null}        
+                {this.state.loaded==3 ? <Bar  data={{
       labels: this.state.date,
       datasets: [
         {

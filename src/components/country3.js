@@ -17,7 +17,7 @@ export class Country3 extends React.Component {
             TotalRecovered: [],
             date: [],
             name: "",
-            loaded: false
+            loaded: 0
         }
     }
 
@@ -66,8 +66,7 @@ export class Country3 extends React.Component {
                 TotalConfirmed: [...prev.TotalConfirmed, xhrjson1[i].Cases]
               }))
             }
-
-            console.log("done1")
+            this.setState({loaded: this.state.loaded + 1})
         })
       xhr2.addEventListener('load', () => {
           const xhrjson2 = JSON.parse(xhr2.responseText);
@@ -79,8 +78,7 @@ export class Country3 extends React.Component {
               TotalRecovered: [...prev.TotalRecovered, xhrjson2[i].Cases]
             }))
           }   
-          console.log("done2")
-
+          this.setState({loaded: this.state.loaded + 1})
       })
       xhr3.addEventListener('load', () => {
           const xhrjson3 = JSON.parse(xhr3.responseText);
@@ -92,16 +90,15 @@ export class Country3 extends React.Component {
               TotalDeaths: [...prev.TotalDeaths, xhrjson3[i].Cases]
             }))
           }   
-          console.log("done3")
-          this.setState({loaded: true})
+          this.setState({loaded: this.state.loaded + 1})
       })
     }
 
     render(){
         return(
             <div className="Line">
-            {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
-             {this.state.loaded ? <Line data={{
+            {!this.state.loaded==3 ? <Spinner className="Spinner" color="primary"/> : null}        
+             {this.state.loaded==3 ? <Line data={{
       labels: this.state.date,
       datasets: [
         {
