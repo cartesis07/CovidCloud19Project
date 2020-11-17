@@ -35,13 +35,22 @@ export class Country3 extends React.Component {
 
             var length1 = Object.keys(xhrjson1).length;
 
+            const x_date = new Date();
+            const x_date2 = new Date();
+            x_date2.setDate(x_date.getDate() - length1);
+
             this.setState({name: xhrjson1[0].Country + " Total Cases"})
 
             for (let i = 0; i < length1; i++){
 
+              const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+              var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
               this.setState(prev => ({
-                date: [...prev.date, i]
+                date: [...prev.date, newstringdate]
               }))
+              x_date2.setDate(x_date2.getDate() + 1);
               
               this.setState(prev => ({
                 TotalConfirmed: [...prev.TotalConfirmed, xhrjson1[i].Cases]

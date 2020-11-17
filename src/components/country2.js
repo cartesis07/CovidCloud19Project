@@ -33,7 +33,7 @@ export class Country2 extends React.Component {
           const date = new Date();
           const date2 = new Date();
           date.setDate(date.getDate());
-          date2.setDate(date.getDate() - 7);
+          date2.setDate(date.getDate()-8);
           datestring1 = datestring1 + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
           datestring1 = datestring1 + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
 
@@ -56,36 +56,39 @@ export class Country2 extends React.Component {
               const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
               x_date2.setDate(x_date.getDate() - 7);
-              for (let i = 0; i < 7; i++){
+              for (let i = 0; i < 9; i++){
                 var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
                 this.setState(prev => ({
                   date: [...prev.date, newstringdate]
                 }))
                 x_date2.setDate(x_date2.getDate() + 1);
-                this.setState(prev => ({
-                  NewCases: [...prev.NewCases, xhrjson1[i].Cases]
-                }))
+
+                if (i !== 0){
+                  this.setState(prev => ({
+                    NewCases: [...prev.NewCases, xhrjson1[i].Cases - xhrjson1[i-1].Cases]
+                  }))
+                }
+
               }   
-              var newstringdate = x_date2.getDate().toString() +  " " + monthNames[x_date2.getMonth()];
-              this.setState(prev => ({
-                date: [...prev.date, newstringdate]
-              }))
-              x_date2.setDate(x_date2.getDate() + 1);
           })
         xhr2.addEventListener('load', () => {
             const xhrjson2 = JSON.parse(xhr2.responseText);
-            for (let i = 0; i < 7; i++){
-              this.setState(prev => ({
-                NewRecovered: [...prev.NewRecovered, xhrjson2[i].Cases]
-              }))
+            for (let i = 0; i < 9; i++){
+              if(i !== 0){
+                this.setState(prev => ({
+                  NewRecovered: [...prev.NewRecovered, xhrjson2[i].Cases - xhrjson2[i-1].Cases]
+                }))
+              }
             }   
         })
         xhr3.addEventListener('load', () => {
             const xhrjson3 = JSON.parse(xhr3.responseText);
-            for (let i = 0; i < 7; i++){
-              this.setState(prev => ({
-                NewDeaths: [...prev.NewDeaths, xhrjson3[i].Cases]
-              }))
+            for (let i = 0; i < 9; i++){
+              if (i !== 0){
+                this.setState(prev => ({
+                  NewDeaths: [...prev.NewDeaths, xhrjson3[i].Cases - xhrjson3[i-1].Cases]
+                }))
+              }
             }   
         })
           xhr1.open('GET', datestring1);

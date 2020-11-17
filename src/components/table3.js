@@ -31,7 +31,20 @@ export class Table3 extends React.Component {
         xhr.addEventListener('load', () => {
             const xhr2 = JSON.parse(xhr.responseText);
             var length = Object.keys(xhr2).length;
+            const x_date = new Date();
+            const x_date2 = new Date();
+            x_date2.setDate(x_date.getDate() - length);
             for (let i = 0; i < length; i++){
+
+                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+                var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
+                this.setState(prev => ({
+                  date: [...prev.date, newstringdate]
+                }))
+                x_date2.setDate(x_date2.getDate() + 1);
+
                 this.setState(prev => ({
                     TotalConfirmed: [...prev.TotalConfirmed, xhr2[i].TotalConfirmed]
                   }))
@@ -41,9 +54,6 @@ export class Table3 extends React.Component {
                 this.setState(prev => ({
                     TotalDeaths: [...prev.TotalDeaths, xhr2[i].TotalDeaths]
                   }))
-                this.setState(prev => ({
-                    date: [...prev.date, i]
-                }))
             }
         });
         xhr.open('GET', datestring);
@@ -127,6 +137,22 @@ export class Table3 extends React.Component {
                     fontColor: "white",
                     fontSize: 25,
                 },
+                xAxes: [{
+                  type: 'time',
+                  time: {
+                    displayFormats: {
+                       'millisecond': 'MMM DD',
+                      'second': 'MMM DD',
+                      'minute': 'MMM DD',
+                      'hour': 'MMM DD',
+                      'day': 'MMM DD',
+                      'week': 'MMM DD',
+                      'month': 'MMM DD',
+                      'quarter': 'MMM DD',
+                      'year': 'MMM DD',
+                    }
+                  }
+                }],
                 legend: {
                     labels: {
                        fontColor: 'white'
