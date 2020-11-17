@@ -17,7 +17,7 @@ export class Country3 extends React.Component {
             TotalRecovered: [],
             date: [],
             name: "",
-            loaded: 0
+            loaded: false,
         }
     }
 
@@ -29,20 +29,16 @@ export class Country3 extends React.Component {
         var datestring2 = "https://api.covid19api.com/total/country/" + countryref + "/status/recovered";
         var datestring3 = "https://api.covid19api.com/total/country/" + countryref + "/status/deaths";
 
-        const xhr1 = new XMLHttpRequest();
-        const xhr2 = new XMLHttpRequest();
-        const xhr3 = new XMLHttpRequest();
-
-        xhr1.addEventListener('load', () => {
-            const xhrjson1 = JSON.parse(xhr1.responseText);
-
-            var length1 = Object.keys(xhrjson1).length;
+        fetch(datestring1)
+        .then(response => response.json())
+        .then(data => {
+          var length1 = Object.keys(data).length;
 
             const x_date = new Date();
             const x_date2 = new Date();
             x_date2.setDate(x_date.getDate() - length1);
 
-            this.setState({name: xhrjson1[0].Country + " Total Cases"})
+            this.setState({name: data[0].Country + " Total Cases"})
 
             for (let i = 0; i < length1; i++){
 
@@ -56,50 +52,42 @@ export class Country3 extends React.Component {
               x_date2.setDate(x_date2.getDate() + 1);
               
               this.setState(prev => ({
-                TotalConfirmed: [...prev.TotalConfirmed, xhrjson1[i].Cases]
+                TotalConfirmed: [...prev.TotalConfirmed, data[i].Cases]
               }))
             }
-            this.setState({loaded: this.state.loaded + 1})
-        })
-      xhr2.addEventListener('load', () => {
-          const xhrjson2 = JSON.parse(xhr2.responseText);
+        });
 
-          var length2 = Object.keys(xhrjson2).length;
+        fetch(datestring2)
+        .then(response => response.json())
+        .then(data => {
+          var length2 = Object.keys(data).length;
 
           for (let i = 0; i < length2; i++){
             this.setState(prev => ({
-              TotalRecovered: [...prev.TotalRecovered, xhrjson2[i].Cases]
+              TotalRecovered: [...prev.TotalRecovered, data[i].Cases]
             }))
           }   
-          this.setState({loaded: this.state.loaded + 1})
-      })
-      xhr3.addEventListener('load', () => {
-          const xhrjson3 = JSON.parse(xhr3.responseText);
+        });
 
-          var length3 = Object.keys(xhrjson3).length;
+        fetch(datestring3)
+        .then(response => response.json())
+        .then(data => {
+          var length3 = Object.keys(data).length;
 
           for (let i = 0; i < length3; i++){
             this.setState(prev => ({
-              TotalDeaths: [...prev.TotalDeaths, xhrjson3[i].Cases]
+              TotalDeaths: [...prev.TotalDeaths, data[i].Cases]
             }))
-          }   
-          this.setState({loaded: this.state.loaded + 1})
-      })
-
-      xhr1.open('GET', datestring1);
-      xhr1.send();
-      xhr2.open('GET', datestring2);
-      xhr2.send();
-      xhr3.open('GET', datestring3);
-      xhr3.send();
-      
+          }
+          this.setState({loaded: true})
+        });
     }
 
     render(){
         return(
             <div className="Line">
-            {!(this.state.loaded==3) ? <Spinner className="Spinner" color="primary"/> : null}        
-             {this.state.loaded==3 ? <Line data={{
+            {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+            <Line data={{
       labels: this.state.date,
       datasets: [
         {
@@ -167,6 +155,7 @@ export class Country3 extends React.Component {
         },
       ]
     }} options={{ responsive: true,
+                  animation: false,
                   title: {
                     display: true,
                     text: this.state.name,
@@ -179,7 +168,7 @@ export class Country3 extends React.Component {
                     }
                   }, 
                 }
-                 } /> : null}
+                 } />
             </div>
         );
     }

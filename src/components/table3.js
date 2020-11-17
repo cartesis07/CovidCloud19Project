@@ -21,6 +21,7 @@ export class Table3 extends React.Component {
         }
     }
     componentDidMount(){
+
         function minTwoDigits(n) {
             return (n < 10 ? '0' : '') + n;
           }

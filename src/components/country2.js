@@ -46,63 +46,58 @@ export class Country2 extends React.Component {
           datestring3 = datestring3 + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
           datestring3 = datestring3 + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
           
-          const xhr1 = new XMLHttpRequest();
-          const xhr2 = new XMLHttpRequest();
-          const xhr3 = new XMLHttpRequest();
-
-          xhr1.addEventListener('load', () => {
-              const xhrjson1 = JSON.parse(xhr1.responseText);
+          fetch(datestring1)
+          .then(response => response.json())
+          .then(data => {
               
-              this.setState({name: xhrjson1[0].Country + " Daily Cases"})
+            this.setState({name: data[0].Country + " Daily Cases"})
 
-              const x_date = new Date();
-              const x_date2 = new Date();
-              const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-              x_date2.setDate(x_date.getDate() - 7);
-              for (let i = 0; i < 9; i++){
-                var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
-                this.setState(prev => ({
-                  date: [...prev.date, newstringdate]
-                }))
-                x_date2.setDate(x_date2.getDate() + 1);
+            const x_date = new Date();
+            const x_date2 = new Date();
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            x_date2.setDate(x_date.getDate() - 7);
+            for (let i = 0; i < 9; i++){
+              var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
+              this.setState(prev => ({
+                date: [...prev.date, newstringdate]
+              }))
+              x_date2.setDate(x_date2.getDate() + 1);
 
-                if (i !== 0){
-                  this.setState(prev => ({
-                    NewCases: [...prev.NewCases, xhrjson1[i].Cases - xhrjson1[i-1].Cases]
-                  }))
-                }
-              }
-              this.setState({loaded: this.state.loaded + 1})      
-          })
-        xhr2.addEventListener('load', () => {
-            const xhrjson2 = JSON.parse(xhr2.responseText);
-            for (let i = 0; i < 9; i++){
-              if(i !== 0){
-                this.setState(prev => ({
-                  NewRecovered: [...prev.NewRecovered, xhrjson2[i].Cases - xhrjson2[i-1].Cases]
-                }))
-              }
-            }
-            this.setState({loaded: this.state.loaded + 1})      
-        })
-        xhr3.addEventListener('load', () => {
-            const xhrjson3 = JSON.parse(xhr3.responseText);
-            for (let i = 0; i < 9; i++){
               if (i !== 0){
                 this.setState(prev => ({
-                  NewDeaths: [...prev.NewDeaths, xhrjson3[i].Cases - xhrjson3[i-1].Cases]
+                  NewCases: [...prev.NewCases, data[i].Cases - data[i-1].Cases]
                 }))
               }
             }
-            this.setState({loaded: this.state.loaded + 1})   
-        })
-        xhr1.open('GET', datestring1);
-        xhr1.send();
-        xhr2.open('GET', datestring2);
-        xhr2.send();
-        xhr3.open('GET', datestring3);
-        xhr3.send();
+            this.setState({loaded: this.state.loaded + 1}) });
+  
+
+        fetch(datestring2)
+        .then(response => response.json())
+        .then(data => {
+          for (let i = 0; i < 9; i++){
+            if(i !== 0){
+              this.setState(prev => ({
+                NewRecovered: [...prev.NewRecovered, data[i].Cases - data[i-1].Cases]
+              }))
+            }
+          }
+          this.setState({loaded: this.state.loaded + 1})  
+        });
+
+        fetch(datestring3)
+        .then(response => response.json())
+        .then(data => {
+          for (let i = 0; i < 9; i++){
+            if (i !== 0){
+              this.setState(prev => ({
+                NewDeaths: [...prev.NewDeaths, data[i].Cases - data[i-1].Cases]
+              }))
+            }
+          }
+          this.setState({loaded: this.state.loaded + 1})   
+        });
     }
 
     render(){

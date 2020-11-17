@@ -18,6 +18,7 @@ export class Table4 extends React.Component {
     }
 
     componentDidMount(){
+
         const xhr = new XMLHttpRequest();
         xhr.addEventListener('load', () => {
             const xhr2 = JSON.parse(xhr.responseText);

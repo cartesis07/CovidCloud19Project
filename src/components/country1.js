@@ -23,12 +23,11 @@ export class Country1 extends React.Component {
         }
     }
 
-    componentWillMount(){
+    componentDidMount(){
 
         const xhr = new XMLHttpRequest();
 
-        xhr.addEventListener('load', () => {
-
+        xhr.addEventListener('loadend', () => {
             let countryref = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
 
             const xhr2 = JSON.parse(xhr.responseText);

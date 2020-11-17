@@ -29,21 +29,18 @@ export class Table1 extends React.Component {
     }
 
     componentDidMount(){
-        const xhr = new XMLHttpRequest();
-        xhr.addEventListener('load', () => {
-            const xhr2 = JSON.parse(xhr.responseText);
-            this.setState({NewConfirmed: xhr2.Global.NewConfirmed})
-            this.setState({TotalConfirmed: xhr2.Global.TotalConfirmed})
-            this.setState({NewDeaths: xhr2.Global.NewDeaths})
-            this.setState({NewRecovered: xhr2.Global.NewRecovered})
-            this.setState({TotalRecovered: xhr2.Global.TotalRecovered})
-            this.setState({TotalDeaths: xhr2.Global.TotalDeaths})
-            this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
-            this.setState({loaded: true})
-        })
-        xhr.open('GET', 'https://api.covid19api.com/summary');
-        xhr.send();
+        fetch('https://api.covid19api.com/summary')
+        .then(response => response.json())
+        .then(data => {this.setState({NewConfirmed: data.Global.NewConfirmed})
+        this.setState({TotalConfirmed: data.Global.TotalConfirmed})
+        this.setState({NewDeaths: data.Global.NewDeaths})
+        this.setState({NewRecovered: data.Global.NewRecovered})
+        this.setState({TotalRecovered: data.Global.TotalRecovered})
+        this.setState({TotalDeaths: data.Global.TotalDeaths})
+        this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
+        this.setState({loaded: true})});
     }
+    
     render(){
         return(
             <div>
