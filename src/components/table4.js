@@ -9,10 +9,6 @@ import "./table.css"
 
 import ReactCountryFlag from "react-country-flag"
 
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-
-
 export class Table4 extends React.Component {
 
     constructor(){
@@ -20,7 +16,7 @@ export class Table4 extends React.Component {
         this.state={
             countries: [],
             loaded: false,
-            currentSort: "0"
+            sort: false
         }
     }
 
@@ -51,14 +47,30 @@ export class Table4 extends React.Component {
     onSort(event, sortKey){
         if (sortKey === "country"){
             const data = this.state.countries;
-            data.sort(function(a,b){if(a.country.toLowerCase() < b.country.toLowerCase()) return -1;
-            if(a.country.toLowerCase() > b.country.toLowerCase()) return 1;
-            return 0;});
+            if (this.state.sort){
+                data.sort(function(a,b){if(a.country.toLowerCase() < b.country.toLowerCase()) return -1;
+                    if(a.country.toLowerCase() > b.country.toLowerCase()) return 1;
+                    return 0;});
+                this.setState({sort: !this.state.sort})
+            }
+            else{
+                data.sort(function(a,b){if(a.country.toLowerCase() < b.country.toLowerCase()) return 1;
+                    if(a.country.toLowerCase() > b.country.toLowerCase()) return -1;
+                    return 0;});
+                this.setState({sort: !this.state.sort})
+            }
             this.setState({countries: data})
         }
         else{
             const data = this.state.countries;
-            data.sort(function(a, b){return a[sortKey] - b[sortKey]})
+            if(this.state.sort){
+                data.sort(function(a, b){return a[sortKey] - b[sortKey]})
+                this.setState({sort: !this.state.sort})
+            }
+            else{
+                data.sort(function(a, b){return - a[sortKey] + b[sortKey]})
+                this.setState({sort: !this.state.sort})
+            }
             this.setState({countries: data})
         }
       }
@@ -92,13 +104,13 @@ export class Table4 extends React.Component {
                     </tr>
                 </thead>
                 <tbody className="table-secondary">
-                    <th onClick={e => this.onSort(e, 'country')} className = "stickyhead">Country<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
-                    <th onClick={e => this.onSort(e, 'newcases')} className = "stickyhead">New Cases<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
-                    <th onClick={e => this.onSort(e, 'totalcases')} className = "stickyhead">Total Cases<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
-                    <th onClick={e => this.onSort(e, 'newrecoveries')} className = "stickyhead">New Recoveries<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
-                    <th onClick={e => this.onSort(e, 'totalrecoveries')} className = "stickyhead">Total Recoveries<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
-                    <th onClick={e => this.onSort(e, 'newdeaths')} className = "stickyhead">New Deaths<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
-                    <th onClick={e => this.onSort(e, 'totaldeaths')} className = "stickyhead">Total Deaths<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
+                    <th onClick={e => this.onSort(e, 'country')} className = "stickyhead">Country<br/></th>
+                    <th onClick={e => this.onSort(e, 'newcases')} className = "stickyhead">New Cases</th>
+                    <th onClick={e => this.onSort(e, 'totalcases')} className = "stickyhead">Total Cases</th>
+                    <th onClick={e => this.onSort(e, 'newrecoveries')} className = "stickyhead">New Recoveries</th>
+                    <th onClick={e => this.onSort(e, 'totalrecoveries')} className = "stickyhead">Total Recoveries</th>
+                    <th onClick={e => this.onSort(e, 'newdeaths')} className = "stickyhead">New Deaths</th>
+                    <th onClick={e => this.onSort(e, 'totaldeaths')} className = "stickyhead">Total Deaths</th>
                 </tbody>
                 <tbody>
                     {this.renderTableData()}
