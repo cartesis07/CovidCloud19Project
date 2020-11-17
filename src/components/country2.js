@@ -6,6 +6,8 @@ import "./table.css"
 
 import { Bar } from "react-chartjs-2";
 
+import { Spinner } from 'reactstrap';
+
 export class Country2 extends React.Component {
     constructor(){
         super();
@@ -15,6 +17,7 @@ export class Country2 extends React.Component {
             NewCases: [],
             date: [],
             name: "",
+            loaded: false,
             }
     }
 
@@ -46,6 +49,14 @@ export class Country2 extends React.Component {
           const xhr1 = new XMLHttpRequest();
           const xhr2 = new XMLHttpRequest();
           const xhr3 = new XMLHttpRequest();
+
+          xhr1.open('GET', datestring1);
+          xhr1.send();
+          xhr2.open('GET', datestring2);
+          xhr2.send();
+          xhr3.open('GET', datestring3);
+          xhr3.send();
+
           xhr1.addEventListener('load', () => {
               const xhrjson1 = JSON.parse(xhr1.responseText);
               
@@ -89,21 +100,16 @@ export class Country2 extends React.Component {
                   NewDeaths: [...prev.NewDeaths, xhrjson3[i].Cases - xhrjson3[i-1].Cases]
                 }))
               }
-            }   
+            }
+            this.setState({loaded: true})   
         })
-          xhr1.open('GET', datestring1);
-          xhr1.send();
-          xhr2.open('GET', datestring2);
-          xhr2.send();
-          xhr3.open('GET', datestring3);
-          xhr3.send();
-
     }
 
     render(){
         return(
             <div className="Bar">
-                <Bar  data={{
+                {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+                {this.state.loaded ? <Bar  data={{
       labels: this.state.date,
       datasets: [
         {
@@ -219,7 +225,7 @@ export class Country2 extends React.Component {
                             }
                           ]
                         }, 
-                      }} />
+                      }} /> : null}
             </div>   
         );
     }

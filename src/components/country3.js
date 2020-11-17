@@ -6,6 +6,8 @@ import "./table.css";
 
 import { Line } from "react-chartjs-2";
 
+import { Spinner } from 'reactstrap';
+
 export class Country3 extends React.Component {
     constructor(){
         super();
@@ -15,6 +17,7 @@ export class Country3 extends React.Component {
             TotalRecovered: [],
             date: [],
             name: "",
+            loaded: false
         }
     }
 
@@ -29,6 +32,13 @@ export class Country3 extends React.Component {
         const xhr1 = new XMLHttpRequest();
         const xhr2 = new XMLHttpRequest();
         const xhr3 = new XMLHttpRequest();
+
+        xhr1.open('GET', datestring1);
+        xhr1.send();
+        xhr2.open('GET', datestring2);
+        xhr2.send();
+        xhr3.open('GET', datestring3);
+        xhr3.send();
 
         xhr1.addEventListener('load', () => {
             const xhrjson1 = JSON.parse(xhr1.responseText);
@@ -83,20 +93,15 @@ export class Country3 extends React.Component {
             }))
           }   
           console.log("done3")
-
+          this.setState({loaded: true})
       })
-        xhr1.open('GET', datestring1);
-        xhr1.send();
-        xhr2.open('GET', datestring2);
-        xhr2.send();
-        xhr3.open('GET', datestring3);
-        xhr3.send();
     }
 
     render(){
         return(
             <div className="Line">
-                        <Line data={{
+            {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+             {this.state.loaded ? <Line data={{
       labels: this.state.date,
       datasets: [
         {
@@ -176,7 +181,7 @@ export class Country3 extends React.Component {
                     }
                   }, 
                 }
-                 } />
+                 } /> : null}
             </div>
         );
     }

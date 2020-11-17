@@ -1,11 +1,9 @@
 import React from 'react';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Table } from 'reactstrap';
+import { Table, Spinner } from 'reactstrap';
 
 import "./table.css"
-
-import { Spinner } from 'reactstrap';
 
 import { Pie } from "react-chartjs-2";
 

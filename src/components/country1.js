@@ -1,7 +1,7 @@
 import React from 'react';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Table, Alert } from 'reactstrap';
+import { Table, Spinner } from 'reactstrap';
 import { Pie } from "react-chartjs-2";
 
 import "./table.css"
@@ -19,12 +19,17 @@ export class Country1 extends React.Component {
                       ActiveCases: "",
                       countryref: "",
                       name:"",
+                      loaded: false,
         }
     }
 
-    componentDidMount(){
+    componentWillMount(){
 
         const xhr = new XMLHttpRequest();
+
+        xhr.open('GET', 'https://api.covid19api.com/summary');
+        xhr.send();
+
         xhr.addEventListener('load', () => {
 
             let countryref = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
@@ -46,9 +51,8 @@ export class Country1 extends React.Component {
             this.setState({TotalRecovered: country[0].TotalRecovered})
             this.setState({TotalDeaths: country[0].TotalDeaths})
             this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
+            this.setState({loaded: true})
         })
-        xhr.open('GET', 'https://api.covid19api.com/summary');
-        xhr.send();
     }
 
 
@@ -57,7 +61,8 @@ export class Country1 extends React.Component {
         return(
             <div>
                 <div className="block1">
-                <Table borderless hover>
+                {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+                {this.state.loaded ? <Table borderless hover>
                 <thead>
                     <tr class="table-warning">
                         <th colspan="2" className="text-center">{this.state.name} cases</th>
@@ -115,10 +120,11 @@ export class Country1 extends React.Component {
                         <td>{Math.round(this.state.TotalDeaths/this.state.TotalConfirmed * 10000) / 100} %</td>
                     </tr>
           </tbody>
-            </Table> 
+            </Table> : null} 
             </div>
             <div className="Pie">
-            <Pie data={{
+            {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+            {this.state.loaded ? <Pie data={{
             labels: ["Active Cases", "Recovered Cases", "Dead Cases"],
             datasets: [
               {
@@ -148,7 +154,7 @@ export class Country1 extends React.Component {
             labels: {
                fontColor: 'white'
             }
-         }}} />
+         }}} /> : null }
           </div>
             </div>
         );
