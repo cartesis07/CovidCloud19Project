@@ -26,8 +26,6 @@ export class Table3 extends React.Component {
             return (n < 10 ? '0' : '') + n;
           }
 
-          
-
         var datestring = "https://api.covid19api.com/world?from=2020-04-13T00:00:00Z&to=";
         const date = new Date();
         date.setDate(date.getDate() - 1);
@@ -144,6 +142,7 @@ export class Table3 extends React.Component {
                     fontColor: "white",
                     fontSize: 25,
                 },
+                animation: false,
                 xAxes: [{
                   type: 'time',
                   time: {

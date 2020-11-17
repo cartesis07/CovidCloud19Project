@@ -65,13 +65,13 @@ export class Table4 extends React.Component {
             const { country, newcases, totalcases, newrecoveries, totalrecoveries, newdeaths, totaldeaths, countrycode } = Country //destructuring
             return (
                <tr key={country}>
-                  <td class="table-secondary"><ReactCountryFlag countryCode={countrycode} />&nbsp;&nbsp;&nbsp;<a outline class="btn btn-outline-dark" href={"countries/" + countrycode}>{country}</a></td>
-                  <td class="table-warning">{newcases}</td>
-                  <td class="table-warning">{totalcases}</td>
-                  <td class="table-primary">{newrecoveries}</td>
-                  <td class="table-primary">{totalrecoveries}</td>
-                  <td class="table-danger">{newdeaths}</td>
-                  <td class="table-danger">{totaldeaths}</td>
+                  <td class="table-secondary"><ReactCountryFlag countryCode={countrycode} />&nbsp;&nbsp;&nbsp;<a outline class="btn btn-outline-dark" href={"countries/" + countrycode}>{country.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</a></td>
+                  <td class="table-warning">{newcases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                  <td class="table-warning">{totalcases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                  <td class="table-primary">{newrecoveries.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                  <td class="table-primary">{totalrecoveries.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                  <td class="table-danger">{newdeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                  <td class="table-danger">{totaldeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                </tr>
             )
          })
