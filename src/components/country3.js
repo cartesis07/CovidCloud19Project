@@ -97,7 +97,7 @@ export class Country3 extends React.Component {
     render(){
         return(
             <div className="Line">
-            {!this.state.loaded==3 ? <Spinner className="Spinner" color="primary"/> : null}        
+            {!(this.state.loaded==3) ? <Spinner className="Spinner" color="primary"/> : null}        
              {this.state.loaded==3 ? <Line data={{
       labels: this.state.date,
       datasets: [
