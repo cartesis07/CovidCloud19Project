@@ -4,10 +4,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Table } from 'reactstrap';
 
 import { Spinner } from 'reactstrap';
-
+ 
 import "./table.css"
 
 import ReactCountryFlag from "react-country-flag"
+
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+
 
 export class Table4 extends React.Component {
 
@@ -88,13 +92,13 @@ export class Table4 extends React.Component {
                     </tr>
                 </thead>
                 <tbody className="table-secondary">
-                    <th onClick={e => this.onSort(e, 'country')} className = "stickyhead">Country</th>
-                    <th onClick={e => this.onSort(e, 'newcases')} className = "stickyhead">New Cases</th>
-                    <th onClick={e => this.onSort(e, 'totalcases')} className = "stickyhead">Total Cases</th>
-                    <th onClick={e => this.onSort(e, 'newrecoveries')} className = "stickyhead">New Recoveries</th>
-                    <th onClick={e => this.onSort(e, 'totalrecoveries')} className = "stickyhead">Total Recoveries</th>
-                    <th onClick={e => this.onSort(e, 'newdeaths')} className = "stickyhead">New Deaths</th>
-                    <th onClick={e => this.onSort(e, 'totaldeaths')} className = "stickyhead">Total Deaths</th>
+                    <th onClick={e => this.onSort(e, 'country')} className = "stickyhead">Country<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
+                    <th onClick={e => this.onSort(e, 'newcases')} className = "stickyhead">New Cases<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
+                    <th onClick={e => this.onSort(e, 'totalcases')} className = "stickyhead">Total Cases<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
+                    <th onClick={e => this.onSort(e, 'newrecoveries')} className = "stickyhead">New Recoveries<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
+                    <th onClick={e => this.onSort(e, 'totalrecoveries')} className = "stickyhead">Total Recoveries<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
+                    <th onClick={e => this.onSort(e, 'newdeaths')} className = "stickyhead">New Deaths<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
+                    <th onClick={e => this.onSort(e, 'totaldeaths')} className = "stickyhead">Total Deaths<br/><ArrowDropDownIcon/><ArrowDropUpIcon/></th>
                 </tbody>
                 <tbody>
                     {this.renderTableData()}
