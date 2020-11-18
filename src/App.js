@@ -12,18 +12,29 @@ import { BrowserRouter, Route } from 'react-router-dom'
 
 import { ScrollTopButton } from "./components/scrolltopbutton"
 
+import { UserProvider } from './userContext'
+
 class App extends React.Component {
 
   constructor(){
     super();
+    this.state = {
+      user: "test"
+    };
   }
 
   componentDidMount(){
+  }
 
+  updateUser = (newuser) => {
+    this.setState({user: newuser})
   }
 
   render(){
+    const user = this.state.user
+    const updateUser = this.updateUser
     return (
+      <UserProvider value={{user,updateUser}}>
       <div className="App">
         <MyNavBar/>
         <header className="App-header">
@@ -40,6 +51,7 @@ class App extends React.Component {
         <AlertInfo/>
         </footer>
       </div>
+      </UserProvider>
     );
   }
 

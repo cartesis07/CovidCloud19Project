@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import { signInWithGoogle } from "../services/firebase";
 import { auth } from '../services/firebase';
@@ -8,23 +8,34 @@ import { Button } from 'reactstrap';
 
 import './login.css';
 
+import UserContext from '../userContext'
+import { Update } from '@material-ui/icons';
+
 export class LogIn extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             currentUser: null,
             visibility: false
         };
     }
 
+    static contextType = UserContext
+
     unsubscribeFromAuth = null;
 
+    updateuser(newuser){
+        const {user, updateUser} = this.context
+        updateUser(newuser)
+    }
+
     componentDidMount() {
-        this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-            this.setState({ currentUser: user });
+        this.unsubscribeFromAuth = auth.onAuthStateChanged(googleuser => {
+            this.setState({ currentUser: googleuser });
             this.setState({
                 visibility: true
-                }); 
+            });
+            this.updateuser(googleuser)
         });
     }
     

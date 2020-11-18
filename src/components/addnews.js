@@ -3,6 +3,8 @@ import { Button, Form, FormGroup, Label, Input, FormText, Alert } from 'reactstr
 
 import "./table.css"
 
+import UserContext from '../userContext'
+
 export class AddNews extends React.Component {
     constructor(){
         super();
@@ -10,6 +12,9 @@ export class AddNews extends React.Component {
             submit: false,
         }
     }
+
+    static contextType = UserContext
+
     componentDidMount(){
 
     }
@@ -19,6 +24,8 @@ export class AddNews extends React.Component {
     }
 
     render(){
+        const { user, updateUser } = this.context
+        console.log(user)
         return(
             <div className="news">
         {this.state.submit ? <Alert color="success">
