@@ -1,7 +1,7 @@
 import React from 'react';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Table, Spinner } from 'reactstrap';
+import { Table, Spinner, Alert } from 'reactstrap';
 
 import "./table.css"
 
@@ -25,29 +25,47 @@ export class Table1 extends React.Component {
                     TotalRecovered: "",
                     ActiveCases: "",
                     loaded: false,
+                    error: false,
                     }
     }
 
+    async fetchCall(){
+        var response = await fetch("https://api.covid19api.com/summary")
+        if (response.ok){
+            const data = await response.json()
+            this.setState({NewConfirmed: data.Global.NewConfirmed})
+            this.setState({TotalConfirmed: data.Global.TotalConfirmed})
+            this.setState({NewDeaths: data.Global.NewDeaths})
+            this.setState({NewRecovered: data.Global.NewRecovered})
+            this.setState({TotalRecovered: data.Global.TotalRecovered})
+            this.setState({TotalDeaths: data.Global.TotalDeaths})
+            this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
+            this.setState({loaded: true})
+        }
+        else{
+            this.setState({error: true})
+        }
+    }
+
     componentDidMount(){
-        fetch('https://api.covid19api.com/summary')
-        .then(response => response.json())
-        .then(data => {this.setState({NewConfirmed: data.Global.NewConfirmed})
-        this.setState({TotalConfirmed: data.Global.TotalConfirmed})
-        this.setState({NewDeaths: data.Global.NewDeaths})
-        this.setState({NewRecovered: data.Global.NewRecovered})
-        this.setState({TotalRecovered: data.Global.TotalRecovered})
-        this.setState({TotalDeaths: data.Global.TotalDeaths})
-        this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
-        this.setState({loaded: true})}).catch(function() {
-            console.log("error");
-        });
+        this.fetchCall()
     }
     
     render(){
         return(
             <div>
+        {this.state.error ? <Alert className="block1" color="danger">
+        <h4 className="alert-heading">Oops, API call error</h4>
+        <p>
+          This website is running with the free version of <a href="https://covid19api.com" target="_blank">COVID19API</a>, so it is unfortunately rate-limited.
+        </p>
+        <hr />
+        <p className="mb-0">
+          Please, try to refresh this page to display data !
+        </p>
+        </Alert> : null}
                 <div className="block1">
-                {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+                {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
                 {this.state.loaded ? <Table borderless hover>
                 <thead>
                     <tr class="table-warning">
@@ -109,6 +127,7 @@ export class Table1 extends React.Component {
             </Table> : null} 
             </div>
             <div className="Pie">
+            {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
             {this.state.loaded ? <Pie data={{
             labels: ["Active Cases", "Recovered Cases", "Dead Cases"],
             datasets: [

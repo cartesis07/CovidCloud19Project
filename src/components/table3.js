@@ -6,7 +6,7 @@ import "./table.css";
 
 import { Line } from "react-chartjs-2";
 
-import { Spinner } from 'reactstrap';
+import { Spinner, Alert } from 'reactstrap';
 
 export class Table3 extends React.Component {
 
@@ -18,22 +18,15 @@ export class Table3 extends React.Component {
             TotalRecovered: [],
             date: [],
             loaded: false,
+            error: false,
         }
     }
-    componentDidMount(){
 
-        function minTwoDigits(n) {
-            return (n < 10 ? '0' : '') + n;
-          }
-
-        var datestring = "https://api.covid19api.com/world?from=2020-04-13T00:00:00Z&to=";
-        const date = new Date();
-        date.setDate(date.getDate() - 1);
-        datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
-        fetch(datestring)
-        .then(response => response.json())
-        .then(data => {
-          var length = Object.keys(data).length;
+    async fetchCall(datestring){
+      var response = await fetch(datestring)
+      if(response.ok){
+        const data = await response.json()
+        var length = Object.keys(data).length;
           const x_date = new Date();
           const x_date2 = new Date();
           x_date2.setDate(x_date.getDate() - length);
@@ -59,15 +52,40 @@ export class Table3 extends React.Component {
                 }))
           }
           this.setState({loaded: true})
-        }).catch(function() {
-          console.log("error");
-      });
+      }
+      else{
+        this.setState({error: true})
+      }
+    }
+
+
+    componentDidMount(){
+
+        function minTwoDigits(n) {
+            return (n < 10 ? '0' : '') + n;
+          }
+
+        var datestring = "https://api.covid19api.com/world?from=2020-04-13T00:00:00Z&to=";
+        const date = new Date();
+        date.setDate(date.getDate() - 1);
+        datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
+        this.fetchCall(datestring)
     }
 
     render(){
         return(
             <div className="Line">
-            {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+                      {this.state.error ? <Alert className="block1" color="danger">
+        <h4 className="alert-heading">Oops, API call error</h4>
+        <p>
+          This website is running with the free version of <a href="https://covid19api.com" target="_blank">COVID19API</a>, so it is unfortunately rate-limited.
+        </p>
+        <hr />
+        <p className="mb-0">
+          Please, try to refresh this page to display data !
+        </p>
+        </Alert> : null}
+            {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
             {this.state.loaded ?           <Line data={{
       labels: this.state.date,
       datasets: [

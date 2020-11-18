@@ -1,7 +1,7 @@
 import React from 'react';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Table, Spinner } from 'reactstrap';
+import { Table, Spinner, Alert } from 'reactstrap';
 import { Pie } from "react-chartjs-2";
 
 import "./table.css"
@@ -20,6 +20,7 @@ export class Country1 extends React.Component {
                       countryref: "",
                       name:"",
                       loaded: false,
+                      error: false,
         }
     }
 
@@ -46,6 +47,7 @@ export class Country1 extends React.Component {
             this.setState({loaded: true})
         }
         else{
+            this.setState({error: true})
             console.log("error")
         }
     }
@@ -57,8 +59,18 @@ export class Country1 extends React.Component {
     render() {
         return(
             <div>
+            {this.state.error ? <Alert className="block1" color="danger">
+        <h4 className="alert-heading">Oops, API call error</h4>
+        <p>
+          This website is running with the free version of <a href="https://covid19api.com" target="_blank">COVID19API</a>, so it is unfortunately rate-limited.
+        </p>
+        <hr />
+        <p className="mb-0">
+          Please, try to refresh this page to display data !
+        </p>
+        </Alert> : null}
                 <div className="block1">
-                {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+                {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
                 {this.state.loaded ? <Table borderless hover>
                 <thead>
                     <tr class="table-warning">
@@ -120,7 +132,7 @@ export class Country1 extends React.Component {
             </Table> : null} 
             </div>
             <div className="Pie">
-            {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+            {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
             {this.state.loaded ? <Pie data={{
             labels: ["Active Cases", "Recovered Cases", "Dead Cases"],
             datasets: [

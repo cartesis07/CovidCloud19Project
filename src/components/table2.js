@@ -6,7 +6,7 @@ import { Bar } from "react-chartjs-2";
 
 import "./table.css"
 
-import { Spinner } from 'reactstrap';
+import { Spinner, Alert } from 'reactstrap';
 
 export class Table2 extends React.Component {
 
@@ -18,27 +18,16 @@ export class Table2 extends React.Component {
         NewDeaths: [],
         NewCases: [],
         date: [],
-        loaded: false
+        loaded: false,
+        error: false
         }
     }
 
-    componentDidMount(){
-
-      function minTwoDigits(n) {
-        return (n < 10 ? '0' : '') + n;
-      }
-
-      var datestring = "https://api.covid19api.com/world?from=";
-      const date = new Date();
-      const date2 = new Date();
-      date.setDate(date.getDate());
-      date2.setDate(date.getDate() - 7);
-      datestring = datestring + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
-      datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
-      fetch(datestring)
-      .then(response => response.json())
-      .then(data => {
-        const x_date = new Date();
+    async fetchCall(datestring){
+      var response = await fetch(datestring)
+      if (response.ok){
+          const data = await response.json()
+          const x_date = new Date();
           const x_date2 = new Date();
           const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -80,17 +69,33 @@ export class Table2 extends React.Component {
             date: [...prev.date, newstringdate]
           }))
           x_date2.setDate(x_date2.getDate() + 1);
-          }
-      ).catch(function() {
-        console.log("error");
-    });
+      }   
+      else{
+        this.setState({error : true})
+      }
+    }
+
+    componentDidMount(){
+
+      function minTwoDigits(n) {
+        return (n < 10 ? '0' : '') + n;
+      }
+
+      var datestring = "https://api.covid19api.com/world?from=";
+      const date = new Date();
+      const date2 = new Date();
+      date.setDate(date.getDate());
+      date2.setDate(date.getDate() - 7);
+      datestring = datestring + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
+      datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
+
+      this.fetchCall(datestring);
     }
 
     render(){
-      
         return(
             <div className="Bar">
-                {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+                {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
                 {this.state.loaded ? <Bar  data={{
       labels: this.state.date,
       datasets: [

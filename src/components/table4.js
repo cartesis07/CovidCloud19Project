@@ -3,7 +3,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Table } from 'reactstrap';
 
-import { Spinner } from 'reactstrap';
+import { Spinner, Alert } from 'reactstrap';
  
 import "./table.css"
 
@@ -21,13 +21,14 @@ export class Table4 extends React.Component {
             countries: [],
             loaded: false,
             selected: 2,
+            error: false,
         }
     }
 
-    componentDidMount(){
-        fetch('https://api.covid19api.com/summary')
-        .then(response => response.json())
-        .then(data => {
+    async fetchCall(){
+        var response = await fetch("https://api.covid19api.com/summary")
+        if(response.ok){
+            const data = await response.json()
             var length = Object.keys(data.Countries).length;
             for (let i = 0; i < length; i++){
                 var tmpjson = {country: data.Countries[i].Country,
@@ -43,9 +44,14 @@ export class Table4 extends React.Component {
                 }))
             }
             this.setState({loaded: true})
-        }).catch(function() {
-            console.log("error");
-        });
+        }
+        else{
+            this.setState({error: true})
+        }
+    }
+
+    componentDidMount(){
+        this.fetchCall()
     }
 
     onSort(event, sortKey){
@@ -109,7 +115,7 @@ export class Table4 extends React.Component {
     render(){
         return(
             <div className = "CountriesTable">
-            {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+            {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
             {this.state.loaded ? <Table borderless hover> 
                 <thead>
                     <tr className="table-secondary">

@@ -6,7 +6,7 @@ import "./table.css";
 
 import { Line } from "react-chartjs-2";
 
-import { Spinner, Progress } from 'reactstrap';
+import { Spinner } from 'reactstrap';
 
 export class Country3 extends React.Component {
     constructor(){
@@ -18,6 +18,7 @@ export class Country3 extends React.Component {
             date: [],
             name: "",
             loaded: 0,
+            error: false,
         }
     }
 
@@ -54,6 +55,7 @@ export class Country3 extends React.Component {
       }
       else{
         console.log("error")
+        this.setState({error: true})
       }
     }
 
@@ -75,6 +77,7 @@ export class Country3 extends React.Component {
       }
       else{
         console.log("error")
+        this.setState({error: true})
       }
     }
       async fetchCall3(datestring) {
@@ -92,6 +95,7 @@ export class Country3 extends React.Component {
       }
       else{
         console.log("error")
+        this.setState({error: true})
       }
     }
 
@@ -110,7 +114,7 @@ export class Country3 extends React.Component {
     render(){
         return(
             <div className="Line">
-            {!(this.state.loaded==3) ? <Spinner className="Spinner" color="primary"/> : null}
+            {!(this.state.loaded==3) && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}
             {(this.state.loaded==3) ? <Line data={{
       labels: this.state.date,
       datasets: [

@@ -6,7 +6,7 @@ import "./table.css"
 
 import { Bar } from "react-chartjs-2";
 
-import { Spinner } from 'reactstrap';
+import { Spinner, Alert} from 'reactstrap';
 
 export class Country2 extends React.Component {
     constructor(){
@@ -18,6 +18,7 @@ export class Country2 extends React.Component {
             date: [],
             name: "",
             loaded: 0,
+            error: false
             }
     }
 
@@ -48,6 +49,7 @@ export class Country2 extends React.Component {
             this.setState({loaded: this.state.loaded + 1})
         }
         else {
+          this.setState({error: true})
           console.log("error")
         }
     }
@@ -66,6 +68,7 @@ export class Country2 extends React.Component {
         this.setState({loaded: this.state.loaded + 1})  
       }
       else {
+        this.setState({error: true})
         console.log("error")
       }
   }
@@ -84,6 +87,7 @@ export class Country2 extends React.Component {
         this.setState({loaded: this.state.loaded + 1})  
       }
       else {
+        this.setState({error: true})
         console.log("error")
       }
   }
@@ -121,7 +125,7 @@ export class Country2 extends React.Component {
     render(){ 
         return(
             <div className="Bar">
-                {!(this.state.loaded==3) ? <Spinner className="Spinner" color="primary"/> : null}        
+                {!(this.state.loaded==3) && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
                 {this.state.loaded==3 ? <Bar  data={{
       labels: this.state.date,
       datasets: [
