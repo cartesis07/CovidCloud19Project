@@ -11,7 +11,8 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText
+  NavbarText,
+  Button
 } from 'reactstrap';
 import { LogIn } from "./login";
 import "./mynavbar.css"
@@ -61,6 +62,9 @@ const MyNavBar = (props) => {
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
+            <NavItem>
+              <NavLink href={process.env.PUBLIC_URL + "/add-news"}>Add News</NavLink>
+            </NavItem>
           </Nav>
           <LogIn/>
         </Collapse>

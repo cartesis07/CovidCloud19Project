@@ -36,9 +36,9 @@ export class LogIn extends React.Component{
         return(
             <div className="row">
                 <div className="block">
-                {this.state.currentUser ? <Button outline size="lg" color="secondary" disabled="true">{this.state.currentUser.displayName}</Button> : null}
+                {this.state.currentUser ? <Button outline color="secondary" disabled="true">{this.state.currentUser.displayName}</Button> : null}
                 </div>
-                {this.state.currentUser ? <Button outline size="lg" color="danger" onClick={() => auth.signOut()}>Log Out</Button> : null}
+                {this.state.currentUser ? <Button outline color="danger" onClick={() => auth.signOut()}>Log Out</Button> : null}
                 {!this.state.currentUser && this.state.visibility ? <Button outline size="sm" color="primary" onClick={signInWithGoogle}>
                     <img src="https://img.icons8.com/plasticine/2x/google-logo.png" alt="google icon" width="40" height="40"/>
                         &nbsp; Sign In with Google
