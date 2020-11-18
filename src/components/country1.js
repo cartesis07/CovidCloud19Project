@@ -66,7 +66,7 @@ export class Country1 extends React.Component {
         </p>
         <hr />
         <p className="mb-0">
-          Please, try to refresh this page to display data !
+          Please, try to refresh this page to display this data !
         </p>
         </Alert> : null}
                 <div className="block1">

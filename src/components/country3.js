@@ -6,7 +6,7 @@ import "./table.css";
 
 import { Line } from "react-chartjs-2";
 
-import { Spinner } from 'reactstrap';
+import { Spinner, Alert } from 'reactstrap';
 
 export class Country3 extends React.Component {
     constructor(){
@@ -114,6 +114,16 @@ export class Country3 extends React.Component {
     render(){
         return(
             <div className="Line">
+                          {this.state.error ? <Alert className="block1" color="danger">
+        <h4 className="alert-heading">Oops, API call error</h4>
+        <p>
+          This website is running with the free version of <a href="https://covid19api.com" target="_blank">COVID19API</a>, so it is unfortunately rate-limited.
+        </p>
+        <hr />
+        <p className="mb-0">
+          Please, try to refresh this page to display this data !
+        </p>
+        </Alert> : null}
             {!(this.state.loaded==3) && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}
             {(this.state.loaded==3) ? <Line data={{
       labels: this.state.date,
