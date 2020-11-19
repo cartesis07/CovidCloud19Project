@@ -5,7 +5,8 @@ import { Table, Spinner, Alert } from 'reactstrap';
 import { Pie } from "react-chartjs-2";
 
 import "./table.css"
-import { TimeToLeaveOutlined } from '@material-ui/icons';
+
+import ReactCountryFlag from "react-country-flag"
 
 export class Country1 extends React.Component {
 
@@ -29,14 +30,13 @@ export class Country1 extends React.Component {
         var response = await fetch("https://api.covid19api.com/summary")
         if (response.ok){
             const data = await response.json()
-            let countryref = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
 
             var getObjectByValue = function (array, key, value) {
                 return array.filter(function (object) {
                     return object[key] === value;
                 });
             };
-            let country  = getObjectByValue(data.Countries, "CountryCode", countryref )
+            let country  = getObjectByValue(data.Countries, "CountryCode", this.state.countryref )
             this.setState({name: country[0].Country})
             this.setState({NewConfirmed: country[0].NewConfirmed})
             this.setState({TotalConfirmed: country[0].TotalConfirmed})
@@ -48,19 +48,34 @@ export class Country1 extends React.Component {
             this.setState({loaded: true})
         }
         else{
-            //this.setState({error: true})
-            console.log("error")
-            this.componentDidMount();
+            this.setState({error: true})
         }
     }
 
     componentDidMount(){
+        this.setState({countryref: window.location.href.substring(window.location.href.lastIndexOf('/') + 1)})
         this.fetchCall();
     }
 
     render() {
         return(
             <div>
+        <section class="jumbotron text-center" className="jumbotron">
+        <div class="container">
+          <ReactCountryFlag
+                className="emojiFlag"
+                countryCode={this.state.countryref}
+                style={{
+                    fontSize: '5em',
+                    lineHeight: '1em',
+                }}
+          />
+          <h1 class="jumbotron-heading">Last Covid19 News and Statistics from {this.state.name}</h1>
+          <p class="lead">These are the last news and statistics from {this.state.name} stored in our firebase real-time database !<br/> You can also contribute by signing in with Google and becoming an eligible user.</p>
+        </div>
+      </section>
+
+
             {this.state.error ? <Alert className="block1" color="danger">
         <h4 className="alert-heading">Oops, API call error</h4>
         <p>
@@ -68,7 +83,7 @@ export class Country1 extends React.Component {
         </p>
         <hr />
         <p className="mb-0">
-          Please, try to refresh this page to display this data !
+          Please, try to <a href="javascript:window.location.href=window.location.href">refresh</a> this page to display this data !
         </p>
         </Alert> : null}
                 <div className="block1">

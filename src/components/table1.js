@@ -61,7 +61,7 @@ export class Table1 extends React.Component {
         </p>
         <hr />
         <p className="mb-0">
-          Please, try to refresh this page to display data !
+          Please, try to <a href="javascript:window.location.href=window.location.href">refresh</a> this page to display this data !
         </p>
         </Alert> : null}
                 <div className="block1">

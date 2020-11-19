@@ -19,7 +19,7 @@ export class TableNews extends React.Component {
                 <section class="jumbotron text-center" className="jumbotron">
         <div class="container">
           <h1 class="jumbotron-heading">Last Worldwide News about Covid19</h1>
-          <p class="lead">These are the last worldwide news posted on our database by eligible users. <br/> You can also contribute by signing in with Google.</p>
+          <p class="lead">These are the last worldwide news posted on our database. <br/> You can also contribute by signing in with Google and becoming an eligible user.</p>
           <p>
             <a href="/add-news" class="btn btn-primary my-2">Add News</a>
           </p>

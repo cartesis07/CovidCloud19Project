@@ -131,7 +131,7 @@ export class Country2 extends React.Component {
         </p>
         <hr />
         <p className="mb-0">
-          Please, try to refresh this page to display this data !
+          Please, try to <a href="javascript:window.location.href=window.location.href">refresh</a> this page to display this data !
         </p>
         </Alert> : null}
                 {!(this.state.loaded==3) && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        

@@ -117,8 +117,8 @@ export class Table4 extends React.Component {
             <div className = "CountriesTable">
         <section class="jumbotron text-center" className="jumbotron">
         <div class="container">
-          <h1 class="jumbotron-heading">Worldwide Covid19 Numbers By Country</h1>
-          <p class="lead">These are the last worldwide numbers about Covid19 classified by country.<br/>
+          <h1 class="jumbotron-heading">Worldwide Covid19 Statistics By Country</h1>
+          <p class="lead">These are the last worldwide statistics about Covid19 classified by country.<br/>
           Do not hesitate to access a news and country data by clicking on it.<br/>
           You can also sort the data by any column and any order.
           </p>
@@ -134,7 +134,7 @@ export class Table4 extends React.Component {
         </p>
         <hr />
         <p className="mb-0">
-          Please, try to refresh this page to display data !
+          Please, try to <a href="javascript:window.location.href=window.location.href">refresh</a> this page to display this data !
         </p>
         </Alert> : null}
             {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
