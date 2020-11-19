@@ -5,6 +5,7 @@ import { Table, Spinner, Alert } from 'reactstrap';
 import { Pie } from "react-chartjs-2";
 
 import "./table.css"
+import { TimeToLeaveOutlined } from '@material-ui/icons';
 
 export class Country1 extends React.Component {
 
@@ -47,8 +48,9 @@ export class Country1 extends React.Component {
             this.setState({loaded: true})
         }
         else{
-            this.setState({error: true})
+            //this.setState({error: true})
             console.log("error")
+            this.componentDidMount();
         }
     }
 

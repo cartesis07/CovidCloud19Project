@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input, Badge, Alert } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Badge, Alert, Col, FormText } from 'reactstrap';
 
 import "./table.css"
 
@@ -10,6 +10,7 @@ export class AddNews extends React.Component {
         super();
         this.state={
             submit: false,
+            loaded: false,
         }
     }
 
@@ -26,7 +27,7 @@ export class AddNews extends React.Component {
         const { user, updateUser } = this.context
         return(
             <div className="news">
-        {user == null  ? <Alert color="info">
+        {user == null && this.state.loaded ? <Alert color="info">
         <h4 className="alert-heading">Sign In with Google</h4>
         <p>
             Please, sign in with Google to add news in the database.
@@ -70,8 +71,21 @@ export class AddNews extends React.Component {
         </Input>
       </FormGroup>
       <FormGroup>
+        <Label for="Headline">Your article headline</Label>
+        <Input maxLength="30" type="headline" name="headline" id="headline"/>
+      </FormGroup>
+      <FormGroup>
         <Label for="exampleText">Your news</Label>
         <Input type="textarea" name="text" id="exampleText" />
+      </FormGroup>
+      <FormGroup row>
+        <Label for="exampleFile" sm={2}>Thumbnail</Label>
+        <Col sm={10}>
+          <Input type="file" name="file" id="exampleFile" />
+          <FormText color="muted">
+            You can add a thumbnail for your article.
+          </FormText>
+        </Col>
       </FormGroup>
       <br/>
       <Button color="primary" onClick={() => this.submit()}>Submit</Button>

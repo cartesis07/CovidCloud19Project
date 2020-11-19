@@ -50,7 +50,6 @@ export class Country2 extends React.Component {
         }
         else {
           this.setState({error: true})
-          console.log("error")
         }
     }
 

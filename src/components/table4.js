@@ -3,7 +3,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Table } from 'reactstrap';
 
-import { Spinner, Alert } from 'reactstrap';
+import { Spinner, Alert, Button } from 'reactstrap';
  
 import "./table.css"
 
@@ -115,6 +115,18 @@ export class Table4 extends React.Component {
     render(){
         return(
             <div className = "CountriesTable">
+        <section class="jumbotron text-center" className="jumbotron">
+        <div class="container">
+          <h1 class="jumbotron-heading">Worldwide Numbers By Country about Covid19</h1>
+          <p class="lead">These are the last worldwide numbers about Covid19 classified by country.<br/>
+          Do not hesitate to access a news and country data by clicking on it.<br/>
+          You can also sort the data by any column and any order.
+          </p>
+          <p>
+            <a href="/add-news" class="btn btn-primary my-2">Add News</a>
+          </p>
+        </div>
+      </section>
         {this.state.error ? <Alert className="block1" color="danger">
         <h4 className="alert-heading">Oops, API call error</h4>
         <p>

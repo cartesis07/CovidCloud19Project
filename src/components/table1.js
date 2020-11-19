@@ -53,7 +53,7 @@ export class Table1 extends React.Component {
     
     render(){
         return(
-            <div>
+            <div className="mytable1">
         {this.state.error ? <Alert className="block1" color="danger">
         <h4 className="alert-heading">Oops, API call error</h4>
         <p>

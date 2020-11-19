@@ -27,9 +27,7 @@ export class Country3 extends React.Component {
         if(response.ok){
           const data = await response.json()
           var length1 = Object.keys(data).length;
-          console.log("fetch1")
-          console.log(data)
-
+          
             const x_date = new Date();
             const x_date2 = new Date();
             x_date2.setDate(x_date.getDate() - length1);
@@ -65,9 +63,6 @@ export class Country3 extends React.Component {
           const data = await response.json()
           var length2 = Object.keys(data).length;
 
-          console.log("fetch2")
-          console.log(data)
-
           for (let i = 0; i < length2; i++){
             this.setState(prev => ({
               TotalRecovered: [...prev.TotalRecovered, data[i].Cases]
@@ -94,7 +89,6 @@ export class Country3 extends React.Component {
           this.setState({loaded: this.state.loaded + 1})
       }
       else{
-        console.log("error")
         this.setState({error: true})
       }
     }

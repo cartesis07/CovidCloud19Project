@@ -5,6 +5,10 @@
     justify-content: center;
 }
 
+.mytable1{
+    margin-top: 2%;
+}
+
 .block1{
     width: 50%;
     justify-content: center;
@@ -32,6 +36,11 @@
 
 .CountriesTable {
     width: 1300px;
+}
+
+.Scrollbutton{
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .title4{
@@ -70,4 +79,16 @@
 
 .dropdownitem{
     box-shadow: 0 0 10px 100px #fff inset;
+}
+
+.jumbotron{
+    background: #282c34;
+}
+
+.cardbodytext{
+    color: #282c34;
+}
+
+.maincontainer{
+    width: 80%;
 }

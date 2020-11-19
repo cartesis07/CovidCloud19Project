@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Button,  UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem, } from 'reactstrap';
+    DropdownItem} from 'reactstrap';
 
 import './login.css';
 
@@ -19,7 +19,7 @@ export class LogIn extends React.Component{
         super(props);
         this.state = {
             currentUser: null,
-            visibility: false
+            visibility: false,
         };
     }
 
@@ -46,6 +46,10 @@ export class LogIn extends React.Component{
         this.unsubscribeFromAuth();
     }
 
+    signInMethod(){
+        signInWithGoogle()
+    }
+
     signOutMethod(){
         auth.signOut()
         this.updateuser(null)
@@ -54,7 +58,7 @@ export class LogIn extends React.Component{
     render() {
         return(
             <div className="row">
-                {!this.state.currentUser && this.state.visibility ? <Button outline size="sm" color="primary" onClick={signInWithGoogle}>
+                {!this.state.currentUser && this.state.visibility ? <Button outline size="sm" color="primary" onClick={() => this.signInMethod()}>
                     <img src="https://img.icons8.com/plasticine/2x/google-logo.png" alt="google icon" width="40" height="40"/>
                         &nbsp; <b>Sign In with Google</b>
                 </Button> : null}
