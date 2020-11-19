@@ -24,10 +24,9 @@ export class AddNews extends React.Component {
 
     render(){
         const { user, updateUser } = this.context
-        console.log(user)
         return(
             <div className="news">
-        {user == null ? <Alert color="info">
+        {user == null  ? <Alert color="info">
         <h4 className="alert-heading">Sign In with Google</h4>
         <p>
             Please, sign in with Google to add news in the database.
