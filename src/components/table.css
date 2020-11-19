@@ -63,3 +63,11 @@
     margin-bottom: 5px;
     margin-top: 2%;
 }
+
+.profile{
+    border-radius: 50%;
+}
+
+.dropdownitem{
+    box-shadow: 0 0 10px 100px #fff inset;
+}

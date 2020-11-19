@@ -4,7 +4,10 @@ import { signInWithGoogle } from "../services/firebase";
 import { auth } from '../services/firebase';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Button } from 'reactstrap';
+import { Button,  UncontrolledDropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem, } from 'reactstrap';
 
 import './login.css';
 
@@ -43,17 +46,31 @@ export class LogIn extends React.Component{
         this.unsubscribeFromAuth();
     }
 
+    signOutMethod(){
+        auth.signOut()
+        this.updateuser(null)
+    }
+
     render() {
         return(
             <div className="row">
-                <div className="block">
-                {this.state.currentUser ? <Button outline color="secondary" disabled="true">{this.state.currentUser.displayName}</Button> : null}
-                </div>
-                {this.state.currentUser ? <Button outline color="danger" onClick={() => auth.signOut()}>Log Out</Button> : null}
                 {!this.state.currentUser && this.state.visibility ? <Button outline size="sm" color="primary" onClick={signInWithGoogle}>
                     <img src="https://img.icons8.com/plasticine/2x/google-logo.png" alt="google icon" width="40" height="40"/>
-                        &nbsp; Sign In with Google
+                        &nbsp; <b>Sign In with Google</b>
                 </Button> : null}
+                {this.state.currentUser ? <UncontrolledDropdown>
+              <DropdownToggle nav>
+              <img className="profile" alt="Avatar" width="45px" height="45px" src={this.state.currentUser.photoURL}/>
+              </DropdownToggle>
+              <DropdownMenu right>
+              <DropdownItem className="dropdownitem">
+              <Button text-align="center" size="sm" outline color="secondary">{this.state.currentUser.displayName}</Button>
+                </DropdownItem>
+                <DropdownItem className="dropdownitem">
+                <Button text-align="center" size="sm" outline color="danger" onClick={() => this.signOutMethod()}>Log Out</Button>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown> : null}
             </div>
         );
     }

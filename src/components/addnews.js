@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText, Alert } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Badge, Alert } from 'reactstrap';
 
 import "./table.css"
 
@@ -16,7 +16,6 @@ export class AddNews extends React.Component {
     static contextType = UserContext
 
     componentDidMount(){
-
     }
 
     submit(){
@@ -28,27 +27,41 @@ export class AddNews extends React.Component {
         console.log(user)
         return(
             <div className="news">
+        {user == null ? <Alert color="info">
+        <h4 className="alert-heading">Sign In with Google</h4>
+        <p>
+            Please, sign in with Google to add news in the database.
+        </p>
+        <hr />
+        <p className="mb-0">
+          Only eligible users are allowed to add news.
+        </p>
+      </Alert>: null}
         {this.state.submit ? <Alert color="success">
         <h4 className="alert-heading">Well done !</h4>
         <p>
-            Your news has been added to our firebase database.
+            Your news has been added to our database.
         </p>
         <hr />
         <p className="mb-0">
           You can now view it on the homepage or on the specified country page !
         </p>
       </Alert>: null}
-      {!this.state.submit ?<Form>
+      {!this.state.submit && user !== null ?
+       <div>
+       <h3>Add news to the website</h3>
+       <br/>
+      <Form>
       <FormGroup>
-        <Label for="exampleEmail">Email</Label>
-        <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
+        <Label for="Name">Username</Label>
+        <Input valid="true" readonly="readonly" type="username" name="username" id="username" placeholder={user.displayName} />
       </FormGroup>
       <FormGroup>
-        <Label for="examplePassword">Password</Label>
-        <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" />
+        <Label for="Email">Email</Label>
+        <Input valid="true" readonly="readonly" type="email" name="email" id="email" placeholder={user.email} />
       </FormGroup>
       <FormGroup>
-        <Label for="exampleSelect">Select</Label>
+        <Label for="exampleSelect">Select a country</Label>
         <Input type="select" name="select" id="exampleSelect">
           <option>1</option>
           <option>2</option>
@@ -58,11 +71,13 @@ export class AddNews extends React.Component {
         </Input>
       </FormGroup>
       <FormGroup>
-        <Label for="exampleText">Text Area</Label>
+        <Label for="exampleText">Your news</Label>
         <Input type="textarea" name="text" id="exampleText" />
       </FormGroup>
-      <Button onClick={() => this.submit()}>Submit</Button>
-    </Form> : null}
+      <br/>
+      <Button color="primary" onClick={() => this.submit()}>Submit</Button>
+    </Form></div> : null}
+
             </div>
         );
     }

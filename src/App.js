@@ -10,8 +10,6 @@ import { AddNews } from "./components/addnews"
 
 import { BrowserRouter, Route } from 'react-router-dom'
 
-import { ScrollTopButton } from "./components/scrolltopbutton"
-
 import { UserProvider } from './userContext'
 
 class App extends React.Component {
@@ -47,7 +45,6 @@ class App extends React.Component {
         </BrowserRouter>
         </body>
         <footer className="App-footer">
-        <ScrollTopButton/>
         <AlertInfo/>
         </footer>
       </div>
