@@ -40,7 +40,7 @@ export class AddNews extends React.Component {
         {this.state.submit ? <Alert color="success">
         <h4 className="alert-heading">Well done !</h4>
         <p>
-            Your news has been added to our database.
+          Thanks for your contribution, these news have been added to our database.
         </p>
         <hr />
         <p className="mb-0">

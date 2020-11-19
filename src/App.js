@@ -8,6 +8,8 @@ import { Home } from "./components/home"
 import { Countries } from "./components/countries"
 import { AddNews } from "./components/addnews"
 
+import {NotFound} from "./components/notfound"
+
 import { BrowserRouter, Route } from 'react-router-dom'
 
 import { UserProvider } from './userContext'
@@ -42,6 +44,7 @@ class App extends React.Component {
           <Route exact path="/" component={Home}/>
           <Route path="/countries" component={Countries}/>
           <Route path="/add-news" component={AddNews}/>
+          <Route component={NotFound} />
         </BrowserRouter>
         </body>
         <footer className="App-footer">
