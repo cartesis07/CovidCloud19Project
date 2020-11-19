@@ -10,7 +10,6 @@ export class AddNews extends React.Component {
         super();
         this.state={
             submit: false,
-            loaded: false,
         }
     }
 
@@ -27,7 +26,7 @@ export class AddNews extends React.Component {
         const { user, updateUser } = this.context
         return(
             <div className="news">
-        {user == null && this.state.loaded ? <Alert color="info">
+        {user == null ? <Alert color="info">
         <h4 className="alert-heading">Sign In with Google</h4>
         <p>
             Please, sign in with Google to add news in the database.
