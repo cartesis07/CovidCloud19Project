@@ -2,6 +2,8 @@ import React from 'react';
 import "./table.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import img from './background.jpg';
+import img2 from './background2.jpg';
+import img3 from './background3.jpg';
 
 export class TableNews extends React.Component {
     constructor(){
@@ -39,10 +41,9 @@ export class TableNews extends React.Component {
                 </div>
                 </div>
                 </div>
-
                 <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src={img} alt="Card image cap"/>
+                <img class="card-img-top" src={img2} alt="Card image cap"/>
                 <div class="card-body">
                 <p class="card-text" className="cardbodytext">This is the news title</p>
                   <div class="d-flex justify-content-between align-items-center">
@@ -58,7 +59,7 @@ export class TableNews extends React.Component {
 
                 <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src={img} alt="Card image cap"/>
+                <img class="card-img-top" src={img3} alt="Card image cap"/>
                 <div class="card-body">
                 <p class="card-text" className="cardbodytext">This is the news title</p>
                   <div class="d-flex justify-content-between align-items-center">

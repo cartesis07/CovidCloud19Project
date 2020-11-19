@@ -117,7 +117,7 @@ export class Table4 extends React.Component {
             <div className = "CountriesTable">
         <section class="jumbotron text-center" className="jumbotron">
         <div class="container">
-          <h1 class="jumbotron-heading">Worldwide Numbers By Country about Covid19</h1>
+          <h1 class="jumbotron-heading">Worldwide Covid19 Numbers By Country</h1>
           <p class="lead">These are the last worldwide numbers about Covid19 classified by country.<br/>
           Do not hesitate to access a news and country data by clicking on it.<br/>
           You can also sort the data by any column and any order.
