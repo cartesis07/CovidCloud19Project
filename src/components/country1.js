@@ -23,6 +23,7 @@ export class Country1 extends React.Component {
                       name:"",
                       loaded: false,
                       error: false,
+                      countryerror: false,
         }
     }
 
@@ -37,15 +38,20 @@ export class Country1 extends React.Component {
                 });
             };
             let country  = getObjectByValue(data.Countries, "CountryCode", this.state.countryref )
-            this.setState({name: country[0].Country})
-            this.setState({NewConfirmed: country[0].NewConfirmed})
-            this.setState({TotalConfirmed: country[0].TotalConfirmed})
-            this.setState({NewDeaths: country[0].NewDeaths})
-            this.setState({NewRecovered: country[0].NewRecovered})
-            this.setState({TotalRecovered: country[0].TotalRecovered})
-            this.setState({TotalDeaths: country[0].TotalDeaths})
-            this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
-            this.setState({loaded: true})
+            if (country[0] !== undefined){
+                this.setState({name: country[0].Country})
+                this.setState({NewConfirmed: country[0].NewConfirmed})
+                this.setState({TotalConfirmed: country[0].TotalConfirmed})
+                this.setState({NewDeaths: country[0].NewDeaths})
+                this.setState({NewRecovered: country[0].NewRecovered})
+                this.setState({TotalRecovered: country[0].TotalRecovered})
+                this.setState({TotalDeaths: country[0].TotalDeaths})
+                this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
+                this.setState({loaded: true})
+            }
+            else{
+                this.setState({countryerror: true})
+            }
         }
         else{
             this.setState({error: true})
@@ -60,7 +66,21 @@ export class Country1 extends React.Component {
     render() {
         return(
             <div>
-        <section class="jumbotron text-center" className="jumbotron">
+        {this.state.countryerror ? 
+                    <section class="jumbotron text-center" className="jumbotron">
+                    <div class="container">
+                      <h1 class="jumbotron-heading">Oops... this country does not exist !</h1>
+                      <p class="lead">The country you are looking for does not exist.<br/>
+                      How you got here is a mystery. <br/>
+                      But you can click the button below to go back to the homepage.
+                      </p>
+                      <p>
+                        <a href="/" class="btn btn-primary my-2">Home</a>
+                      </p>
+                    </div>
+                  </section>: null }
+        
+        {!this.state.countryerror ? <section class="jumbotron text-center" className="jumbotron">
         <div class="container">
           <ReactCountryFlag
                 className="emojiFlag"
@@ -73,7 +93,7 @@ export class Country1 extends React.Component {
           <h1 class="jumbotron-heading">Last Covid19 News and Statistics from {this.state.name}</h1>
           <p class="lead">These are the last news and statistics from {this.state.name} stored in our firebase real-time database !<br/> You can also contribute by signing in with Google and becoming an eligible user.</p>
         </div>
-      </section>
+      </section> : null}
 
 
             {this.state.error ? <Alert className="block1" color="danger">
@@ -87,7 +107,7 @@ export class Country1 extends React.Component {
         </p>
         </Alert> : null}
                 <div className="block1">
-                {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
+                {!this.state.loaded && !this.state.error && !this.state.countryerror ? <Spinner className="Spinner" color="primary"/> : null}        
                 {this.state.loaded ? <Table borderless hover>
                 <thead>
                     <tr class="table-warning">
@@ -149,7 +169,7 @@ export class Country1 extends React.Component {
             </Table> : null} 
             </div>
             <div className="Pie">
-            {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
+            {!this.state.loaded && !this.state.error && !this.state.countryerror ? <Spinner className="Spinner" color="primary"/> : null}        
             {this.state.loaded ? <Pie data={{
             labels: ["Active Cases", "Recovered Cases", "Dead Cases"],
             datasets: [
