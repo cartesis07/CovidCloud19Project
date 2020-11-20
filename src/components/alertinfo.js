@@ -18,6 +18,7 @@ export class AlertInfo extends React.Component{
             <Alert color="primary">
                 The data displayed on this web application is retrieved from : <a href="https://covid19api.com" target="_blank">COVID19API</a>, sourced from Johns Hopkins CSSE. 
             </Alert>
+            <p className="copyright"><a href="https://www.linkedin.com/in/hugo-danet/" target="_blank">Hugo Danet</a>, <a href="http://www.eurecom.fr/en" target="_blank">Eurecom</a>, All Rights Reserved</p>
             </div>
         );
     }
