@@ -27,7 +27,7 @@ const MyNavBar = (props) => {
       <Navbar color="light" light expand="md">
       <div className="image">
       <a href="/">
-        <img src="https://firebasestorage.googleapis.com/v0/b/covid19cloud-da799.appspot.com/o/icons8-coronavirus-64.png?alt=media" alt=""/>
+        <img src="https://firebasestorage.googleapis.com/v0/b/covid19cloud-da799.appspot.com/o/coronavirus%20(1).png?alt=media&token=5e8cf4f9-faf5-4a2a-aa30-c5c7b8e178d6" alt=""/>
       </a>
       </div>
         <NavbarBrand href="/">Covid19 Cloud Project</NavbarBrand>

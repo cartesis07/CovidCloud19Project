@@ -71,7 +71,7 @@ export class AddNews extends React.Component {
       </FormGroup>
       <FormGroup>
         <Label for="Headline">Your article headline</Label>
-        <Input maxLength="30" type="headline" name="headline" id="headline"/>
+        <Input type="headline" name="headline" id="headline"/>
       </FormGroup>
       <FormGroup>
         <Label for="exampleText">Your news</Label>
