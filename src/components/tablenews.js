@@ -42,7 +42,12 @@ export class TableNews extends React.Component {
         </div>
       </section>
 
-            <div class="card-deck">
+            <div class="card-deck align-items-center">
+  <a onClick={() => console.log("next")}>
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+
   <div class="card">
     <img class="card-img-top" src={img} alt="Card image cap"/>
     <div class="card-body d-flex flex-column" >
@@ -91,8 +96,18 @@ export class TableNews extends React.Component {
                     <small class="text-muted">9 mins</small>
                   </div>
     </div>
+
+
+
   </div>
+  <a onClick={() => console.log("next")}>
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
 </div>
+
+
+
             </div>
         );
     }
