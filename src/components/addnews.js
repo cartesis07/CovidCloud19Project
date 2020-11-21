@@ -6,23 +6,65 @@ import { addCollection } from "../services/firebase"
 import "./table.css"
 
 import UserContext from '../userContext'
+import { Country1 } from './country1';
+import { TabRounded, TrainOutlined } from '@material-ui/icons';
 
 export class AddNews extends React.Component {
     constructor(){
         super();
         this.state={
             submit: false,
+            title: "",
+            content: "",
+            country: "Worldwide",
+            date: "",
+            email: "",
+            imageUrl: "",
+            countries: [],
+            countriesID: [],
         }
     }
 
     static contextType = UserContext
 
+    async fetchCall(){
+      var response = await fetch("https://api.covid19api.com/countries")
+      if(response.ok){
+        const data = await response.json()
+        var length = Object.keys(data).length;
+        this.setState(prev => ({
+          countries: [...prev.countries, "Worldwide"]
+        }))
+        this.setState(prev => ({
+          countriesID: [...prev.countriesID, "WW"]
+        }))
+        for (let i = 0; i < length; i++){
+          this.setState(prev => ({
+            countries: [...prev.countries, data[i].Country]
+        }))
+        this.setState(prev => ({
+          countriesID: [...prev.countriesID, data[i].ISO2]
+        }))
+        }
+      }
+    }
+
+    renderCountriesInputs(){
+      return this.state.countries.map((Country, index) => {
+        const country = Country
+          return(
+            <option key={country}>{country}</option>
+          );
+      })
+    }
+
     componentDidMount(){
+      this.fetchCall();
     }
 
     submit(){
-        addCollection()
-        this.setState({submit: true})
+        console.log(this.state)
+        //this.setState({submit: true})
     }
 
     render(){
@@ -64,21 +106,19 @@ export class AddNews extends React.Component {
       </FormGroup>
       <FormGroup>
         <Label for="exampleSelect">Select a country</Label>
-        <Input type="select" name="select" id="exampleSelect">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+        <Input value={this.state.country} onChange={e => this.setState({ country: e.target.value })} type="select" name="select" id="exampleSelect">
+            {this.renderCountriesInputs()}
         </Input>
       </FormGroup>
       <FormGroup>
         <Label for="Headline">Your article headline</Label>
-        <Input type="headline" name="headline" id="headline"/>
+        <Input value={this.state.title} onChange={e => this.setState({ title: e.target.value })} 
+        type="headline" name="headline" id="headline"/>
       </FormGroup>
       <FormGroup>
         <Label for="exampleText">Your news</Label>
-        <Input type="textarea" name="text" id="exampleText" />
+        <Input   value={this.state.name} onChange={e => this.setState({ name: e.target.value })} 
+        type="textarea" name="text" id="exampleText" />
       </FormGroup>
       <FormGroup row>
         <Label for="exampleFile" sm={2}>Thumbnail</Label>

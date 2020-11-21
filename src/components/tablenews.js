@@ -15,6 +15,8 @@ export class TableNews extends React.Component {
           article2: {},
           article3: {},
           loaded: false,
+          carouselID: 0,
+          numberofarticle: 0,
         }
     }
 
@@ -25,9 +27,10 @@ export class TableNews extends React.Component {
 
     async FireStoreCall(){
       await readCollection().then(result => this.setState({
+        numberofarticle: result.length,
         article1: result[0]
       }))
-      console.log(this.state.article1)
+      console.log(this.state)
       this.setState({loaded: true})
     }
 

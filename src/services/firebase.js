@@ -30,7 +30,7 @@ export const signInWithGoogle = () => {
   })
 }
 
-export const addCollection = (title, content) => {
+export const addCollection = (title, content, country, date, email, imageURL) => {
   news.add({
     title: title,
     content: content,
