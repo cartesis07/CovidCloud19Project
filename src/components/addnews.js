@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, FormGroup, Label, Input, Badge, Alert, Col, FormText } from 'reactstrap';
 
-import { addDocument } from "../services/firebase"
+import { addCollection } from "../services/firebase"
 
 import "./table.css"
 
@@ -21,7 +21,7 @@ export class AddNews extends React.Component {
     }
 
     submit(){
-        addDocument()
+        addCollection()
         this.setState({submit: true})
     }
 

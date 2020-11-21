@@ -20,6 +20,7 @@ const googleProvider = new firebase.auth.GoogleAuthProvider()
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 export const db = firebase.firestore();
+var news = db.collection("news");
 
 export const signInWithGoogle = () => {
   auth.signInWithPopup(googleProvider).then((res) => {
@@ -29,11 +30,10 @@ export const signInWithGoogle = () => {
   })
 }
 
-export const addDocument = () => {
-  db.collection("users").add({
-    first: "Ada",
-    last: "Lovelace",
-    born: 1815
+export const addCollection = (title, content) => {
+  news.add({
+    title: title,
+    content: content,
 })
 .then(function(docRef) {
     console.log("Document written with ID: ", docRef.id);
@@ -42,4 +42,9 @@ export const addDocument = () => {
     console.error("Error adding document: ", error);
 });
 
+}
+
+export async function readCollection() {
+  const snapshot = await db.collection("news").get()
+  return snapshot.docs.map(doc => doc.data());
 }

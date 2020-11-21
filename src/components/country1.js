@@ -162,7 +162,7 @@ export class Country1 extends React.Component {
                         <td>{this.state.NewDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                     </tr>
                     <tr class="table-danger">
-                        <th scope="row">Mortality Rate</th>
+                        <th scope="row">Fatality Rate</th>
                         <td>{Math.round(this.state.TotalDeaths/this.state.TotalConfirmed * 10000) / 100} %</td>
                     </tr>
           </tbody>

@@ -5,12 +5,28 @@ import img from './background.jpg';
 import img2 from './background2.jpg';
 import img3 from './background3.jpg';
 
+import { readCollection } from "../services/firebase"
+
 export class TableNews extends React.Component {
     constructor(){
         super();
+        this.state={
+          article1: {},
+          article2: {},
+          article3: {},
+        }
     }
 
     componentDidMount(){
+      
+      this.FireStoreCall();
+    }
+
+    async FireStoreCall(){
+      await readCollection().then(result => this.setState({
+        article1: result[0]
+      }))
+      console.log(this.state.article1)
     }
 
     render(){
@@ -30,8 +46,8 @@ export class TableNews extends React.Component {
   <div class="card">
     <img class="card-img-top" src={img} alt="Card image cap"/>
     <div class="card-body d-flex flex-column" >
-      <h5 class="card-title" className="cardbodytexttitle">New Covid19 disease</h5>
-      <p class="card-text" className="cardbodytext">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. zpiehfzpifhzepifhzpeifhzepifhzepifhzefpihezfpihzefpizehfpihezpifhzepifhzepifhzepifhzepfihzefpizehfpizhf</p>
+      <h5 class="card-title" className="cardbodytexttitle">{this.state.article1.title}</h5>
+      <p class="card-text" className="cardbodytext">{this.state.article1.content}</p>
       <div class="d-flex justify-content-between align-items-center mt-auto">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>

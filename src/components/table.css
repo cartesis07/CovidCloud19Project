@@ -89,6 +89,7 @@
     color: #282c34;
     overflow: hidden;
     white-space: nowrap;
+    min-height: 1.2rem;
 }
 
 
