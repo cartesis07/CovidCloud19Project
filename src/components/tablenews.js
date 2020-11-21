@@ -14,6 +14,7 @@ export class TableNews extends React.Component {
           article1: {},
           article2: {},
           article3: {},
+          loaded: false,
         }
     }
 
@@ -27,6 +28,7 @@ export class TableNews extends React.Component {
         article1: result[0]
       }))
       console.log(this.state.article1)
+      this.setState({loaded: true})
     }
 
     render(){
@@ -48,11 +50,11 @@ export class TableNews extends React.Component {
     <span class="sr-only">Previous</span>
   </a>
 
-  <div class="card">
+  {this.state.loaded ? <div class="card">
     <img class="card-img-top" src={img} alt="Card image cap"/>
     <div class="card-body d-flex flex-column" >
-      <h5 class="card-title" className="cardbodytexttitle">{this.state.article1.title}</h5>
-      <p class="card-text" className="cardbodytext">{this.state.article1.content}</p>
+      <h5 class="card-title cardbodytexttitle">{this.state.article1.title}</h5>
+      <p class="card-text cardbodytext">{this.state.article1.content}</p>
       <div class="d-flex justify-content-between align-items-center mt-auto">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
@@ -61,15 +63,17 @@ export class TableNews extends React.Component {
                     <small class="text-muted">9 mins</small>
                   </div>
     </div>
+  </div> : null}
+
+  {!this.state.loaded ? <div className="card placeholder">
   </div>
+  : null  }
 
-
-
-  <div className="card">
+  {this.state.loaded ? <div className="card">
     <img class="card-img-top" src={img2} alt="Card image cap"/>
     <div class="card-body d-flex flex-column">
-      <h5 class="card-title" className="cardbodytexttitle">Crazy chinese story</h5>
-      <p class="card-text" className="cardbodytext">Very interesting content about this story written by some jouranlist</p>
+      <h5 class="card-title cardbodytexttitle">Crazy chinese story</h5>
+      <p class="card-text cardbodytext">Very interesting content about this story written by some jouranlist</p>
       <div class="d-flex justify-content-between align-items-center mt-auto">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
@@ -78,16 +82,18 @@ export class TableNews extends React.Component {
                     <small class="text-muted">9 mins</small>
                   </div>
     </div>
+  </div> : null}
+
+  {!this.state.loaded ? <div className="card placeholder">
   </div>
+  : null  }
 
 
-
-
-  <div class="card">
+  {this.state.loaded ? <div class="card">
     <img class="card-img-top" src={img3} alt="Card image cap"/>
     <div class="card-body d-flex flex-column">
-      <h5 class="card-title" className="cardbodytexttitle">Macron is working on the subject</h5>
-      <p class="card-text" className="cardbodytext">Dont worry, Macron is working on it</p>
+      <h5 class="card-title cardbodytexttitle">Macron is working on the subject</h5>
+      <p class="card-text cardbodytext">Dont worry, Macron is working on it</p>
       <div class="d-flex justify-content-between align-items-center mt-auto">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
@@ -96,11 +102,14 @@ export class TableNews extends React.Component {
                     <small class="text-muted">9 mins</small>
                   </div>
     </div>
-
-
-
+  </div> : null }
+  
+  {!this.state.loaded ? <div className="card placeholder">
   </div>
-  <a onClick={() => console.log("next")}>
+  : null  }
+
+
+  <a onClick={() => this.setState({loaded: !this.state.loaded})}>
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>
