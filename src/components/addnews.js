@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input, Badge, Alert, Col, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Badge, Alert, Col, FormText, Spinner } from 'reactstrap';
 
 import { addCollection } from "../services/firebase"
 
@@ -22,6 +22,9 @@ export class AddNews extends React.Component {
             imageUrl: "",
             countries: [],
             countriesID: [],
+            titlevalid: "",
+            contentvalid: "",
+            loaded: false,
         }
     }
 
@@ -47,6 +50,7 @@ export class AddNews extends React.Component {
         }))
         }
       }
+      this.setState({loaded: true})
     }
 
     renderCountriesInputs(){
@@ -63,8 +67,20 @@ export class AddNews extends React.Component {
     }
 
     submit(){
+        const date1 = new Date();
+        this.setState({date: date1.toString()})
         console.log(this.state)
-        //this.setState({submit: true})
+        if (this.state.title == ""){
+            this.setState({titlevalid: "false"})
+        }
+        if (this.state.content == ""){
+          this.setState({contentvalid: "false"})
+        }
+        if (this.state.content != "" && this.state.title != ""){
+          this.setState({contentvalid: "true"})
+          this.setState({titlevalid: "true"})
+          this.setState({submit: true})
+        }
     }
 
     render(){
@@ -91,7 +107,9 @@ export class AddNews extends React.Component {
           You can now view it on the homepage or on the specified country page !
         </p>
       </Alert>: null}
-      {!this.state.submit && user !== null ?
+
+      {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+      {!this.state.submit && user !== null && this.state.loaded?
        <div>
        <h3>Add news to the website</h3>
        <br/>
@@ -102,7 +120,7 @@ export class AddNews extends React.Component {
       </FormGroup>
       <FormGroup>
         <Label for="Email">Email</Label>
-        <Input valid="true" readonly="readonly" type="email" name="email" id="email" placeholder={user.email} />
+        <Input onLoad = {() => this.setState({email: user.email})}valid="true" readonly="readonly" type="email" name="email" id="email" placeholder={user.email} />
       </FormGroup>
       <FormGroup>
         <Label for="exampleSelect">Select a country</Label>
@@ -112,12 +130,12 @@ export class AddNews extends React.Component {
       </FormGroup>
       <FormGroup>
         <Label for="Headline">Your article headline</Label>
-        <Input value={this.state.title} onChange={e => this.setState({ title: e.target.value })} 
+        <Input  invalid={this.state.titlevalid} value={this.state.title} onChange={e => this.setState({ title: e.target.value, email: user.email})} 
         type="headline" name="headline" id="headline"/>
       </FormGroup>
       <FormGroup>
         <Label for="exampleText">Your news</Label>
-        <Input   value={this.state.name} onChange={e => this.setState({ name: e.target.value })} 
+        <Input  invalid={this.state.titlevalid} value={this.state.content} onChange={e => this.setState({ content: e.target.value })} 
         type="textarea" name="text" id="exampleText" />
       </FormGroup>
       <FormGroup row>
