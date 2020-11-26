@@ -11,12 +11,11 @@ export class TableNews extends React.Component {
     constructor(){
         super();
         this.state={
-          article1: {},
-          article2: {},
-          article3: {},
+          articles: [],
           loaded: false,
           carouselID: 0,
           numberofarticle: 0,
+          position: 0
         }
     }
 
@@ -26,12 +25,19 @@ export class TableNews extends React.Component {
     }
 
     async FireStoreCall(){
-      await readCollection().then(result => this.setState({
-        numberofarticle: result.length,
-        article1: result[0]
-      }))
-      console.log(this.state)
+      await readCollection().then(result => this.readResult(result))      
       this.setState({loaded: true})
+    }
+
+    readResult(result){
+      this.setState({numberofarticle: result.length})
+      for (let i = 0; i < this.state.numberofarticle; i++){
+        this.setState(prev => ({
+          articles: [...prev.articles, result[i]]
+        }))
+      }
+      this.setState({loaded: true});
+      console.log(this.state);
     }
 
     render(){
@@ -56,12 +62,11 @@ export class TableNews extends React.Component {
   {this.state.loaded ? <div class="card">
     <img class="card-img-top" src={img} alt="Card image cap"/>
     <div class="card-body d-flex flex-column" >
-      <h5 class="card-title cardbodytexttitle">{this.state.article1.title}</h5>
-      <p class="card-text cardbodytext">{this.state.article1.content}</p>
+      <h5 class="card-title cardbodytexttitle">{this.state.articles[this.state.position].title}</h5>
+      <p class="card-text cardbodytext">{this.state.articles[this.state.position].content}</p>
       <div class="d-flex justify-content-between align-items-center mt-auto">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </div>
                     <small class="text-muted">9 mins</small>
                   </div>
@@ -75,12 +80,11 @@ export class TableNews extends React.Component {
   {this.state.loaded ? <div className="card">
     <img class="card-img-top" src={img2} alt="Card image cap"/>
     <div class="card-body d-flex flex-column">
-      <h5 class="card-title cardbodytexttitle">Crazy chinese story</h5>
-      <p class="card-text cardbodytext">Very interesting content about this story written by some jouranlist</p>
+      <h5 class="card-title cardbodytexttitle">{this.state.articles[this.state.position + 1].title}</h5>
+      <p class="card-text cardbodytext">{this.state.articles[this.state.position + 1].content}</p>
       <div class="d-flex justify-content-between align-items-center mt-auto">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </div>
                     <small class="text-muted">9 mins</small>
                   </div>
@@ -95,12 +99,11 @@ export class TableNews extends React.Component {
   {this.state.loaded ? <div class="card">
     <img class="card-img-top" src={img3} alt="Card image cap"/>
     <div class="card-body d-flex flex-column">
-      <h5 class="card-title cardbodytexttitle">Macron is working on the subject</h5>
-      <p class="card-text cardbodytext">Dont worry, Macron is working on it</p>
+      <h5 class="card-title cardbodytexttitle">{this.state.articles[this.state.position + 2].title}</h5>
+      <p class="card-text cardbodytext">{this.state.articles[this.state.position + 2].content}</p>
       <div class="d-flex justify-content-between align-items-center mt-auto">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </div>
                     <small class="text-muted">9 mins</small>
                   </div>
@@ -109,10 +112,10 @@ export class TableNews extends React.Component {
   
   {!this.state.loaded ? <div className="card placeholder">
   </div>
-  : null  }
+  : null }
 
 
-  <a onClick={() => this.setState({loaded: !this.state.loaded})}>
+  <a onClick={() => this.setState({position: (this.state.position + 3)%this.state.numberofarticle})}>
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>

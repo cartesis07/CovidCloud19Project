@@ -135,7 +135,7 @@ export class AddNews extends React.Component {
       </FormGroup>
       <FormGroup>
         <Label for="exampleText">Your news</Label>
-        <Input  invalid={this.state.titlevalid} value={this.state.content} onChange={e => this.setState({ content: e.target.value })} 
+        <Input  invalid={this.state.contentvalid} value={this.state.content} onChange={e => this.setState({ content: e.target.value })} 
         type="textarea" name="text" id="exampleText" />
       </FormGroup>
       <FormGroup row>
