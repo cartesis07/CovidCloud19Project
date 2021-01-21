@@ -148,3 +148,7 @@
 .mycarddeck{
     width: 90%;
 }
+
+.jumbotron{
+    background-color:transparent !important;
+}
