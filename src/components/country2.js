@@ -33,7 +33,7 @@ export class Country2 extends React.Component {
             const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             x_date2.setDate(x_date.getDate() - 7);
-            for (let i = 0; i < 9; i++){
+            for (let i = 0; i < 8; i++){
               var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
               this.setState(prev => ({
                 date: [...prev.date, newstringdate]
@@ -57,7 +57,7 @@ export class Country2 extends React.Component {
       var response = await fetch(datestring2)
       if (response.ok){
         const data = await response.json()
-        for (let i = 0; i < 9; i++){
+        for (let i = 0; i < 8; i++){
           if(i !== 0){
             this.setState(prev => ({
               NewRecovered: [...prev.NewRecovered, data[i].Cases - data[i-1].Cases]
@@ -76,7 +76,7 @@ export class Country2 extends React.Component {
       var response = await fetch(datestring3)
       if (response.ok){
         const data = await response.json()
-        for (let i = 0; i < 9; i++){
+        for (let i = 0; i < 8; i++){
           if (i !== 0){
             this.setState(prev => ({
               NewDeaths: [...prev.NewDeaths, data[i].Cases - data[i-1].Cases]
@@ -105,17 +105,26 @@ export class Country2 extends React.Component {
 
           const date = new Date();
           const date2 = new Date();
-          date.setDate(date.getDate());
+          date.setDate(date.getDate()-1);
           date2.setDate(date.getDate()-8);
-          datestring1 = datestring1 + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
-          datestring1 = datestring1 + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
 
-          datestring2 = datestring2 + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
-          datestring2 = datestring2 + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
 
-          datestring3 = datestring3 + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
-          datestring3 = datestring3 + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
+          console.log(date2.getMonth().toString())
+
+          datestring1 = datestring1 + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()+1).toString() + "-" + minTwoDigits(date2.getDate()+1).toString() + "T00:00:00Z&to=";
+          datestring1 = datestring1 + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()+1).toString() + "-" + minTwoDigits(date.getDate()+1).toString() + "T00:00:00Z";
+
+          datestring2 = datestring2 + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()+1).toString() + "-" + minTwoDigits(date2.getDate()+1).toString() + "T00:00:00Z&to=";
+          datestring2 = datestring2 + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()+1).toString() + "-" + minTwoDigits(date.getDate()+1).toString() + "T00:00:00Z";
+
+          datestring3 = datestring3 + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()+1).toString() + "-" + minTwoDigits(date2.getDate()+1).toString() + "T00:00:00Z&to=";
+          datestring3 = datestring3 + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()+1).toString() + "-" + minTwoDigits(date.getDate()+1).toString() + "T00:00:00Z";
           
+
+          console.log(datestring1);
+          console.log(datestring2);
+          console.log(datestring3);
+
           this.fetchCall1(datestring1);
           this.fetchCall2(datestring2);
           this.fetchCall3(datestring3);
