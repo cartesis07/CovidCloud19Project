@@ -89,14 +89,14 @@ export class Table4 extends React.Component {
             var string = "/countries/"
             const { country, newcases, totalcases, newrecoveries, totalrecoveries, newdeaths, totaldeaths, countrycode } = Country //destructuring
             return (
-               <tr key={country}>
-                  <td class="table-secondary"><ReactCountryFlag countryCode={countrycode} />&nbsp;&nbsp;&nbsp;<a outline class="btn btn-outline-dark" href={"countries/" + countrycode}>{country.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</a></td>
-                  <td class="table-warning">{newcases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-                  <td class="table-warning">{totalcases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-                  <td class="table-primary">{newrecoveries.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-                  <td class="table-primary">{totalrecoveries.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-                  <td class="table-danger">{newdeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-                  <td class="table-danger">{totaldeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+               <tr className="beautiful-table" key={country}>
+                  <td class="bg-light"><ReactCountryFlag countryCode={countrycode} />&nbsp;&nbsp;&nbsp;<a outline class="btn btn-outline-dark" href={"countries/" + countrycode}>{country.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</a></td>
+                  <td class="bg-light">{newcases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                  <td class="bg-light">{totalcases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                  <td class="bg-light">{newrecoveries.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                  <td class="bg-light">{totalrecoveries.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                  <td class="bg-light">{newdeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                  <td class="bg-light">{totaldeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                </tr>
             )
          })
@@ -140,11 +140,11 @@ export class Table4 extends React.Component {
             {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
             {this.state.loaded ? <Table borderless hover> 
                 <thead>
-                    <tr className="table-secondary">
+                    <tr className="thead-light">
                         <th colspan="7" class="text-center">Cases, Recoveries and Deaths by Country</th>
                     </tr> 
                 </thead>
-                <tbody className="table-secondary">
+                <tbody className="thead-light">
                     <th className = "stickyhead">Country<br/>
                     {!(this.state.selected === 1) ? <ArrowDropUpIcon onClick={(e) => this.change(e,1,"country",false)}/> : null}
                     {this.state.selected === 1 ? <ArrowDropDownCircleIcon className="flip"/> : null}
