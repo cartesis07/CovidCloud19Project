@@ -25,7 +25,7 @@ export class TableNews extends React.Component {
     }
 
     async FireStoreCall(){
-      await readCollection().then(result => this.readResult(result))      
+      await readCollection("news").then(result => this.readResult(result))      
       this.setState({loaded: true})
     }
 

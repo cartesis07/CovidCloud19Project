@@ -8,6 +8,8 @@ import "./table.css"
 
 import ReactCountryFlag from "react-country-flag"
 
+import { updateCollection, readDocCollection, addDocToCollection } from "../services/firebase"
+
 export class Country1 extends React.Component {
 
     constructor(){
@@ -20,10 +22,33 @@ export class Country1 extends React.Component {
                       TotalRecovered: "",
                       ActiveCases: "",
                       countryref: "",
-                      name:"",
+                      name: "",
                       loaded: false,
                       error: false,
                       countryerror: false,
+                      firebase_exist: false,
+                      firebase_updated: false,
+        }
+    }
+
+    async FireStoreCall(){
+        const result = await readDocCollection("summaries",this.state.countryref)
+        if (result !== null){
+            this.setState({firebase_exist: true})
+            const date = new Date()
+            if (result.date === date.getDate()){
+                this.setState({firebase_updated: true})
+            }
+        }
+        if (this.state.firebase_updated === false || this.state.firebase_exist === false){
+            await this.fetchCall();
+            const date = new Date()
+            if (this.state.firebase_exist === true){
+                updateCollection(this.state.countryref,date.getDate(),this.state.ActiveCases,this.state.name,this.state.NewConfirmed,this.state.NewDeaths,this.state.NewRecovered,this.state.TotalConfirmed,this.state.TotalConfirmed,this.state.TotalDeaths,this.state.TotalRecovered)
+            }
+            else{
+                addDocToCollection(this.state.countryref,date.getDate(),this.state.ActiveCases,this.state.name,this.state.NewConfirmed,this.state.NewDeaths,this.state.NewRecovered,this.state.TotalConfirmed,this.state.TotalConfirmed,this.state.TotalDeaths,this.state.TotalRecovered)
+            }
         }
     }
 
@@ -58,9 +83,10 @@ export class Country1 extends React.Component {
         }
     }
 
-    componentDidMount(){
-        this.setState({countryref: window.location.href.substring(window.location.href.lastIndexOf('/') + 1)})
-        this.fetchCall();
+    async componentDidMount(){
+        await this.setState({countryref: window.location.href.substring(window.location.href.lastIndexOf('/') + 1)})
+
+        await this.FireStoreCall();
     }
 
     render() {
