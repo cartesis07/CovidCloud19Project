@@ -13,7 +13,6 @@ export class Table2 extends React.Component {
     constructor(){
         super();
         this.state = {
-        TotalConfirmed: [],
         NewRecovered: [],
         NewDeaths: [],
         NewCases: [],
@@ -24,51 +23,24 @@ export class Table2 extends React.Component {
     }
 
     async fetchCall(datestring){
-      var response = await fetch(datestring)
+      var response = await fetch("https://corona.lmao.ninja/v2/historical/all?lastdays=8")
       if (response.ok){
           const data = await response.json()
-          const x_date = new Date();
-          const x_date2 = new Date();
-          const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-          x_date2.setDate(x_date.getDate() - 7);
-
-          for (let i=0; i < 7; i++){
-            this.setState(prev => ({
-              TotalConfirmed: [...prev.TotalConfirmed, data[i].TotalConfirmed]
-            }))
+          var previous = data.deaths[0]
+          for (var element in data.deaths){
+              this.setState({ NewDeaths: this.state.NewDeaths.concat(data.deaths[element]  - data.deaths[previous])})
+              this.setState({ NewRecovered: this.state.NewRecovered.concat(data.recovered[element] - data.recovered[previous])})
+              this.setState({ NewCases: this.state.NewCases.concat(data.cases[element] - data.cases[previous])})
+              this.setState({ date: this.state.date.concat(element)})
+              previous = element
           }
 
-          var copy = this.state.TotalConfirmed.slice()
-          var sorted_array = copy.sort(function(a, b){return a - b})
-          var order = []
-          for (let i=0; i < 7; i++){
-            order.push(this.state.TotalConfirmed.indexOf(sorted_array[i]))
-          }
+          console.log(this.state.NewDeaths)
+          console.log(this.state.NewRecovered)
+          console.log(this.state.NewCases)
 
-          for (let i = 0; i < 7; i++){
-            var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
-            this.setState(prev => ({
-              date: [...prev.date, newstringdate]
-            }))
-            x_date2.setDate(x_date2.getDate() + 1);
-            this.setState(prev => ({
-              NewRecovered: [...prev.NewRecovered, data[order[i]].NewRecovered]
-            }))
-            this.setState(prev => ({
-              NewDeaths: [...prev.NewDeaths, data[order[i]].NewDeaths]
-            }))
-            this.setState(prev => ({
-              NewCases: [...prev.NewCases, data[order[i]].NewConfirmed]
-            }))
-          }
-          this.setState({loaded: true})   
-          var newstringdate = x_date2.getDate().toString() +  " " + monthNames[x_date2.getMonth()];
-          this.setState(prev => ({
-            date: [...prev.date, newstringdate]
-          }))
-          x_date2.setDate(x_date2.getDate() + 1);
+          this.setState({loaded: true})
       }   
       else{
         this.setState({error : true})
@@ -76,20 +48,7 @@ export class Table2 extends React.Component {
     }
 
     componentDidMount(){
-
-      function minTwoDigits(n) {
-        return (n < 10 ? '0' : '') + n;
-      }
-
-      var datestring = "https://api.covid19api.com/world?from=";
-      const date = new Date();
-      const date2 = new Date();
-      date.setDate(date.getDate());
-      date2.setDate(date.getDate() - 7);
-      datestring = datestring + date2.getFullYear().toString() + "-" + minTwoDigits(date2.getMonth()).toString() + "-" + minTwoDigits(date2.getDate()).toString() + "T00:00:00Z&to=";
-      datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
-
-      this.fetchCall(datestring);
+      this.fetchCall();
     }
 
     render(){
@@ -97,11 +56,11 @@ export class Table2 extends React.Component {
             <div className="Bar">
                 {!this.state.loaded && !this.state.error ? <Spinner className="Spinner" color="primary"/> : null}        
                 {this.state.loaded ? <Bar  data={{
-      labels: this.state.date,
+      labels: this.state.date.slice(1),
       datasets: [
         {
           label: "Daily New Cases",
-          data: this.state.NewCases,
+          data: this.state.NewCases.slice(1),
           backgroundColor: [
               "rgba(255, 177, 101,0.4)",
               "rgba(255, 177, 101,0.4)",
@@ -126,7 +85,7 @@ export class Table2 extends React.Component {
         },
         {
             label: "Daily Recovered",
-            data: this.state.NewRecovered,
+            data: this.state.NewRecovered.slice(1),
             backgroundColor: [
               "rgba(98,  182, 239,0.4)",
               "rgba(98,  182, 239,0.4)",
@@ -151,7 +110,7 @@ export class Table2 extends React.Component {
           },
           {
             label: "Daily Deaths",
-            data: this.state.NewDeaths,
+            data: this.state.NewDeaths.slice(1),
             backgroundColor: [
               "rgba(255, 134,159,0.4)",
               "rgba(255, 134,159,0.4)",
