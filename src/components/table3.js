@@ -22,36 +22,19 @@ export class Table3 extends React.Component {
         }
     }
 
-    async fetchCall(datestring){
-      var response = await fetch(datestring)
+    async fetchCall(){
+      var response = await fetch("https://corona.lmao.ninja/v2/historical/all")
       if(response.ok){
         const data = await response.json()
-        var length = Object.keys(data).length;
-          const x_date = new Date();
-          const x_date2 = new Date();
-          x_date2.setDate(x_date.getDate() - length);
-          for (let i = 0; i < length; i++){
 
-              const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        for (var element in data.deaths){
+            this.setState({ TotalDeaths: this.state.TotalDeaths.concat(data.deaths[element])})
+            this.setState({ TotalRecovered: this.state.TotalRecovered.concat(data.recovered[element])})
+            this.setState({ TotalConfirmed: this.state.TotalConfirmed.concat(data.cases[element])})
+            this.setState({ date: this.state.date.concat(element)})
+        }
 
-              var newstringdate = x_date2.getDate().toString() + " " + monthNames[x_date2.getMonth()];
-              this.setState(prev => ({
-                date: [...prev.date, newstringdate]
-              }))
-              x_date2.setDate(x_date2.getDate() + 1);
-
-              this.setState(prev => ({
-                  TotalConfirmed: [...prev.TotalConfirmed, data[i].TotalConfirmed]
-                }))
-              this.setState(prev => ({
-                  TotalRecovered: [...prev.TotalRecovered, data[i].TotalRecovered]
-                }))
-              this.setState(prev => ({
-                  TotalDeaths: [...prev.TotalDeaths, data[i].TotalDeaths]
-                }))
-          }
-          this.setState({loaded: true})
+        this.setState({loaded: true})
       }
       else{
         this.setState({error: true})
@@ -60,16 +43,7 @@ export class Table3 extends React.Component {
 
 
     componentDidMount(){
-
-        function minTwoDigits(n) {
-            return (n < 10 ? '0' : '') + n;
-          }
-
-        var datestring = "https://api.covid19api.com/world?from=2020-04-13T00:00:00Z&to=";
-        const date = new Date();
-        date.setDate(date.getDate() - 1);
-        datestring = datestring + date.getFullYear().toString() + "-" + minTwoDigits(date.getMonth()).toString() + "-" + minTwoDigits(date.getDate()).toString() + "T00:00:00Z";
-        this.fetchCall(datestring)
+        this.fetchCall()
     }
 
     render(){

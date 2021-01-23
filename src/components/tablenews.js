@@ -66,7 +66,7 @@ export class TableNews extends React.Component {
     {this.state.articles[this.state.position] ? <p class="card-text cardbodytext">{this.state.articles[this.state.position].content}</p> : null}
       <div class="d-flex justify-content-between align-items-center mt-auto">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    {this.state.articles[this.state.position] ? <button type="button" class="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position].country}</button> : null}
                     </div>
                     <small class="text-muted">9 mins</small>
                   </div>
@@ -84,7 +84,7 @@ export class TableNews extends React.Component {
       {this.state.articles[this.state.position + 1] ? <p class="card-text cardbodytext">{this.state.articles[this.state.position + 1].content}</p> : null}
       <div class="d-flex justify-content-between align-items-center mt-auto">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    {this.state.articles[this.state.position + 1] ? <button type="button" class="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position + 1].country}</button> : null}
                     </div>
                     <small class="text-muted">9 mins</small>
                   </div>
@@ -103,7 +103,7 @@ export class TableNews extends React.Component {
       {this.state.articles[this.state.position + 2] ? <p class="card-text cardbodytext">{this.state.articles[this.state.position + 2].content}</p> : null}
       <div class="d-flex justify-content-between align-items-center mt-auto">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    {this.state.articles[this.state.position + 2] ? <button type="button" class="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position + 2].country}</button> : null}
                     </div>
                     <small class="text-muted">9 mins</small>
                   </div>

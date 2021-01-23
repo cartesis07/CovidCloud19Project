@@ -108,7 +108,7 @@ export class AddNews extends React.Component {
         </p>
       </Alert>: null}
 
-      {!this.state.loaded ? <Spinner className="Spinner" color="primary"/> : null}        
+      {!this.state.loaded && user ? <Spinner className="Spinner" color="primary"/> : null}        
       {!this.state.submit && user !== null && this.state.loaded?
        <div>
        <h3>Add news to the website</h3>

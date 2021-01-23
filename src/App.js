@@ -7,8 +7,6 @@ import { AlertInfo } from "./components/alertinfo"
 import { Home } from "./components/home"
 import { Countries } from "./components/countries"
 import { AddNews } from "./components/addnews"
-import { News } from "./components/news"
-
 
 import { NotFound } from "./components/notfound"
 
@@ -47,7 +45,6 @@ class App extends React.Component {
             <Route exact path="/" component={Home}/>
             <Route path="/countries" component={Countries}/>
             <Route path="/add-news" component={AddNews}/>
-            <Route path="/news" component={News}/>
             <Route path="*" component={NotFound} />
           </Switch>
         </BrowserRouter>

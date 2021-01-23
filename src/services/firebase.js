@@ -34,6 +34,8 @@ export const addCollection = (title, content, country, date, email, imageURL) =>
   news.add({
     title: title,
     content: content,
+    country: country,
+    date: date
 })
 .then(function(docRef) {
     console.log("Document written with ID: ", docRef.id);
