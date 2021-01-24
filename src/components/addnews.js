@@ -17,6 +17,7 @@ export class AddNews extends React.Component {
             title: "",
             content: "",
             country: "Worldwide",
+            countryref: "WW",
             date: "",
             email: "",
             imageUrl: "",
@@ -66,7 +67,7 @@ export class AddNews extends React.Component {
       this.fetchCall();
     }
 
-    submit(){
+    async submit(){
         const date1 = new Date();
         this.setState({date: date1.toString()})
         console.log(this.state)
@@ -80,6 +81,9 @@ export class AddNews extends React.Component {
           this.setState({contentvalid: "true"})
           this.setState({titlevalid: "true"})
           this.setState({submit: true})
+          var index = this.state.countries.indexOf(this.state.country)
+          await this.setState({countryref: this.state.countriesID[index]})
+          addCollection(this.state.title, this.state.content, this.state.country, this.state.countryref, date1, this.state.email, this.state.imageURL)
         }
     }
 
