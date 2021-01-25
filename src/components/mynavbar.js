@@ -60,6 +60,9 @@ const MyNavBar = (props) => {
                 <DropdownItem href="https://material-ui.com/" target="_blank">
                   material-UI
                 </DropdownItem>
+                <DropdownItem href="https://www.npmjs.com/package/react-notifications" target="_blank">
+                  react-notifications
+                </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavItem>

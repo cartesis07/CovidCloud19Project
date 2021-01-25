@@ -1,9 +1,6 @@
 import React from 'react';
 import "./table.css"
 import 'bootstrap/dist/css/bootstrap.css';
-import img from './background.jpg';
-import img2 from './background2.jpg';
-import img3 from './background3.jpg';
 
 import { readCollection } from "../services/firebase"
 
@@ -60,7 +57,7 @@ export class TableNews extends React.Component {
   </a> : null}
 
   {this.state.loaded ? <div class="card">
-  {this.state.articles[this.state.position] ? <img class="card-img-top" src={img} alt="Card image cap"/> : null}
+  {this.state.articles[this.state.position] ? <img class="card-img-top" src={this.state.articles[this.state.position].imageURL} alt="Card image cap"/> : null}
     <div class="card-body d-flex flex-column" >
     {this.state.articles[this.state.position] ?<h5 class="card-title cardbodytexttitle">{this.state.articles[this.state.position].title}</h5> : null}
     {this.state.articles[this.state.position] ? <p class="card-text cardbodytext">{this.state.articles[this.state.position].content}</p> : null}
@@ -78,7 +75,7 @@ export class TableNews extends React.Component {
   : null  }
 
   {this.state.loaded ? <div className="card">
-  {this.state.articles[this.state.position + 1] ?  <img class="card-img-top" src={img2} alt="Card image cap"/> : null}
+  {this.state.articles[this.state.position + 1] ?  <img class="card-img-top" src={this.state.articles[this.state.position + 1].imageURL} alt="Card image cap"/> : null}
     <div class="card-body d-flex flex-column">
     {this.state.articles[this.state.position + 1] ? <h5 class="card-title cardbodytexttitle">{this.state.articles[this.state.position + 1].title}</h5> : null}
       {this.state.articles[this.state.position + 1] ? <p class="card-text cardbodytext">{this.state.articles[this.state.position + 1].content}</p> : null}
@@ -97,7 +94,7 @@ export class TableNews extends React.Component {
 
 
   {this.state.loaded ? <div class="card">
-  {this.state.articles[this.state.position + 2] ? <img class="card-img-top" src={img3} alt="Card image cap"/> : null}
+  {this.state.articles[this.state.position + 2] ? <img class="card-img-top" src={this.state.articles[this.state.position + 2].imageURL} alt="Card image cap"/> : null}
     <div class="card-body d-flex flex-column">
       {this.state.articles[this.state.position + 2] ? <h5 class="card-title cardbodytexttitle">{this.state.articles[this.state.position + 2].title}</h5> : null}
       {this.state.articles[this.state.position + 2] ? <p class="card-text cardbodytext">{this.state.articles[this.state.position + 2].content}</p> : null}

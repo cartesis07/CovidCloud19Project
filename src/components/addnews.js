@@ -9,6 +9,10 @@ import UserContext from '../userContext'
 import { Country1 } from './country1';
 import { TabRounded, TrainOutlined } from '@material-ui/icons';
 
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
+import 'react-notifications/lib/notifications.css';
+
 export class AddNews extends React.Component {
     constructor(){
         super();
@@ -20,16 +24,37 @@ export class AddNews extends React.Component {
             countryref: "WW",
             date: "",
             email: "",
-            imageUrl: "",
             countries: [],
             countriesID: [],
             titlevalid: "",
             contentvalid: "",
             loaded: false,
+            image: "",
+            imagevalid: "",
         }
     }
 
     static contextType = UserContext
+
+    createNotification(type,content){
+      switch (type) {
+        case 'info':
+          NotificationManager.info(content);
+          break;
+        case 'success':
+          NotificationManager.success('Success',content);
+          break;
+        case 'warning':
+          console.log("coucoicipeifjzpeifh")
+          NotificationManager.warning('Warning',content, 3000);
+          break;
+        case 'error':
+          NotificationManager.error(content, 5000, () => {
+            alert('callback');
+          });
+          break;
+        }
+    }
 
     async fetchCall(){
       var response = await fetch("https://api.covid19api.com/countries")
@@ -67,23 +92,35 @@ export class AddNews extends React.Component {
       this.fetchCall();
     }
 
+    handleImageasFile = (e) => {
+      const image = e.target.files[0]
+      this.setState({image: image})
+    }
+
     async submit(){
         const date1 = new Date();
         this.setState({date: date1.toString()})
         console.log(this.state)
-        if (this.state.title == ""){
+        if (this.state.title === ""){
             this.setState({titlevalid: "false"})
         }
-        if (this.state.content == ""){
+        if (this.state.content === ""){
           this.setState({contentvalid: "false"})
+        } 
+        if (this.state.image === ""){
+          console.log("coucou")
+          this.createNotification('warning',"Please, upload an image to add this news to our database.")
         }
-        if (this.state.content != "" && this.state.title != ""){
+        if (this.state.content !== "" && this.state.title !== "" && this.state.image !== ""){
           this.setState({contentvalid: "true"})
           this.setState({titlevalid: "true"})
-          this.setState({submit: true})
+          this.setState({imagevalid: "true"})
           var index = this.state.countries.indexOf(this.state.country)
           await this.setState({countryref: this.state.countriesID[index]})
-          addCollection(this.state.title, this.state.content, this.state.country, this.state.countryref, date1, this.state.email, this.state.imageURL)
+          this.createNotification('info','Your news is currently being uploaded in our database')
+          await addCollection(this.state.title, this.state.content, this.state.country, this.state.countryref, date1, this.state.email, this.state.image)
+          this.createNotification('success','Congratulations, your news has been uploaded to our database')
+          this.setState({submit: true})
         }
     }
 
@@ -145,7 +182,7 @@ export class AddNews extends React.Component {
       <FormGroup row>
         <Label for="exampleFile" sm={2}>Thumbnail</Label>
         <Col sm={10}>
-          <Input type="file" name="file" id="exampleFile" />
+          <Input type="file" name="file" id="exampleFile" onChange={this.handleImageasFile}/>
           <FormText color="muted">
             You can add a thumbnail for your article.
           </FormText>
@@ -154,7 +191,7 @@ export class AddNews extends React.Component {
       <br/>
       <Button color="primary" onClick={() => this.submit()}>Submit</Button>
     </Form></div> : null}
-
+    <NotificationContainer/>
             </div>
         );
     }

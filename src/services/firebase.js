@@ -22,6 +22,8 @@ export const db = firebase.firestore();
 var news = db.collection("news");
 var summaries = db.collection("summaries");
 
+export const storage = firebase.storage()
+
 export const signInWithGoogle = () => {
   auth.signInWithPopup(googleProvider).then((res) => {
     console.log(res.user)
@@ -30,20 +32,25 @@ export const signInWithGoogle = () => {
   })
 }
 
-export const addCollection = (title, content, country, countryref, date, email, imageURL) => {
-  news.add({
-    title: title,
-    content: content,
-    country: country,
-    countryref: countryref,
-    date: date
-})
-.then(function(docRef) {
-    console.log("Document written with ID: ", docRef.id);
-})
-.catch(function(error) {
-    console.error("Error adding document: ", error);
-});
+export const addCollection = async (title, content, country, countryref, date, email, image) => {
+  const uploadTask = await storage.ref(`/images/${image.name}`).put(image)
+  storage.ref('images').child(image.name).getDownloadURL().then(fireBaseUrl => {
+    news.add({
+      title: title,
+      content: content,
+      country: country,
+      countryref: countryref,
+      date: date,
+      imageURL: fireBaseUrl
+  })
+  .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+  })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+  })
+
 }
 
 export const updateCollection = (country_code, day, active_cases, name, new_cases, new_deaths, new_recovered, total_cases, total_deaths, total_recovered) => {
