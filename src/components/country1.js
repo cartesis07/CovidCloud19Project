@@ -10,6 +10,9 @@ import ReactCountryFlag from "react-country-flag"
 
 import { updateCollection, readDocCollection, addDocToCollection } from "../services/firebase"
 
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+
 export class Country1 extends React.Component {
 
     constructor(){
@@ -31,22 +34,54 @@ export class Country1 extends React.Component {
         }
     }
 
+    createNotification(type,content){
+        switch (type) {
+          case 'info':
+            NotificationManager.info(content);
+            break;
+          case 'success':
+            NotificationManager.success('Success',content);
+            break;
+          case 'warning':
+            console.log("coucoicipeifjzpeifh")
+            NotificationManager.warning('Warning',content, 3000);
+            break;
+          case 'error':
+            NotificationManager.error(content, 5000, () => {
+              alert('callback');
+            });
+            break;
+          }
+      }
+
     async FireStoreCall(){
         const result = await readDocCollection("summaries",this.state.countryref)
         if (result !== null){
             this.setState({firebase_exist: true})
             const date = new Date()
-            if (result.date === date.getDate()){
+            if (result.day === date.getDate()){
                 this.setState({firebase_updated: true})
+                this.createNotification('info','Up-to-date summary data downloaded from database')
+                this.setState({name: result.country})
+                this.setState({NewConfirmed: result.new_cases})
+                this.setState({TotalConfirmed: result.total_cases})
+                this.setState({NewDeaths: result.new_deaths})
+                this.setState({NewRecovered: result.new_recovered})
+                this.setState({TotalRecovered: result.total_recovered})
+                this.setState({TotalDeaths: result.total_deaths})
+                this.setState({ActiveCases: this.state.TotalConfirmed - this.state.TotalDeaths - this.state.TotalRecovered})
+                this.setState({loaded: true})
             }
         }
         if (this.state.firebase_updated === false || this.state.firebase_exist === false){
             await this.fetchCall();
             const date = new Date()
             if (this.state.firebase_exist === true){
+                this.createNotification('info','Updated firebase database')
                 updateCollection(this.state.countryref,date.getDate(),this.state.ActiveCases,this.state.name,this.state.NewConfirmed,this.state.NewDeaths,this.state.NewRecovered,this.state.TotalConfirmed,this.state.TotalConfirmed,this.state.TotalDeaths,this.state.TotalRecovered)
             }
             else{
+                this.createNotification('info','Created firebase document for this country')
                 addDocToCollection(this.state.countryref,date.getDate(),this.state.ActiveCases,this.state.name,this.state.NewConfirmed,this.state.NewDeaths,this.state.NewRecovered,this.state.TotalConfirmed,this.state.TotalConfirmed,this.state.TotalDeaths,this.state.TotalRecovered)
             }
         }
@@ -92,6 +127,7 @@ export class Country1 extends React.Component {
     render() {
         return(
             <div>
+                          <NotificationContainer/>
         {this.state.countryerror ? 
                     <section class="jumbotron text-center" className="jumbotron">
                     <div class="container">

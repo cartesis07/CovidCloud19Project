@@ -10,7 +10,6 @@ import { Country1 } from './country1';
 import { TabRounded, TrainOutlined } from '@material-ui/icons';
 
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-
 import 'react-notifications/lib/notifications.css';
 
 export class AddNews extends React.Component {
