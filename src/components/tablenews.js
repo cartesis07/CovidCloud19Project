@@ -14,15 +14,55 @@ export class TableNews extends React.Component {
           numberofarticle: 0,
           position: 0,
           maxrange: 0,
+          today: ""
         }
     }
 
+    timeDifference(current, previous) {
+
+      var msPerMinute = 60 * 1000;
+      var msPerHour = msPerMinute * 60;
+      var msPerDay = msPerHour * 24;
+      var msPerMonth = msPerDay * 30;
+      var msPerYear = msPerDay * 365;
+  
+      var elapsed = current - previous;
+  
+      if (elapsed < msPerMinute) {
+           return Math.round(elapsed/1000) + ' seconds ago';   
+      }
+  
+      else if (elapsed < msPerHour) {
+           return Math.round(elapsed/msPerMinute) + ' minutes ago';   
+      }
+  
+      else if (elapsed < msPerDay ) {
+           return Math.round(elapsed/msPerHour ) + ' hours ago';   
+      }
+  
+      else if (elapsed < msPerMonth) {
+          return 'approximately ' + Math.round(elapsed/msPerDay) + ' days ago';   
+      }
+  
+      else if (elapsed < msPerYear) {
+          return 'approximately ' + Math.round(elapsed/msPerMonth) + ' months ago';   
+      }
+  
+      else {
+          return 'approximately ' + Math.round(elapsed/msPerYear ) + ' years ago';   
+      }
+  }
+
     componentDidMount(){
+      var date = new Date();
+      this.setState({today: date})
       this.FireStoreCall();
     }
 
     async FireStoreCall(){
-      await readCollection("news").then(result => this.readResult(result))      
+      await readCollection("news").then(result => this.readResult(result))
+      const myData = await [].concat(this.state.articles).sort((a, b) => a.date < b.date ? 1 : -1)  
+      await this.setState({articles: myData})
       this.setState({loaded: true})
     }
 
@@ -65,7 +105,7 @@ export class TableNews extends React.Component {
                     <div class="btn-group">
                     {this.state.articles[this.state.position] ? <button type="button" class="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position].country}</button> : null}
                     </div>
-                    <small class="text-muted">9 mins</small>
+                    <small class="text-muted">{this.timeDifference(this.state.today.getTime(),this.state.articles[this.state.position].date)}</small>
                   </div>
     </div>
   </div> : null}
@@ -83,7 +123,7 @@ export class TableNews extends React.Component {
                     <div class="btn-group">
                     {this.state.articles[this.state.position + 1] ? <button type="button" class="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position + 1].country}</button> : null}
                     </div>
-                    <small class="text-muted">9 mins</small>
+                    {this.state.articles[this.state.position + 1] ? <small class="text-muted">{this.timeDifference(this.state.today.getTime(),this.state.articles[this.state.position + 1].date)}</small> : null}
                   </div>
     </div>
   </div> : null}
@@ -94,7 +134,7 @@ export class TableNews extends React.Component {
 
 
   {this.state.loaded ? <div class="card">
-  {this.state.articles[this.state.position + 2] ? <img class="card-img-top" src={this.state.articles[this.state.position + 2].imageURL} alt="Card image cap"/> : null}
+  {this.state.articles[this.state.position + 2] ? <img class="card-img-top img-responsive" src={this.state.articles[this.state.position + 2].imageURL} alt="Card image cap"/> : null}
     <div class="card-body d-flex flex-column">
       {this.state.articles[this.state.position + 2] ? <h5 class="card-title cardbodytexttitle">{this.state.articles[this.state.position + 2].title}</h5> : null}
       {this.state.articles[this.state.position + 2] ? <p class="card-text cardbodytext">{this.state.articles[this.state.position + 2].content}</p> : null}
@@ -102,7 +142,7 @@ export class TableNews extends React.Component {
                     <div class="btn-group">
                     {this.state.articles[this.state.position + 2] ? <button type="button" class="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position + 2].country}</button> : null}
                     </div>
-                    <small class="text-muted">9 mins</small>
+                    {this.state.articles[this.state.position + 2] ? <small class="text-muted">{this.timeDifference(this.state.today.getTime(),this.state.articles[this.state.position + 2].date)}</small> : null}
                   </div>
     </div>
   </div> : null }

@@ -50,7 +50,6 @@ export const addCollection = async (title, content, country, countryref, date, e
       console.error("Error adding document: ", error);
   });
   })
-
 }
 
 export const updateCollection = (country_code, day, active_cases, name, new_cases, new_deaths, new_recovered, total_cases, total_deaths, total_recovered) => {

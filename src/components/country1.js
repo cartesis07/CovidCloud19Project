@@ -61,7 +61,7 @@ export class Country1 extends React.Component {
             const date = new Date()
             if (result.day === date.getDate()){
                 this.setState({firebase_updated: true})
-                this.createNotification('info','Up-to-date summary data downloaded from database')
+                this.createNotification('info','Up-to-date summary data downloaded from Cloud firestore')
                 this.setState({name: result.country})
                 this.setState({NewConfirmed: result.new_cases})
                 this.setState({TotalConfirmed: result.total_cases})
@@ -78,11 +78,11 @@ export class Country1 extends React.Component {
             const date = new Date()
             if (this.state.firebase_exist === true){
                 this.createNotification('info','Updated firebase database')
-                updateCollection(this.state.countryref,date.getDate(),this.state.ActiveCases,this.state.name,this.state.NewConfirmed,this.state.NewDeaths,this.state.NewRecovered,this.state.TotalConfirmed,this.state.TotalConfirmed,this.state.TotalDeaths,this.state.TotalRecovered)
+                updateCollection(this.state.countryref,date.getDate(),this.state.ActiveCases,this.state.name,this.state.NewConfirmed,this.state.NewDeaths,this.state.NewRecovered,this.state.TotalConfirmed,this.state.TotalDeaths,this.state.TotalRecovered)
             }
             else{
                 this.createNotification('info','Created firebase document for this country')
-                addDocToCollection(this.state.countryref,date.getDate(),this.state.ActiveCases,this.state.name,this.state.NewConfirmed,this.state.NewDeaths,this.state.NewRecovered,this.state.TotalConfirmed,this.state.TotalConfirmed,this.state.TotalDeaths,this.state.TotalRecovered)
+                addDocToCollection(this.state.countryref,date.getDate(),this.state.ActiveCases,this.state.name,this.state.NewConfirmed,this.state.NewDeaths,this.state.NewRecovered,this.state.TotalConfirmed,this.state.TotalDeaths,this.state.TotalRecovered)
             }
         }
     }

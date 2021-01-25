@@ -111,13 +111,13 @@ export class AddNews extends React.Component {
           this.createNotification('warning',"Please, upload an image to add this news to our database.")
         }
         if (this.state.content !== "" && this.state.title !== "" && this.state.image !== ""){
-          this.setState({contentvalid: "true"})
-          this.setState({titlevalid: "true"})
-          this.setState({imagevalid: "true"})
+          this.setState({contentvalid: ""})
+          this.setState({titlevalid: ""})
+          this.setState({imagevalid: ""})
           var index = this.state.countries.indexOf(this.state.country)
           await this.setState({countryref: this.state.countriesID[index]})
           this.createNotification('info','Your news is currently being uploaded in our database')
-          await addCollection(this.state.title, this.state.content, this.state.country, this.state.countryref, date1, this.state.email, this.state.image)
+          await addCollection(this.state.title, this.state.content, this.state.country, this.state.countryref, date1.getTime(), this.state.email, this.state.image)
           this.createNotification('success','Congratulations, your news has been uploaded to our database')
           this.setState({submit: true})
         }
@@ -160,7 +160,7 @@ export class AddNews extends React.Component {
       </FormGroup>
       <FormGroup>
         <Label for="Email">Email</Label>
-        <Input onLoad = {() => this.setState({email: user.email})}valid="true" readonly="readonly" type="email" name="email" id="email" placeholder={user.email} />
+        <Input onLoad = {() => this.setState({email: user.email})} valid="true" readonly="readonly" type="email" name="email" id="email" placeholder={user.email} />
       </FormGroup>
       <FormGroup>
         <Label for="exampleSelect">Select a country</Label>

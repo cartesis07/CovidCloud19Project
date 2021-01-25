@@ -95,7 +95,7 @@
 
 .cardbodytext{
     color: #282c34;
-    overflow: hidden;
+    overflow: auto;
     max-height: 4.5rem;
 }
 
@@ -152,4 +152,8 @@
 
 .jumbotron{
     background-color:transparent !important;
+}
+
+.card-img-top{
+    max-height: 55%;
 }
