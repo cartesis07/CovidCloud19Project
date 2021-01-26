@@ -12,7 +12,6 @@ import { Button,  UncontrolledDropdown,
 import './login.css';
 
 import UserContext from '../userContext'
-import { Update } from '@material-ui/icons';
 
 export class LogIn extends React.Component{
     constructor(props){

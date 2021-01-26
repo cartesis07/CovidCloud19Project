@@ -1,13 +1,12 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input, Badge, Alert, Col, FormText, Spinner } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Alert, Col, FormText, Spinner } from 'reactstrap';
 
-import { addCollection } from "../services/firebase"
+import { addCollection, readCollection, addUserIDToCollection } from "../services/firebase"
+import { auth } from '../services/firebase';
 
 import "./table.css"
 
 import UserContext from '../userContext'
-import { Country1 } from './country1';
-import { TabRounded, TrainOutlined } from '@material-ui/icons';
 
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -30,6 +29,10 @@ export class AddNews extends React.Component {
             loaded: false,
             image: "",
             imagevalid: "",
+            userID: null,
+            superuser: false,
+            numberofusers: "",
+            superusers: []
         }
     }
 
@@ -87,8 +90,32 @@ export class AddNews extends React.Component {
       })
     }
 
-    componentDidMount(){
+    async checkSuperIDs(){
+      await readCollection("users").then(result => this.readResult(result))
+    }
+
+    readResult(result){
+      this.setState({numberofusers: result.length})
+      for (let i = 0; i < this.state.numberofusers; i++){
+          if(result[i].userID === this.state.userID){
+              this.setState({superuser: true})
+              this.createNotification('success','You are an eligible user')
+            }
+          }
+        if(this.state.superuser === false){
+          this.setState({superuser: "display-false"})
+          this.createNotification('warning','You are not an eligible user')
+        }
+      }
+
+    async componentDidMount(){
       this.fetchCall();
+      this.unsubscribeFromAuth = auth.onAuthStateChanged(googleuser => {
+        this.createNotification('info','Checking if you are an eligible user...')
+        this.setState({userID: googleuser.uid})
+        console.log(this.state.userID)
+        this.checkSuperIDs();
+      });
     }
 
     handleImageasFile = (e) => {
@@ -123,11 +150,18 @@ export class AddNews extends React.Component {
         }
     }
 
+    async sendUserID(){
+      this.createNotification('info','Your news is currently being uploaded in our database')
+      await addUserIDToCollection(this.state.userID)
+      this.checkSuperIDs()
+      this.createNotification('success','Your user ID has been added to our database')
+    }
+
     render(){
         const { user, updateUser } = this.context
         return(
             <div className="news">
-        {user == null ? <Alert color="info">
+        {user === null ? <Alert color="info">
         <h4 className="alert-heading">Sign In with Google</h4>
         <p>
             Please, sign in with Google to add news in the database.
@@ -137,6 +171,24 @@ export class AddNews extends React.Component {
           Only eligible users are allowed to add news.
         </p>
       </Alert>: null}
+
+      {user !== null && this.state.superuser === "display-false" ? <Alert color="info">
+        <h4 className="alert-heading">Become an eligible user</h4>
+        <p>
+            Please, click on the button below to become an eligible user and acquire the right to post news in our database.
+        </p>
+        <hr />
+        <p className="mb-0">
+          Only eligible users are allowed to add news.
+        </p>
+      </Alert>: null}
+
+
+
+      {user !== null && this.state.superuser === "display-false" ? 
+      <Button onClick={() => this.sendUserID()} color="primary">Become an eligible user</Button>
+      : null}
+
         {this.state.submit ? <Alert color="success">
         <h4 className="alert-heading">Well done !</h4>
         <p>
@@ -148,8 +200,8 @@ export class AddNews extends React.Component {
         </p>
       </Alert>: null}
 
-      {!this.state.loaded && user ? <Spinner className="Spinner" color="primary"/> : null}        
-      {!this.state.submit && user !== null && this.state.loaded?
+      {!this.state.loaded && user && this.state.superuser !== "display-false" && this.state.superuser !== false ?<Spinner className="Spinner" color="primary"/> : null}        
+      {!this.state.submit && user !== null && this.state.superuser !== "display-false" && this.state.superuser !== false && this.state.loaded ?
        <div>
        <h3>Add news to the website</h3>
        <br/>

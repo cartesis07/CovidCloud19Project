@@ -104,3 +104,9 @@ export const addDocToCollection = (country_code, day, active_cases, name, new_ca
     total_recovered: total_recovered,
   });
 }
+
+export const addUserIDToCollection = async (userID) => {
+  db.collection("users").add({
+    userID: userID
+  })
+}
