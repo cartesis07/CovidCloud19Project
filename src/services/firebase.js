@@ -74,6 +74,12 @@ export const readCollection = async (name) => {
   return snapshot.docs.map(doc => doc.data());
 }
 
+export const readCollectionCondition = async (name,condition) => {
+  const snapshot = await db.collection(name).where("countryref","==",condition).get()
+
+  return snapshot.docs.map(doc => doc.data());
+}
+
 export const readDocCollection = async (collection,doc) => {
   var docRef = db.collection(collection).doc(doc);
 
@@ -89,7 +95,6 @@ export const readDocCollection = async (collection,doc) => {
 
   return result
 }
-
 export const addDocToCollection = (country_code, day, active_cases, name, new_cases, new_deaths, new_recovered, total_cases, total_deaths, total_recovered) => {
   db.collection("summaries").doc(country_code).set({
     country: country_code,

@@ -2,7 +2,7 @@ import React from 'react';
 import "./table.css"
 import 'bootstrap/dist/css/bootstrap.css';
 
-import { readCollection } from "../services/firebase"
+import { readCollectionCondition } from "../services/firebase"
 
 export class CountryNews extends React.Component {
     constructor(){
@@ -25,14 +25,13 @@ export class CountryNews extends React.Component {
     }
 
     async FireStoreCall(){
-      await readCollection("news").then(result => this.readResult(result))      
+      await readCollectionCondition("news",this.state.countryref).then(result => this.readResult(result))      
       this.setState({loaded: true})
     }
 
     readResult(result){
       this.setState({numberofarticle: result.length})
       for (let i = 0; i < this.state.numberofarticle; i++){
-          if(result[i].countryref === this.state.countryref)
           this.setState(prev => ({
             articles: [...prev.articles, result[i]]
           }))
