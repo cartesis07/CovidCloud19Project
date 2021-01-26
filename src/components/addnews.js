@@ -111,7 +111,9 @@ export class AddNews extends React.Component {
     async componentDidMount(){
       this.fetchCall();
       this.unsubscribeFromAuth = auth.onAuthStateChanged(googleuser => {
-        this.createNotification('info','Checking if you are an eligible user...')
+        if(googleuser.uid !== undefined){
+          this.createNotification('info','Checking if you are an eligible user...')
+        }
         this.setState({userID: googleuser.uid})
         console.log(this.state.userID)
         this.checkSuperIDs();

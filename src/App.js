@@ -34,26 +34,26 @@ class App extends React.Component {
     const user = this.state.user
     const updateUser = this.updateUser
     return (
+      <BrowserRouter>
       <UserProvider value={{user,updateUser}}>
       <div className="App">
         <MyNavBar/>
         <header className="App-header">
         </header>
         <body className="Content">
-        <BrowserRouter>
           <Switch>  
             <Route exact path="/" component={Home}/>
             <Route path="/countries" component={Countries}/>
             <Route path="/add-news" component={AddNews}/>
             <Route path="*" component={NotFound} />
           </Switch>
-        </BrowserRouter>
         </body>
         <footer className="App-footer">
         <AlertInfo/>
         </footer>
       </div>
       </UserProvider>
+      </BrowserRouter>
     );
   }
 
