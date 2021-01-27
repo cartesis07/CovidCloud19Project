@@ -87,7 +87,7 @@
 
 .cardbodytexttitle{
     color: #282c34;
-    overflow: hidden;
+    overflow: auto;
     white-space: nowrap;
     min-height: 1.2rem;
 }
