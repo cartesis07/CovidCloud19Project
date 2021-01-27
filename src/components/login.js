@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 
 import { signInWithGoogle } from "../services/firebase";
 import { auth } from '../services/firebase';
@@ -27,7 +27,7 @@ export class LogIn extends React.Component{
     unsubscribeFromAuth = null;
 
     updateuser(newuser){
-        const {user, updateUser} = this.context
+        const {updateUser} = this.context
         updateUser(newuser)
     }
 

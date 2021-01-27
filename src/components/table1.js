@@ -57,7 +57,7 @@ export class Table1 extends React.Component {
         {this.state.error ? <Alert className="block1" color="danger">
         <h4 className="alert-heading">Oops, API call error</h4>
         <p>
-          This website is running with the free version of <a href="https://covid19api.com" target="_blank">COVID19API</a>, so it is unfortunately rate-limited.
+          This website is running with the free version of <a href="https://covid19api.com" target="_blank" rel="noreferrer">COVID19API</a>, so it is unfortunately rate-limited.
         </p>
         <hr />
         <p className="mb-0">
@@ -69,7 +69,7 @@ export class Table1 extends React.Component {
                 {this.state.loaded ? <Table borderless hover>
                 <thead>
                     <tr class="table-warning">
-                        <th colspan="2" className="text-center">Worldwide cases</th>
+                        <th colSpan="2" className="text-center">Worldwide cases</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,7 +88,7 @@ export class Table1 extends React.Component {
                 </tbody>
                 <thead>
                     <tr class="table-primary">
-                        <th colspan="2" className="text-center">Worldwide recoveries</th>
+                        <th colSpan="2" className="text-center">Worldwide recoveries</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,7 +107,7 @@ export class Table1 extends React.Component {
           </tbody>
                 <thead>
                     <tr class="table-danger">
-                        <th colspan="2" className="text-center">Worldwide deaths</th>
+                        <th colSpan="2" className="text-center">Worldwide deaths</th>
                     </tr>
                 </thead>
                 <tbody>

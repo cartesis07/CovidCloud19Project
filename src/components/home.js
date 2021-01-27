@@ -10,10 +10,6 @@ import "../components/table.css"
 
 export class Home extends React.Component {
 
-    constructor(){
-        super();
-    }
-
     render(){
         return(
             <div className="Content">

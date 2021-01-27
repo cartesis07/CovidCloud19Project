@@ -3,7 +3,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Table } from 'reactstrap';
 
-import { Spinner, Alert, Button } from 'reactstrap';
+import { Spinner, Alert } from 'reactstrap';
  
 import "./table.css"
 
@@ -86,7 +86,6 @@ export class Table4 extends React.Component {
 
     renderTableData(){
         return this.state.countries.map((Country, index) => {
-            var string = "/countries/"
             const { country, newcases, totalcases, newrecoveries, totalrecoveries, newdeaths, totaldeaths, countrycode } = Country //destructuring
             return (
                <tr className="beautiful-table" key={country}>
@@ -130,7 +129,7 @@ export class Table4 extends React.Component {
         {this.state.error ? <Alert className="block1" color="danger">
         <h4 className="alert-heading">Oops, API call error</h4>
         <p>
-          This website is running with the free version of <a href="https://covid19api.com" target="_blank">COVID19API</a>, so it is unfortunately rate-limited.
+          This website is running with the free version of <a href="https://covid19api.com" target="_blank" rel="noreferrer">COVID19API</a>, so it is unfortunately rate-limited.
         </p>
         <hr />
         <p className="mb-0">
@@ -141,7 +140,7 @@ export class Table4 extends React.Component {
             {this.state.loaded ? <Table borderless hover> 
                 <thead>
                     <tr className="thead-light">
-                        <th colspan="7" class="text-center">Cases, Recoveries and Deaths by Country</th>
+                        <th colSpan="7" class="text-center">Cases, Recoveries and Deaths by Country</th>
                     </tr> 
                 </thead>
                 <tbody className="thead-light">

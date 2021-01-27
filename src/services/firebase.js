@@ -20,7 +20,6 @@ googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 export const db = firebase.firestore();
 var news = db.collection("news");
-var summaries = db.collection("summaries");
 
 export const storage = firebase.storage()
 
@@ -33,7 +32,7 @@ export const signInWithGoogle = () => {
 }
 
 export const addCollection = async (title, content, country, countryref, date, email, image) => {
-  const uploadTask = await storage.ref(`/images/${image.name}`).put(image)
+  await storage.ref(`/images/${image.name}`).put(image)
   storage.ref('images').child(image.name).getDownloadURL().then(fireBaseUrl => {
     news.add({
       title: title,

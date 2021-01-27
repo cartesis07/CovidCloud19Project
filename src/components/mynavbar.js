@@ -11,8 +11,6 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText,
-  Button
 } from 'reactstrap';
 import { LogIn } from "./login";
 import "./mynavbar.css"

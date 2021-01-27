@@ -6,7 +6,7 @@ import { Bar } from "react-chartjs-2";
 
 import "./table.css"
 
-import { Spinner, Alert } from 'reactstrap';
+import { Spinner } from 'reactstrap';
 
 export class Table2 extends React.Component {
 
@@ -35,11 +35,6 @@ export class Table2 extends React.Component {
               this.setState({ date: this.state.date.concat(element)})
               previous = element
           }
-
-          console.log(this.state.NewDeaths)
-          console.log(this.state.NewRecovered)
-          console.log(this.state.NewCases)
-
           this.setState({loaded: true})
       }   
       else{

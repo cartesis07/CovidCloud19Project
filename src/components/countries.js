@@ -4,18 +4,10 @@ import { Country3 } from "./country3"
 import { CountryNews } from "./countrynews"
 
 import React from 'react';
-import { Router } from "react-router-dom"
 
 import "../components/table.css"
 
 export class Countries extends React.Component {
-
-    constructor(){
-        super();
-    }
-
-    componentDidMount(){
-    }
 
     render(){
         return(

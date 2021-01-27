@@ -1,17 +1,9 @@
 import React from 'react';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Button} from 'reactstrap';
 
 export class NotFound extends React.Component{
-    constructor(){
-        super();
-    }
 
-    componentDidMount(){
-
-    }
-    
     render(){
         return(
             <div>

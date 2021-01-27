@@ -51,6 +51,8 @@ export class Country1 extends React.Component {
               alert('callback');
             });
             break;
+          default:
+              break;
           }
       }
 
@@ -161,7 +163,7 @@ export class Country1 extends React.Component {
             {this.state.error ? <Alert className="block1" color="danger">
         <h4 className="alert-heading">Oops, API call error</h4>
         <p>
-          This website is running with the free version of <a href="https://covid19api.com" target="_blank">COVID19API</a>, so it is unfortunately rate-limited.
+          This website is running with the free version of <a href="https://covid19api.com" target="_blank" rel="noreferrer">COVID19API</a>, so it is unfortunately rate-limited.
         </p>
         <hr />
         <p className="mb-0">

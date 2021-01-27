@@ -74,38 +74,37 @@ export class TableNews extends React.Component {
           }))
       }
       this.setState({loaded: true});
-      console.log(this.state);
     }
 
     render(){
         return(
             <div className="maincontainer">
-                <section class="jumbotron text-center" className="jumbotron">
-        <div class="container">
-          <h1 class="jumbotron-heading">Last Worldwide News about Covid19</h1>
-          <p class="lead">These are the last worldwide news posted on our database. <br/> You can also contribute by signing in with Google and becoming an eligible user.</p>
+                <section className="jumbotron text-center" className="jumbotron">
+        <div className="container">
+          <h1 className="jumbotron-heading">Last Worldwide News about Covid19</h1>
+          <p className="lead">These are the last worldwide news posted on our database. <br/> You can also contribute by signing in with Google and becoming an eligible user.</p>
           <p>
-            <a href="/add-news" class="btn btn-primary my-2">Add News</a>
+            <a href="/add-news" className="btn btn-primary my-2">Add News</a>
           </p>
         </div>
       </section>
 
-            <div class="card-deck align-items-center">
+            <div className="card-deck align-items-center">
   {this.state.position !== 0 ? <a onClick={() => this.setState({position: (Math.abs(this.state.position - 3))%this.state.numberofarticle})}>
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
+    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span className="sr-only">Previous</span>
   </a> : null}
 
-  {this.state.loaded ? <div class="card">
-  {this.state.articles[this.state.position] ? <img class="card-img-top" src={this.state.articles[this.state.position].imageURL} alt="Card image cap"/> : null}
-    <div class="card-body d-flex flex-column" >
-    {this.state.articles[this.state.position] ?<h5 class="card-title cardbodytexttitle">{this.state.articles[this.state.position].title}</h5> : null}
-    {this.state.articles[this.state.position] ? <p class="card-text cardbodytext">{this.state.articles[this.state.position].content}</p> : null}
-      <div class="d-flex justify-content-between align-items-center mt-auto">
-                    <div class="btn-group">
-                    {this.state.articles[this.state.position] ? <button type="button" class="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position].country}</button> : null}
+  {this.state.loaded ? <div className="card">
+  {this.state.articles[this.state.position] ? <img className="card-img-top" src={this.state.articles[this.state.position].imageURL} alt=""/> : null}
+    <div className="card-body d-flex flex-column" >
+    {this.state.articles[this.state.position] ?<h5 className="card-title cardbodytexttitle">{this.state.articles[this.state.position].title}</h5> : null}
+    {this.state.articles[this.state.position] ? <p className="card-text cardbodytext">{this.state.articles[this.state.position].content}</p> : null}
+      <div className="d-flex justify-content-between align-items-center mt-auto">
+                    <div className="btn-group">
+                    {this.state.articles[this.state.position] ? <button type="button" className="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position].country}</button> : null}
                     </div>
-                    <small class="text-muted">{this.timeDifference(this.state.today.getTime(),this.state.articles[this.state.position].date)}</small>
+                    <small className="text-muted">{this.timeDifference(this.state.today.getTime(),this.state.articles[this.state.position].date)}</small>
                   </div>
     </div>
   </div> : null}
@@ -115,15 +114,15 @@ export class TableNews extends React.Component {
   : null  }
 
   {this.state.loaded ? <div className="card">
-  {this.state.articles[this.state.position + 1] ?  <img class="card-img-top" src={this.state.articles[this.state.position + 1].imageURL} alt="Card image cap"/> : null}
-    <div class="card-body d-flex flex-column">
-    {this.state.articles[this.state.position + 1] ? <h5 class="card-title cardbodytexttitle">{this.state.articles[this.state.position + 1].title}</h5> : null}
-      {this.state.articles[this.state.position + 1] ? <p class="card-text cardbodytext">{this.state.articles[this.state.position + 1].content}</p> : null}
-      <div class="d-flex justify-content-between align-items-center mt-auto">
-                    <div class="btn-group">
-                    {this.state.articles[this.state.position + 1] ? <button type="button" class="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position + 1].country}</button> : null}
+  {this.state.articles[this.state.position + 1] ?  <img className="card-img-top" src={this.state.articles[this.state.position + 1].imageURL} alt=""/> : null}
+    <div className="card-body d-flex flex-column">
+    {this.state.articles[this.state.position + 1] ? <h5 className="card-title cardbodytexttitle">{this.state.articles[this.state.position + 1].title}</h5> : null}
+      {this.state.articles[this.state.position + 1] ? <p className="card-text cardbodytext">{this.state.articles[this.state.position + 1].content}</p> : null}
+      <div className="d-flex justify-content-between align-items-center mt-auto">
+                    <div className="btn-group">
+                    {this.state.articles[this.state.position + 1] ? <button type="button" className="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position + 1].country}</button> : null}
                     </div>
-                    {this.state.articles[this.state.position + 1] ? <small class="text-muted">{this.timeDifference(this.state.today.getTime(),this.state.articles[this.state.position + 1].date)}</small> : null}
+                    {this.state.articles[this.state.position + 1] ? <small className="text-muted">{this.timeDifference(this.state.today.getTime(),this.state.articles[this.state.position + 1].date)}</small> : null}
                   </div>
     </div>
   </div> : null}
@@ -133,16 +132,16 @@ export class TableNews extends React.Component {
   : null  }
 
 
-  {this.state.loaded ? <div class="card">
-  {this.state.articles[this.state.position + 2] ? <img class="card-img-top img-responsive" src={this.state.articles[this.state.position + 2].imageURL} alt="Card image cap"/> : null}
-    <div class="card-body d-flex flex-column">
-      {this.state.articles[this.state.position + 2] ? <h5 class="card-title cardbodytexttitle">{this.state.articles[this.state.position + 2].title}</h5> : null}
-      {this.state.articles[this.state.position + 2] ? <p class="card-text cardbodytext">{this.state.articles[this.state.position + 2].content}</p> : null}
-      <div class="d-flex justify-content-between align-items-center mt-auto">
-                    <div class="btn-group">
-                    {this.state.articles[this.state.position + 2] ? <button type="button" class="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position + 2].country}</button> : null}
+  {this.state.loaded ? <div className="card">
+  {this.state.articles[this.state.position + 2] ? <img className="card-img-top img-responsive" src={this.state.articles[this.state.position + 2].imageURL} alt=""/> : null}
+    <div className="card-body d-flex flex-column">
+      {this.state.articles[this.state.position + 2] ? <h5 className="card-title cardbodytexttitle">{this.state.articles[this.state.position + 2].title}</h5> : null}
+      {this.state.articles[this.state.position + 2] ? <p className="card-text cardbodytext">{this.state.articles[this.state.position + 2].content}</p> : null}
+      <div className="d-flex justify-content-between align-items-center mt-auto">
+                    <div className="btn-group">
+                    {this.state.articles[this.state.position + 2] ? <button type="button" className="btn btn-sm btn-outline-secondary">{this.state.articles[this.state.position + 2].country}</button> : null}
                     </div>
-                    {this.state.articles[this.state.position + 2] ? <small class="text-muted">{this.timeDifference(this.state.today.getTime(),this.state.articles[this.state.position + 2].date)}</small> : null}
+                    {this.state.articles[this.state.position + 2] ? <small className="text-muted">{this.timeDifference(this.state.today.getTime(),this.state.articles[this.state.position + 2].date)}</small> : null}
                   </div>
     </div>
   </div> : null }
@@ -153,8 +152,8 @@ export class TableNews extends React.Component {
 
 
   {this.state.numberofarticle - this.state.position > 3 ? <a onClick={() => this.setState({position: (this.state.position + 3)%this.state.numberofarticle})}>
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
+      <span className="carousel-control-next-icon" aria-hidden="true"></span>
+      <span className="sr-only">Next</span>
     </a> : null}
   </div>
 </div>

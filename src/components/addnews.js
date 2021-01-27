@@ -55,6 +55,8 @@ export class AddNews extends React.Component {
             alert('callback');
           });
           break;
+        default:
+          break;
         }
     }
 
@@ -160,7 +162,7 @@ export class AddNews extends React.Component {
     }
 
     render(){
-        const { user, updateUser } = this.context
+        const { user } = this.context
         return(
             <div className="news">
         {user === null ? <Alert color="info">
